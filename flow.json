@@ -1,8 +1,8 @@
 {
 	"contracts": {
-		"ExampleRequirementClaim": "cadence/contracts/ExampleRequirementClaim.cdc",
+		"FlowRequirement": "cadence/contracts/FlowRequirement.cdc",
 		"Membership": "cadence/contracts/Membership.cdc",
-		"RequirementClaim": "cadence/contracts/RequirementClaim.cdc"
+		"Requirement": "cadence/contracts/Requirement.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -11,8 +11,8 @@
 	},
 	"accounts": {
 		"default": {
-			"address": "f3fcd2c1a78f5eee",
-			"key": "51db0055262c9a442ad82b49e72bb9ddbdd6516091caa7f266279f0fb695e52d"
+			"address": "f669cb8d41ce0c74",
+			"key": "bfcaf164395b8eb003d8af5c75d27607a7b905b6976e9c1cac25a014e1bea6ec"
 		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
@@ -22,9 +22,9 @@
 	"deployments": {
 		"emulator": {
 			"default": [
-				"ExampleRequirementClaim",
+				"FlowRequirement",
 				"Membership",
-				"RequirementClaim"
+				"Requirement"
 			]
 		}
 	}

@@ -12,9 +12,10 @@ transaction(name: String) {
 
     execute {
         self.signer.save<@Membership.Definition>(
-            <-Membership.defineMembership(name: name, requirements: [
-                Membership.RequirementHook(contractName: "Test", 0x1)
-            ]), 
+            <-Membership.defineMembership(
+                name: name,
+                requirement: Membership.RequirementClaimDefinition(contractName: "Test", 0x1)
+            ), 
             to: StoragePath(identifier: "membership")!
         )
     }
