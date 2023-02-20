@@ -1,4 +1,4 @@
-import "FlowRequirement"
+import "Requirement"
 import FungibleToken from 0xee82856bf20e2aa6
 
 pub contract Membership {
@@ -20,7 +20,7 @@ pub contract Membership {
     pub resource Definition {
         pub var name: String
         // Expiration interval in milliseconds
-        pub var expirationInterval: Int 
+        pub var expirationInterval: Int
         pub var requirement: RequirementDefinition
 
         init(name: String, expirationInterval: Int, requirement: RequirementDefinition) {
@@ -42,6 +42,21 @@ pub contract Membership {
         // For now just use example membership claim directly
         // Later we will retrieve the membership definition from `adminAccount` storage
         // and call `claimRequirement` on membership claim contracts
-        FlowRequirement.claimRequirement(claimerAddress: claimerAddress, claimerVault: <- claimerVault)
+        let adminAccount = getAccount(adminAddress)
+
+        let definition = adminAccount.getCapability(/public/membership)
+            .borrow<&Definition>()
+			?? panic("Could not borrow reference to membership definition")
+
+        let requirementAddress = getAccount(definition.requirement.contractAddress)
+
+        let requirementContract = requirementAddress.contracts.borrow<&Requirement>(
+            name: definition.requirement.contractName
+        )!
+        requirementContract.claimRequirement(
+            claimerAddress: claimerAddress, 
+            price: definition.requirement.price,
+            claimerVault: <- claimerVault
+        )
     }
 }

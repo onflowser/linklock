@@ -3,17 +3,14 @@ import FungibleToken from 0xee82856bf20e2aa6
 import FlowToken from 0x0ae53cb6e3f42a79
 
 pub contract FlowRequirement: Requirement {
-    // Requirement params
-    pub let requiredAmount: UFix64
 
-    init() {
-        // TODO: This should be defined on `RequirementHook` struct instead (and passed as param)
-        self.requiredAmount = 1.0
-    }
-
-    pub fun claimRequirement(claimerAddress: Address, claimerVault: @FungibleToken.Vault) {
+    pub fun claimRequirement(
+        claimerAddress: Address,
+        price: UFix64,
+        claimerVault: @FungibleToken.Vault
+    ) {
         pre {
-            claimerVault.balance == self.requiredAmount: "Balance must be equal to the required requiredAmount"
+            claimerVault.balance == price: "Balance must be equal to the required requiredAmount"
         }
         // Admin address, predefined for now
         let to: Address = 0xe03daebed8ca0615
