@@ -1,7 +1,7 @@
 import "Membership"
 
 // TODO: Provide requirements via params
-transaction(name: String) {
+transaction() {
     let signer: AuthAccount
 
     prepare(signer: AuthAccount) {
@@ -13,11 +13,17 @@ transaction(name: String) {
     execute {
         self.signer.save<@Membership.Definition>(
             <-Membership.defineMembership(
-                name: name,
-                requirement: Membership.RequirementClaimDefinition(contractName: "Test", 0x1)
+                name: "Test",
+                expirationInterval: 100000,
+                requirement: Membership.RequirementDefinition(
+                    price: 1.0,
+                    contractName: "Test", 
+                    contractAddress: 0x1
+                )
             ), 
-            to: StoragePath(identifier: "membership")!
+            to: /storage/membership
         )
+        self.signer.link<&Membership.Definition>(/public/membership, target: /storage/membership)
     }
 
     post {}

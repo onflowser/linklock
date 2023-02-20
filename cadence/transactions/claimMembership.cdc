@@ -3,14 +3,14 @@ import FungibleToken from 0xee82856bf20e2aa6
 import FlowToken from 0x0ae53cb6e3f42a79
 
 // TODO: Provide requirements via params
-transaction(adminAddress: Address) {
+transaction() {
     let signer: AuthAccount
     // The Vault resource that holds the tokens that are being transferred
     let claimerVault: @FungibleToken.Vault
 
     prepare(signer: AuthAccount) {
-        // Requirement params
-        let amount: UFix64 = 0.5
+        // TODO: Expose as param
+        let amount: UFix64 = 0.5 // Set this to 1.0 to pass test requirement
 
         self.signer = signer    
 
@@ -26,7 +26,7 @@ transaction(adminAddress: Address) {
 
     execute {
         Membership.claimMembership(
-            adminAddress: adminAddress, 
+            adminAddress: 0xf8d6e0586b0a20c7, 
             claimerAddress: self.signer.address,
             claimerVault: <- self.claimerVault
         )

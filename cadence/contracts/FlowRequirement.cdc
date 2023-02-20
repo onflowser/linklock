@@ -11,15 +11,15 @@ pub contract FlowRequirement: Requirement {
         self.requiredAmount = 1.0
     }
 
-    pub fun claimRequirement(claimerAddress: Address, claimerVault: @FungibleToken.Vault?): Bool {
+    pub fun claimRequirement(claimerAddress: Address, claimerVault: @FungibleToken.Vault) {
         pre {
-            claimerVault?.balance == self.requiredAmount: "Balance must be equal to the required requiredAmount"
+            claimerVault.balance == self.requiredAmount: "Balance must be equal to the required requiredAmount"
         }
         // Admin address, predefined for now
         let to: Address = 0xe03daebed8ca0615
 
         // Validate vault type (otherwise actor could sent any kind of fungible token)
-        let vault <- claimerVault as! @FlowToken.Vault?
+        let vault <- claimerVault as! @FlowToken.Vault
 
         // Get a reference to the recipient's Receiver
         let receiverRef =  getAccount(to)
@@ -28,9 +28,6 @@ pub contract FlowRequirement: Requirement {
 			?? panic("Could not borrow receiver reference to the recipient's Vault")
 
         // Deposit the withdrawn tokens in the recipient's receiver
-        receiverRef.deposit(from: <-vault!)
-
-        // Should we return true/false or just panic / not panic instead?
-        return true
+        receiverRef.deposit(from: <-vault)
     }
 }
