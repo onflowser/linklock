@@ -1,0 +1,31 @@
+{
+	"contracts": {
+		"ExampleRequirementClaim": "cadence/contracts/ExampleRequirementClaim.cdc",
+		"Membership": "cadence/contracts/Membership.cdc",
+		"RequirementClaim": "cadence/contracts/RequirementClaim.cdc"
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"default": {
+			"address": "f3fcd2c1a78f5eee",
+			"key": "51db0055262c9a442ad82b49e72bb9ddbdd6516091caa7f266279f0fb695e52d"
+		},
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"default": [
+				"ExampleRequirementClaim",
+				"Membership",
+				"RequirementClaim"
+			]
+		}
+	}
+}

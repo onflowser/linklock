@@ -1,0 +1,36 @@
+import "Membership"
+import FungibleToken from 0xee82856bf20e2aa6
+import FlowToken from 0x0ae53cb6e3f42a79
+
+// TODO: Provide requirements via params
+transaction(adminAddress: Address) {
+    let signer: AuthAccount
+    // The Vault resource that holds the tokens that are being transferred
+    let claimerVault: @FungibleToken.Vault
+
+    prepare(signer: AuthAccount) {
+        // Requirement params
+        let amount: UFix64 = 0.5
+
+        self.signer = signer    
+
+         // Get a reference to the signer's stored vault
+        let vaultRef = signer.borrow<&FungibleToken.Vault>(from: /storage/flowTokenVault)
+			?? panic("Could not borrow reference to the owner's Vault!")
+
+        // Withdraw tokens from the signer's stored vault
+        self.claimerVault <- vaultRef.withdraw(amount: amount)
+    }
+
+    pre {}
+
+    execute {
+        Membership.claimMembership(
+            adminAddress: adminAddress, 
+            claimerAddress: self.signer.address,
+            claimerVault: <- self.claimerVault
+        )
+    }
+
+    post {}
+}
