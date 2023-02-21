@@ -20,17 +20,32 @@ pub contract Membership {
     pub resource Definition {
         pub var name: String
         // Expiration interval in milliseconds
-        pub var expirationInterval: Int
+        pub var expirationInterval: UFix64
         pub var requirement: RequirementDefinition
 
-        init(name: String, expirationInterval: Int, requirement: RequirementDefinition) {
+        init(name: String, expirationInterval: UFix64, requirement: RequirementDefinition) {
             self.name = name
             self.expirationInterval = expirationInterval
             self.requirement = requirement
         }
     }
 
-    pub fun defineMembership(name: String, expirationInterval: Int, requirement: RequirementDefinition): @Definition {
+    // TODO: This resource should implement NFT interface
+    // TODO: Should we name this `Membership` instead?
+    pub resource Member {
+        pub var validUntilTimestamp: UFix64
+
+        init(validUntilTimestamp: UFix64) {
+            self.validUntilTimestamp = validUntilTimestamp
+        }
+
+        pub fun isValid(): Bool {
+            let currentTimestamp = getCurrentBlock().timestamp
+            return self.validUntilTimestamp < currentTimestamp
+        }
+    }
+
+    pub fun defineMembership(name: String, expirationInterval: UFix64, requirement: RequirementDefinition): @Definition {
         return <- create Definition(
             name: name, 
             expirationInterval: expirationInterval, 
@@ -38,7 +53,11 @@ pub contract Membership {
         )
     }
 
-    pub fun claimMembership(adminAddress: Address, claimerAddress: Address, claimerVault: @FungibleToken.Vault) {
+    pub fun claimMembership(
+        adminAddress: Address, 
+        claimerAddress: Address, 
+        claimerVault: @FungibleToken.Vault
+    ): @Member {
         // For now just use example membership claim directly
         // Later we will retrieve the membership definition from `adminAccount` storage
         // and call `claimRequirement` on membership claim contracts
@@ -58,6 +77,11 @@ pub contract Membership {
             adminAddress: adminAddress,
             expectedPrice: definition.requirement.price,
             claimerVault: <- claimerVault
+        )
+        
+        let currentTimestamp = getCurrentBlock().timestamp
+        return <- create Member(
+            validUntilTimestamp: currentTimestamp + definition.expirationInterval
         )
     }
 }

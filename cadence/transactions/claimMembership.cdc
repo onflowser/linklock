@@ -25,11 +25,13 @@ transaction() {
     pre {}
 
     execute {
-        Membership.claimMembership(
+        let membership <- Membership.claimMembership(
             adminAddress: 0xf8d6e0586b0a20c7, 
             claimerAddress: self.signer.address,
             claimerVault: <- self.claimerVault
         )
+
+        self.signer.save(<- membership, to: /storage/member)
     }
 
     post {}

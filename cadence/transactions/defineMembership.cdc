@@ -14,7 +14,7 @@ transaction() {
         self.signer.save<@Membership.Definition>(
             <-Membership.defineMembership(
                 name: "Test",
-                expirationInterval: 100000,
+                expirationInterval: 100000.0,
                 requirement: Membership.RequirementDefinition(
                     price: 1.0,
                     contractName: "Test", 
