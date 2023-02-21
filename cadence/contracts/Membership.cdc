@@ -54,8 +54,9 @@ pub contract Membership {
             name: definition.requirement.contractName
         )!
         requirementContract.claimRequirement(
-            claimerAddress: claimerAddress, 
-            price: definition.requirement.price,
+            claimerAddress: claimerAddress,
+            adminAddress: adminAddress,
+            expectedPrice: definition.requirement.price,
             claimerVault: <- claimerVault
         )
     }

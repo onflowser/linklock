@@ -6,20 +6,19 @@ pub contract FlowRequirement: Requirement {
 
     pub fun claimRequirement(
         claimerAddress: Address,
-        price: UFix64,
+        adminAddress: Address,
+        expectedPrice: UFix64,
         claimerVault: @FungibleToken.Vault
     ) {
         pre {
-            claimerVault.balance == price: "Balance must be equal to the required requiredAmount"
+            claimerVault.balance == expectedPrice: "Balance must be equal to the required requiredAmount"
         }
-        // Admin address, predefined for now
-        let to: Address = 0xe03daebed8ca0615
 
         // Validate vault type (otherwise actor could sent any kind of fungible token)
         let vault <- claimerVault as! @FlowToken.Vault
 
         // Get a reference to the recipient's Receiver
-        let receiverRef =  getAccount(to)
+        let receiverRef =  getAccount(adminAddress)
             .getCapability(/public/flowTokenReceiver)
             .borrow<&{FungibleToken.Receiver}>()
 			?? panic("Could not borrow receiver reference to the recipient's Vault")
