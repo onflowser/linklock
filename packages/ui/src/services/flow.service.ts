@@ -5,7 +5,7 @@ import * as type from "@onflow/types";
 import { AppEnvironment, getConfig } from "../utils";
 import { transactions, scripts } from "@membership/flow";
 
-export type FlowCurrentUser = null | any;
+export type FclCurrentUser = { addr: string };
 
 export class FlowService {
   private static instance: FlowService;
@@ -32,7 +32,7 @@ export class FlowService {
     });
   }
 
-  public authenticate(): Promise<FlowCurrentUser> {
+  public authenticate(): Promise<FclCurrentUser> {
     return fcl.authenticate();
   }
 
@@ -40,7 +40,7 @@ export class FlowService {
     return fcl.unauthenticate();
   }
 
-  public subscribeCurrentUser(onChanged: (user: FlowCurrentUser) => void) {
+  public subscribeCurrentUser(onChanged: (user: FclCurrentUser) => void) {
     fcl.currentUser.subscribe(onChanged);
   }
 
@@ -50,7 +50,8 @@ export class FlowService {
         fcl.script(scripts.getFlowBalance),
         fcl.args([fcl.arg(address, type.Address)]),
       ])
-      .then(fcl.decode);
+      .then(fcl.decode)
+      .then(Number);
   }
 
   private async sendTransaction(cadence: string, args: any[]) {

@@ -46,7 +46,7 @@ export function CenterModal({
           border: "none",
           overflow: "scroll",
           borderRadius: 10,
-          color: "white",
+          color: "black",
           ...reactModalProps.style?.content,
           zIndex: 100,
         },

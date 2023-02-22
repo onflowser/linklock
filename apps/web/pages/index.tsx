@@ -1,9 +1,9 @@
-import { MembershipCheckout } from "ui/src";
+import { MembershipCheckout, MembershipProvider } from "ui/src";
 
 export default function Web() {
   return (
-    <div>
+    <MembershipProvider>
       <MembershipCheckout />
-    </div>
+    </MembershipProvider>
   );
 }
