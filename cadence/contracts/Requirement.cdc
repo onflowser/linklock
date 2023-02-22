@@ -1,4 +1,4 @@
-import FungibleToken from 0xee82856bf20e2aa6
+import FungibleToken from "./standard/FungibleToken.cdc"
 
 pub contract interface Requirement {
     // TODO: Add metadata fields (e.g. which token is the requirement)

@@ -1,6 +1,22 @@
 {
 	"contracts": {
 		"FlowRequirement": "cadence/contracts/FlowRequirement.cdc",
+		"FlowToken": {
+			"source": "cadence/contracts/standard/FlowToken.cdc",
+			"aliases": {
+				"testnet": "0x7e60df042a9c0868",
+				"emulator": "0x0ae53cb6e3f42a79",
+				"mainnet": "0x1654653399040a61"
+			}
+		},
+		"FungibleToken": {
+			"source": "./contracts/standard/FungibleToken.cdc",
+			"aliases": {
+				"testnet": "9a0766d93b6608b7",
+				"emulator": "ee82856bf20e2aa6",
+				"mainnet": "0xf233dcee88fe0abe"
+			}
+		},
 		"Membership": "cadence/contracts/Membership.cdc",
 		"Requirement": "cadence/contracts/Requirement.cdc"
 	},
@@ -11,12 +27,16 @@
 	},
 	"accounts": {
 		"default": {
-			"address": "f3fcd2c1a78f5eee",
-			"key": "48490b8645337504fb1795b8564e3dcf44b36a75ef6601f33f25dc4761efae6c"
+			"address": "eb179c27144f783c",
+			"key": "0d86eaa5ddee6abefed2200bb1c757b6d9086cb6971277f8067400237037663d"
 		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+		},
+		"standard": {
+			"address": "e2f72218abeec2b9",
+			"key": "1ddfea280a198b2169ab63bea0a2b619c7003568bd74d94622f7740fa87bec0b"
 		}
 	},
 	"deployments": {
@@ -25,6 +45,10 @@
 				"FlowRequirement",
 				"Membership",
 				"Requirement"
+			],
+			"standard": [
+				"FlowToken",
+				"FungibleToken"
 			]
 		}
 	}
