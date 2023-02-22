@@ -1,6 +1,8 @@
 import { IoMdClose } from "react-icons/io";
 import ReactModal from "react-modal";
 import { SizedBox } from "./SizedBox";
+import { UnstyledButton } from "./UnstyledButton";
+import { colors } from "../theme";
 
 export type CenterModalProps = ReactModal.Props & {
   title?: string;
@@ -40,7 +42,7 @@ export function CenterModal({
           maxHeight: "90vh",
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
-          backgroundColor: "grey",
+          backgroundColor: colors.white,
           border: "none",
           overflow: "scroll",
           borderRadius: 10,
@@ -52,9 +54,9 @@ export function CenterModal({
     >
       <div style={{ padding: contentPadding }}>
         <div className="flex items-start justify-between">
-          <button onClick={reactModalProps.onRequestClose}>
+          <UnstyledButton onClick={reactModalProps.onRequestClose}>
             <IoMdClose size={20} />
-          </button>
+          </UnstyledButton>
         </div>
         <SizedBox height={20} />
         {children}

@@ -1,3 +1,3 @@
 import * as React from "react";
-export * from "./Button";
-export * from "./Modal";
+export * from "./core/Button";
+export * from "./core/Modal";
