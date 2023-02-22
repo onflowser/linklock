@@ -1,6 +1,6 @@
 import { CenterModal } from "./core/Modal";
-import { useState } from "react";
-import { transactions } from "@membership/flow";
+import { useEffect, useState } from "react";
+import { FlowCurrentUser, FlowService } from "./services/flow.service";
 
 export type MembershipCheckoutProps = {};
 
@@ -13,12 +13,23 @@ enum CheckoutStep {
 export function MembershipCheckout({
   ...centerModalProps
 }: MembershipCheckoutProps) {
+  const flowService = FlowService.create();
+  // TODO: move this to provider
+  const [currentUser, setCurrentUser] = useState<FlowCurrentUser>(null);
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
-  console.log(transactions.claimMembership);
+  useEffect(() => {
+    flowService.subscribeCurrentUser(setCurrentUser);
+    flowService.authenticate().then((user) => {
+      flowService.getFlowBalance(user?.addr).then(console.log);
+    });
+  }, []);
+
+  console.log(currentUser);
 
   function renderStep() {
     switch (checkoutStep) {
+      case CheckoutStep.PREVIEW:
       default:
         return <></>;
     }
