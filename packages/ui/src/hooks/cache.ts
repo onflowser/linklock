@@ -8,3 +8,11 @@ export function useFlowBalance(address: string | undefined) {
     () => (address ? flowService.getFlowBalance(address) : undefined)
   );
 }
+
+export function useGetMembershipDefinition(address: string | undefined) {
+  const flowService = FlowService.create();
+  return useSWR(
+    () => (address ? `membership-definition/${address}` : null),
+    () => (address ? flowService.getMembershipDefinition(address) : undefined)
+  );
+}

@@ -1,6 +1,7 @@
 import { CenterModal } from "./core/Modal";
 import { useState } from "react";
 import { useFlow } from "./providers/flow.provider";
+import { useGetMembershipDefinition } from "./hooks/cache";
 
 export type MembershipCheckoutProps = {};
 
@@ -14,20 +15,14 @@ export function MembershipCheckout({
   ...centerModalProps
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
+  const { data: membershipDefinition } =
+    useGetMembershipDefinition("0xf8d6e0586b0a20c7");
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
-
-  console.log(currentUser);
 
   function renderStep() {
     switch (checkoutStep) {
       case CheckoutStep.PREVIEW:
-        return (
-          <div>
-            {currentUser?.address}
-            <br />
-            {currentUser?.flowBalance}
-          </div>
-        );
+        return <pre>{JSON.stringify(membershipDefinition, null, 4)}</pre>;
       default:
         return <></>;
     }

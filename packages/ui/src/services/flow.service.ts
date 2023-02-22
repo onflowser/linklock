@@ -54,6 +54,15 @@ export class FlowService {
       .then(Number);
   }
 
+  public async getMembershipDefinition(address: string): Promise<unknown> {
+    return fcl
+      .send([
+        fcl.script(scripts.getMembershipDefinition),
+        fcl.args([fcl.arg(address, type.Address)]),
+      ])
+      .then(fcl.decode);
+  }
+
   private async sendTransaction(cadence: string, args: any[]) {
     const transactionId = await fcl.mutate({
       cadence,
