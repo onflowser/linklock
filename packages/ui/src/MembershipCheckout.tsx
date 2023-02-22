@@ -1,5 +1,5 @@
 import { CenterModal } from "./core/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFlow } from "./providers/flow.provider";
 import { useGetMembership, useGetMembershipDefinition } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
@@ -25,7 +25,11 @@ export function MembershipCheckout({
   const { data: membership } = useGetMembership(currentUser?.address);
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
-  console.log(currentUser?.address, membership);
+  useEffect(() => {
+    if (membership) {
+      setCheckoutStep(CheckoutStep.CLAIMED);
+    }
+  }, [membership]);
 
   function renderStep() {
     switch (checkoutStep) {
