@@ -1,5 +1,5 @@
-import Requirement from "./Requirement.cdc"
-import FungibleToken from "./standard/FungibleToken.cdc"
+import "Requirement"
+import FungibleToken from 0xee82856bf20e2aa6
 
 pub contract Membership {
     // TODO: Implement NonFungibleToken interface
