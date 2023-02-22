@@ -54,6 +54,19 @@ export class FlowService {
       .then(Number);
   }
 
+  public async claimMembership(address: string): Promise<unknown> {
+    return this.sendTransaction(transactions.claimMembership, []);
+  }
+
+  public async getMembership(address: string): Promise<unknown> {
+    return fcl
+      .send([
+        fcl.script(scripts.getMembershipNft),
+        fcl.args([fcl.arg(address, type.Address)]),
+      ])
+      .then(fcl.decode);
+  }
+
   public async getMembershipDefinition(address: string): Promise<unknown> {
     return fcl
       .send([
@@ -66,10 +79,9 @@ export class FlowService {
   private async sendTransaction(cadence: string, args: any[]) {
     const transactionId = await fcl.mutate({
       cadence,
-      args: () => args,
-      payer: fcl.authz,
-      proposer: fcl.authz,
-      authorizations: [fcl.authz],
+      proposer: fcl.currentUser,
+      payer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
       limit: 100,
     });
 

@@ -6,6 +6,8 @@ import defineMembership from "./cadence/transactions/defineMembership.cdc";
 import getFlowBalance from "./cadence/scripts/getFlowBalance.cdc";
 // @ts-ignore missing Cadence type declarations
 import getMembershipDefinition from "./cadence/scripts/getMembershipDefinition.cdc";
+// @ts-ignore missing Cadence type declarations
+import getMembershipNft from "./cadence/scripts/getMembershipNft.cdc";
 
 export type CadenceTransactions = {
   claimMembership: string;
@@ -15,6 +17,7 @@ export type CadenceTransactions = {
 export type CadenceScripts = {
   getFlowBalance: string;
   getMembershipDefinition: string;
+  getMembershipNft: string;
 };
 
 export const transactions: CadenceTransactions = {
@@ -25,4 +28,5 @@ export const transactions: CadenceTransactions = {
 export const scripts: CadenceScripts = {
   getFlowBalance,
   getMembershipDefinition,
+  getMembershipNft,
 };

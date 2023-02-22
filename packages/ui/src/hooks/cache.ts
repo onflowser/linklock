@@ -16,3 +16,11 @@ export function useGetMembershipDefinition(address: string | undefined) {
     () => (address ? flowService.getMembershipDefinition(address) : undefined)
   );
 }
+
+export function useGetMembership(address: string | undefined) {
+  const flowService = FlowService.create();
+  return useSWR(
+      () => (address ? `membership/${address}` : null),
+      () => (address ? flowService.getMembership(address) : undefined)
+  );
+}
