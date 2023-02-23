@@ -49,7 +49,7 @@ export class FlowService {
     return fcl.authenticate();
   }
 
-  public unauthenticate(): Promise<void> {
+  public unAuthenticate(): Promise<void> {
     return fcl.unauthenticate();
   }
 

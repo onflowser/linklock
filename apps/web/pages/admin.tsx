@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FlowService } from "ui";
+import { useFlow } from "ui/src/providers/flow.provider";
 
 const flowService = new FlowService();
 
@@ -7,6 +8,7 @@ export default function AdminDashboard() {
   const [name, setName] = useState("");
   const [expirationIntervalInDays, setExpirationIntervalInDays] =
     useState<number>();
+  const { currentUser } = useFlow();
   const [flowPrice, setFlowPrice] = useState<number>();
 
   function onSubmit() {

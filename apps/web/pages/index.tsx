@@ -1,13 +1,14 @@
-import { MembershipCheckout, MembershipProvider } from "ui/src";
+import { MembershipCheckout } from "ui/src";
 import { useState } from "react";
 
 export default function Web() {
   const [communityAddress, setCommunityAddress] = useState<string>();
-  const [isOpenModal, setIsOpenModal] = useState(true);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   return (
-    <MembershipProvider>
+    <div>
       <h3>Claim membership</h3>
       <input onChange={(e) => setCommunityAddress(e.target.value)} />
+      <button onClick={() => setIsOpenModal(true)}>Claim</button>
       {communityAddress && (
         <MembershipCheckout
           isOpenModal={isOpenModal}
@@ -15,6 +16,6 @@ export default function Web() {
           communityAddress={communityAddress}
         />
       )}
-    </MembershipProvider>
+    </div>
   );
 }

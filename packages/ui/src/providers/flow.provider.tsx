@@ -25,7 +25,7 @@ export function FlowProvider(props: FlowProviderProps) {
   const { data: flowBalance, error } = useFlowBalance(fclUser?.addr);
   const currentUser = useMemo<CurrentUserInfo | undefined>(
     () =>
-      fclUser
+      fclUser?.addr
         ? {
             address: fclUser.addr,
             flowBalance,
