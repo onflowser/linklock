@@ -40,6 +40,7 @@ pub contract Membership: NonFungibleToken {
        pub let thumbnail: String
        access(self) let metadata: {String: AnyStruct}
 
+       pub var adminAddress: Address
        pub var validUntilTimestamp: UFix64
 
        init(
@@ -48,7 +49,8 @@ pub contract Membership: NonFungibleToken {
            description: String,
            thumbnail: String,
            metadata: {String: AnyStruct},
-           validUntilTimestamp: UFix64
+           validUntilTimestamp: UFix64,
+           adminAddress: Address,
        ) {
            self.id = id
            self.name = name
@@ -56,6 +58,7 @@ pub contract Membership: NonFungibleToken {
            self.thumbnail = thumbnail
            self.metadata = metadata
            self.validUntilTimestamp = validUntilTimestamp
+           self.adminAddress = adminAddress
        }
 
         pub fun isValid(): Bool {
@@ -103,6 +106,7 @@ pub contract Membership: NonFungibleToken {
        /// @return The NFT resource that has been taken out of the collection
        ///
        pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
+           // TODO: Should we disallow withdrawal?
            let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
 
            emit Withdraw(id: token.id, from: self.owner?.address)
@@ -200,6 +204,7 @@ pub contract Membership: NonFungibleToken {
     }
 
     pub resource MembershipDefinition {
+        // TODO: Should we let communities define collection storage path?
         pub var name: String
         // Expiration interval in milliseconds
         pub var expirationInterval: UFix64
@@ -257,7 +262,8 @@ pub contract Membership: NonFungibleToken {
             description: "",
             thumbnail: "",
             metadata: {},
-            validUntilTimestamp: currentTimestamp + definition.expirationInterval
+            validUntilTimestamp: currentTimestamp + definition.expirationInterval,
+            adminAddress: adminAddress
         )
 
         Membership.totalSupply = Membership.totalSupply + UInt64(1)
