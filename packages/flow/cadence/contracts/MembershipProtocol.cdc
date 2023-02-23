@@ -1,7 +1,7 @@
-import "Requirement"
+import "MembershipRequirement"
 import FungibleToken from 0xee82856bf20e2aa6
 
-pub contract Membership {
+pub contract MembershipProtocol {
     // TODO: Implement NonFungibleToken interface
     // TODO: add `isValid` function that checks if membership isn't expired
 
@@ -17,7 +17,7 @@ pub contract Membership {
         }
     }
 
-    pub resource Definition {
+    pub resource MembershipDefinition {
         pub var name: String
         // Expiration interval in milliseconds
         pub var expirationInterval: UFix64
@@ -32,7 +32,7 @@ pub contract Membership {
 
     // TODO: This resource should implement NFT interface
     // TODO: Should we name this `Membership` instead?
-    pub resource Member {
+    pub resource Membership {
         pub var validUntilTimestamp: UFix64
 
         init(validUntilTimestamp: UFix64) {
@@ -45,31 +45,35 @@ pub contract Membership {
         }
     }
 
-    pub fun defineMembership(name: String, expirationInterval: UFix64, requirement: RequirementDefinition): @Definition {
-        return <- create Definition(
-            name: name, 
-            expirationInterval: expirationInterval, 
+    pub fun defineMembership(
+        name: String,
+        expirationInterval: UFix64,
+        requirement: RequirementDefinition
+    ): @MembershipDefinition {
+        return <- create MembershipDefinition(
+            name: name,
+            expirationInterval: expirationInterval,
             requirement: requirement
         )
     }
 
     pub fun claimMembership(
-        adminAddress: Address, 
-        claimerAddress: Address, 
+        adminAddress: Address,
+        claimerAddress: Address,
         claimerVault: @FungibleToken.Vault
-    ): @Member {
+    ): @Membership {
         // For now just use example membership claim directly
         // Later we will retrieve the membership definition from `adminAccount` storage
         // and call `claimRequirement` on membership claim contracts
         let adminAccount = getAccount(adminAddress)
 
         let definition = adminAccount.getCapability(/public/membership)
-            .borrow<&Definition>()
+            .borrow<&MembershipDefinition>()
 			?? panic("Could not borrow reference to membership definition")
 
         let requirementAddress = getAccount(definition.requirement.contractAddress)
 
-        let requirementContract = requirementAddress.contracts.borrow<&Requirement>(
+        let requirementContract = requirementAddress.contracts.borrow<&MembershipRequirement>(
             name: definition.requirement.contractName
         )!
         requirementContract.claimRequirement(
@@ -78,9 +82,9 @@ pub contract Membership {
             expectedPrice: definition.requirement.price,
             claimerVault: <- claimerVault
         )
-        
+
         let currentTimestamp = getCurrentBlock().timestamp
-        return <- create Member(
+        return <- create Membership(
             validUntilTimestamp: currentTimestamp + definition.expirationInterval
         )
     }

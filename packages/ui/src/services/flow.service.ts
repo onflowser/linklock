@@ -4,7 +4,7 @@ import * as fcl from "@onflow/fcl";
 import * as type from "@onflow/types";
 import { AppEnvironment, getConfig } from "../utils";
 import { transactions, scripts } from "@membership/flow";
-import { MembershipDefinition, MembershipToken } from "@membership/flow/index";
+import { MembershipDefinition, Membership } from "@membership/flow/index";
 
 export type FclCurrentUser = { addr: string };
 
@@ -79,7 +79,7 @@ export class FlowService {
     return { transactionId };
   }
 
-  public async getMembership(address: string): Promise<MembershipToken> {
+  public async getMembership(address: string): Promise<Membership> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipNft),

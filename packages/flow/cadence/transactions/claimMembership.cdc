@@ -1,4 +1,4 @@
-import Membership from 0xf3fcd2c1a78f5eee
+import MembershipProtocol from 0xf3fcd2c1a78f5eee
 import FungibleToken from 0xee82856bf20e2aa6
 import FlowToken from 0x0ae53cb6e3f42a79
 
@@ -26,14 +26,17 @@ transaction(
     pre {}
 
     execute {
-        let membership <- Membership.claimMembership(
+        let membership <- MembershipProtocol.claimMembership(
             adminAddress: adminAddress,
             claimerAddress: self.signer.address,
             claimerVault: <- self.claimerVault
         )
 
         self.signer.save(<- membership, to: /storage/member)
-        self.signer.link<&Membership.Member>(/public/member, target: /storage/member)
+        self.signer.link<&MembershipProtocol.Membership>(
+            /public/member,
+            target: /storage/member
+        )
     }
 
     post {}

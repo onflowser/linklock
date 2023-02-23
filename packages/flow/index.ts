@@ -20,7 +20,7 @@ export type CadenceScripts = {
   getMembershipNft: string;
 };
 
-export type MembershipToken = {
+export type Membership = {
   uuid: string;
   validUntilTimestamp: string;
 };

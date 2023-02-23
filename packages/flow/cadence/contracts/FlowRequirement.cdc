@@ -1,8 +1,8 @@
-import "Requirement"
+import "MembershipRequirement"
 import FungibleToken from 0xee82856bf20e2aa6
 import FlowToken from 0x0ae53cb6e3f42a79
 
-pub contract FlowRequirement: Requirement {
+pub contract FlowRequirement: MembershipRequirement {
 
     pub fun claimRequirement(
         claimerAddress: Address,
