@@ -3,7 +3,7 @@ import claimMembership from "./cadence/transactions/claimMembership.cdc";
 // @ts-ignore missing Cadence type declarations
 import defineMembership from "./cadence/transactions/defineMembership.cdc";
 // @ts-ignore missing Cadence type declarations
-import getFlowBalance from "./cadence/scripts/getFlowBalance.cdc";
+import getFlowTokenBalance from "./cadence/scripts/getFlowTokenBalance.cdc";
 // @ts-ignore missing Cadence type declarations
 import getMembershipDefinition from "./cadence/scripts/getMembershipDefinition.cdc";
 // @ts-ignore missing Cadence type declarations
@@ -15,7 +15,7 @@ export type CadenceTransactions = {
 };
 
 export type CadenceScripts = {
-  getFlowBalance: string;
+  getFlowTokenBalance: string;
   getMembershipDefinition: string;
   getMembershipNft: string;
 };
@@ -26,7 +26,7 @@ export const transactions: CadenceTransactions = {
 };
 
 export const scripts: CadenceScripts = {
-  getFlowBalance,
+  getFlowTokenBalance,
   getMembershipDefinition,
   getMembershipNft,
 };

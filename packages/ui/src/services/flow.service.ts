@@ -7,6 +7,12 @@ import { transactions, scripts } from "@membership/flow";
 
 export type FclCurrentUser = { addr: string };
 
+export type ClaimMembershipOptions = {
+  adminAddress: string;
+  paymentAmount: number;
+  fungibleTokenStoragePath: string;
+};
+
 export class FlowService {
   private static instance: FlowService;
 
@@ -47,18 +53,33 @@ export class FlowService {
   public async getFlowBalance(address: string): Promise<number> {
     return fcl
       .send([
-        fcl.script(scripts.getFlowBalance),
+        fcl.script(scripts.getFlowTokenBalance),
         fcl.args([fcl.arg(address, type.Address)]),
       ])
       .then(fcl.decode)
       .then(Number);
   }
 
-  public async claimMembership(address: string): Promise<unknown> {
-    return this.sendTransaction(transactions.claimMembership, []);
+  public async sendClaimMembershipTransaction(
+    options: ClaimMembershipOptions
+  ): Promise<{ transactionId: string }> {
+    const transactionId = await fcl.mutate({
+      cadence: transactions.claimMembership,
+      args: (arg: any, t: any) => [
+        arg(options.adminAddress, t.Address),
+        arg(options.paymentAmount, t.UFix64),
+        arg(options.fungibleTokenStoragePath, t.String),
+      ],
+      proposer: fcl.currentUser,
+      payer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 100,
+    });
+    return { transactionId };
   }
 
-  public async getMembership(address: string): Promise<unknown> {
+  // TODO: define return types
+  public async getMembership(address: string): Promise<any> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipNft),
@@ -67,7 +88,8 @@ export class FlowService {
       .then(fcl.decode);
   }
 
-  public async getMembershipDefinition(address: string): Promise<unknown> {
+  // TODO: define return types
+  public async getMembershipDefinition(address: string): Promise<any> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipDefinition),
@@ -76,19 +98,8 @@ export class FlowService {
       .then(fcl.decode);
   }
 
-  private async sendTransaction(cadence: string, args: any[]) {
-    const transactionId = await fcl.mutate({
-      cadence,
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 100,
-    });
-
-    return {
-      transactionId,
-      status: await fcl.tx(transactionId).onceSealed(),
-    };
+  public async waitForSealedStatus(transactionId: string) {
+    return fcl.tx(transactionId).onceSealed();
   }
 
   private getFlowTokenAddress(env: AppEnvironment) {

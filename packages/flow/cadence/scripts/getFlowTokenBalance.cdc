@@ -2,9 +2,9 @@
 import FungibleToken from 0xFungibleToken
 import FlowToken from 0xFlowToken
 
-pub fun main(acc: Address): UFix64 {
+pub fun main(address: Address): UFix64 {
 
-    let vaultRef = getAccount(acc)
+    let vaultRef = getAccount(address)
         .getCapability(/public/flowTokenBalance)
         .borrow<&FlowToken.Vault{FungibleToken.Balance}>()
         ?? panic("Could not borrow Balance reference to the Vault")

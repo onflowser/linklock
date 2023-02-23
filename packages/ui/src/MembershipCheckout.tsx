@@ -20,9 +20,11 @@ export function MembershipCheckout({
   ...centerModalProps
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
-  const { data: membershipDefinition } =
+  const { data: membershipDefinition, error: membershipDefinitionError } =
     useGetMembershipDefinition(testAdminAddress);
-  const { data: membership } = useGetMembership(currentUser?.address);
+  const { data: membership, error: membershipError } = useGetMembership(
+    currentUser?.address
+  );
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
@@ -47,7 +49,12 @@ export function MembershipCheckout({
           <button
             onClick={() =>
               flowService
-                .claimMembership(testAdminAddress)
+                .sendClaimMembershipTransaction({
+                  adminAddress: testAdminAddress,
+                  paymentAmount: membershipDefinition!.requirement!.price,
+                  // TODO: Dynamically retrieve fungible token type or storage path
+                  fungibleTokenStoragePath: "flowTokenVault",
+                })
                 .then(() => setCheckoutStep(CheckoutStep.CLAIMED))
                 .catch(console.error)
             }
@@ -63,9 +70,21 @@ export function MembershipCheckout({
     }
   }
 
+  function renderModalContent() {
+    if (membershipDefinitionError) {
+      return `Error loading membership definition: ${JSON.stringify(
+        membershipDefinitionError
+      )}`;
+    }
+    if (!membershipDefinition) {
+      return "Loading...";
+    }
+    return renderStep();
+  }
+
   return (
     <CenterModal isOpen={true} {...centerModalProps}>
-      {renderStep()}
+      {renderModalContent()}
     </CenterModal>
   );
 }

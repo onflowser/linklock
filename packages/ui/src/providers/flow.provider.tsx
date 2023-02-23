@@ -22,7 +22,7 @@ const flowService = FlowService.create();
 
 export function FlowProvider(props: FlowProviderProps) {
   const [fclUser, setFclUser] = useState<FclCurrentUser | undefined>();
-  const { data: flowBalance } = useFlowBalance(fclUser?.addr);
+  const { data: flowBalance, error } = useFlowBalance(fclUser?.addr);
   const currentUser = useMemo<CurrentUserInfo | undefined>(
     () =>
       fclUser
