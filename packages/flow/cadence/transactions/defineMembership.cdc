@@ -1,4 +1,4 @@
-import "MembershipProtocol"
+import "Membership"
 
 // TODO: Provide requirements via params
 transaction() {
@@ -11,11 +11,11 @@ transaction() {
     pre {}
 
     execute {
-        self.signer.save<@MembershipProtocol.MembershipDefinition>(
-            <-MembershipProtocol.defineMembership(
+        self.signer.save<@Membership.NFTDefinition>(
+            <-Membership.defineMembership(
                 name: "Test",
                 expirationInterval: 100000.0,
-                requirement: MembershipProtocol.RequirementDefinition(
+                requirement: Membership.RequirementDefinition(
                     price: 1.0,
                     contractName: "FlowRequirement",
                     contractAddress: 0xf3fcd2c1a78f5eee
@@ -23,7 +23,7 @@ transaction() {
             ),
             to: /storage/membership
         )
-        self.signer.link<&MembershipProtocol.MembershipDefinition>(
+        self.signer.link<&Membership.NFTDefinition>(
             /public/membership,
             target: /storage/membership
         )

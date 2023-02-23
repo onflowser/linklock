@@ -1,11 +1,11 @@
 // This script reads the balance field of an account's FlowToken Balance
-import MembershipProtocol from 0xf3fcd2c1a78f5eee
+import Membership from 0xf3fcd2c1a78f5eee
 
-pub fun main(memberAddress: Address): &MembershipProtocol.Membership {
+pub fun main(memberAddress: Address): &Membership.NFT {
 
     let definition = getAccount(memberAddress)
         .getCapability(/public/member)
-        .borrow<&MembershipProtocol.Membership>()
+        .borrow<&Membership.NFT>()
         ?? panic("Could not borrow membership reference")
 
     return definition

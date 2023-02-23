@@ -1,7 +1,7 @@
 {
 	"contracts": {
 		"FlowRequirement": "cadence/contracts/FlowRequirement.cdc",
-		"MembershipProtocol": "cadence/contracts/MembershipProtocol.cdc",
+		"Membership": "cadence/contracts/Membership.cdc",
 		"MembershipRequirement": "cadence/contracts/MembershipRequirement.cdc"
 	},
 	"networks": {
@@ -11,8 +11,8 @@
 	},
 	"accounts": {
 		"default": {
-			"address": "f669cb8d41ce0c74",
-			"key": "ffb47fcd3711c4da3140d60f6d67c8578e0e5880bc38ab2becb82d37ec221b8e"
+			"address": "f3fcd2c1a78f5eee",
+			"key": "e9bbb6f337d2b86e608e11ddc30bfcba9dc3e2e43047847beb39b5a1ff8ded9d"
 		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
@@ -23,7 +23,7 @@
 		"emulator": {
 			"default": [
 				"FlowRequirement",
-				"MembershipProtocol",
+				"Membership",
 				"MembershipRequirement"
 			]
 		}
