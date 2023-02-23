@@ -17,7 +17,7 @@ export function useGetMembershipDefinition(address: string | undefined) {
   );
 }
 
-export function useGetMembership(address: string | undefined) {
+export function useGetMemberships(address: string | undefined) {
   const flowService = FlowService.create();
   return useSWR(
       () => (address ? `membership/${address}` : null),

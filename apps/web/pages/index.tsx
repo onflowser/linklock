@@ -1,21 +1,13 @@
-import { MembershipCheckout } from "ui/src";
-import { useState } from "react";
+import { useGetMemberships } from "ui";
+import { useFlow } from "ui/src/providers/flow.provider";
 
-export default function Web() {
-  const [communityAddress, setCommunityAddress] = useState<string>();
-  const [isOpenModal, setIsOpenModal] = useState(false);
+export default function Index() {
+  const { currentUser } = useFlow();
+  const { data: memberships } = useGetMemberships(currentUser?.address);
   return (
     <div>
-      <h3>Claim membership</h3>
-      <input onChange={(e) => setCommunityAddress(e.target.value)} />
-      <button onClick={() => setIsOpenModal(true)}>Claim</button>
-      {communityAddress && (
-        <MembershipCheckout
-          isOpenModal={isOpenModal}
-          onCloseModal={() => setIsOpenModal(false)}
-          communityAddress={communityAddress}
-        />
-      )}
+      <h3>My memberships</h3>
+      <pre>{JSON.stringify(memberships, null, 4)}</pre>
     </div>
   );
 }

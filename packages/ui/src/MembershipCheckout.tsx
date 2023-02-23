@@ -1,7 +1,11 @@
 import { CenterModal } from "./core/Modal";
 import { useEffect, useState } from "react";
 import { useFlow } from "./providers/flow.provider";
-import { useGetMembership, useGetMembershipDefinition } from "./hooks/cache";
+import {
+  useGetMemberships,
+  useGetMembershipDefinition,
+  useFlowBalance,
+} from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
 
 export type MembershipCheckoutProps = {
@@ -21,21 +25,25 @@ const flowService = FlowService.create();
 export function MembershipCheckout({
   communityAddress,
   isOpenModal,
-    onCloseModal
+  onCloseModal,
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
+  const { data: flowBalance } = useFlowBalance(currentUser?.address);
   const { data: membershipDefinition, error: membershipDefinitionError } =
     useGetMembershipDefinition(communityAddress);
-  const { data: membership, error: membershipError } = useGetMembership(
-    currentUser?.address
-  );
+  // TODO: Handle transaction errors
+  const {
+    data: ownedMemberships,
+    error: membershipError,
+    mutate: refetchMemberships,
+  } = useGetMemberships(currentUser?.address);
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
-    if (membership) {
+    if (ownedMemberships && ownedMemberships.length > 0) {
       setCheckoutStep(CheckoutStep.CLAIMED);
     }
-  }, [membership]);
+  }, [ownedMemberships]);
 
   function onClaimRequirement() {
     flowService
@@ -48,7 +56,10 @@ export function MembershipCheckout({
             // TODO: Dynamically retrieve fungible token type or storage path
             fungibleTokenStoragePath: "flowTokenVault",
           })
-          .then(() => setCheckoutStep(CheckoutStep.CLAIMED))
+          .then(() => {
+            refetchMemberships();
+            setCheckoutStep(CheckoutStep.CLAIMED);
+          })
           .catch(console.error);
       })
       .catch(console.error);
@@ -66,9 +77,23 @@ export function MembershipCheckout({
           </div>
         );
       case CheckoutStep.REQUIREMENT:
-        return <button onClick={onClaimRequirement}>Claim</button>;
+        const hasSufficientBalance =
+          flowBalance &&
+          membershipDefinition &&
+          flowBalance >= Number(membershipDefinition.requirement.price);
+        return (
+          <div>
+            <p>Flow balance: {flowBalance}</p>
+            <p>
+              {hasSufficientBalance
+                ? "Sufficient balance"
+                : "Insufficient balance"}
+            </p>
+            <button onClick={onClaimRequirement}>Claim</button>
+          </div>
+        );
       case CheckoutStep.CLAIMED:
-        return <pre>{JSON.stringify(membership, null, 4)}</pre>;
+        return <pre>{JSON.stringify(ownedMemberships, null, 4)}</pre>;
 
       default:
         return <></>;
@@ -88,8 +113,12 @@ export function MembershipCheckout({
   }
 
   function onRequestClose() {
-    onCloseModal()
+    onCloseModal();
   }
 
-  return <CenterModal isOpen={isOpenModal} onRequestClose={onRequestClose}>{renderModalContent()}</CenterModal>;
+  return (
+    <CenterModal isOpen={isOpenModal} onRequestClose={onRequestClose}>
+      {renderModalContent()}
+    </CenterModal>
+  );
 }

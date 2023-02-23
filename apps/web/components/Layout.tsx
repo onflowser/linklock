@@ -14,14 +14,15 @@ export function Layout(props: LayoutProps) {
   return (
     <div>
       <nav>
-        <Link href="/">Home</Link>
+        <Link href="/">Memberships</Link>
+        <Link href="/claim">Claim</Link>
         <Link href="/admin">Admin</Link>
-        <span>Current user: {currentUser?.address}</span>
         {currentUser ? (
           <button onClick={flowService.unAuthenticate}>Logout</button>
         ) : (
           <button onClick={flowService.authenticate}>Login</button>
         )}
+        <p>Current user: {currentUser?.address}</p>
       </nav>
 
       {props.children}
