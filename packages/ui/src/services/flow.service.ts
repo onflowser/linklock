@@ -4,12 +4,13 @@ import * as fcl from "@onflow/fcl";
 import * as type from "@onflow/types";
 import { AppEnvironment, getConfig } from "../utils";
 import { transactions, scripts } from "@membership/flow";
+import { MembershipDefinition, MembershipToken } from "@membership/flow/index";
 
 export type FclCurrentUser = { addr: string };
 
 export type ClaimMembershipOptions = {
   adminAddress: string;
-  paymentAmount: number;
+  paymentAmount: string;
   fungibleTokenStoragePath: string;
 };
 
@@ -78,8 +79,7 @@ export class FlowService {
     return { transactionId };
   }
 
-  // TODO: define return types
-  public async getMembership(address: string): Promise<any> {
+  public async getMembership(address: string): Promise<MembershipToken> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipNft),
@@ -88,8 +88,9 @@ export class FlowService {
       .then(fcl.decode);
   }
 
-  // TODO: define return types
-  public async getMembershipDefinition(address: string): Promise<any> {
+  public async getMembershipDefinition(
+    address: string
+  ): Promise<MembershipDefinition> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipDefinition),

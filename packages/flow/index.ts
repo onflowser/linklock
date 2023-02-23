@@ -20,6 +20,23 @@ export type CadenceScripts = {
   getMembershipNft: string;
 };
 
+export type MembershipToken = {
+  uuid: string;
+  validUntilTimestamp: string;
+};
+
+export type MembershipRequirement = {
+  price: string;
+  contractName: string;
+  contractAddress: string;
+};
+
+export type MembershipDefinition = {
+  name: string;
+  expirationInterval: string;
+  requirement: MembershipRequirement;
+};
+
 export const transactions: CadenceTransactions = {
   claimMembership,
   defineMembership,

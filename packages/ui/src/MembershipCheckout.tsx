@@ -33,6 +33,18 @@ export function MembershipCheckout({
     }
   }, [membership]);
 
+  function onClaimRequirement() {
+    flowService
+      .sendClaimMembershipTransaction({
+        adminAddress: testAdminAddress,
+        paymentAmount: membershipDefinition!.requirement.price,
+        // TODO: Dynamically retrieve fungible token type or storage path
+        fungibleTokenStoragePath: "flowTokenVault",
+      })
+      .then(() => setCheckoutStep(CheckoutStep.CLAIMED))
+      .catch(console.error);
+  }
+
   function renderStep() {
     switch (checkoutStep) {
       case CheckoutStep.PREVIEW:
@@ -45,23 +57,7 @@ export function MembershipCheckout({
           </div>
         );
       case CheckoutStep.REQUIREMENT:
-        return (
-          <button
-            onClick={() =>
-              flowService
-                .sendClaimMembershipTransaction({
-                  adminAddress: testAdminAddress,
-                  paymentAmount: membershipDefinition!.requirement!.price,
-                  // TODO: Dynamically retrieve fungible token type or storage path
-                  fungibleTokenStoragePath: "flowTokenVault",
-                })
-                .then(() => setCheckoutStep(CheckoutStep.CLAIMED))
-                .catch(console.error)
-            }
-          >
-            Claim
-          </button>
-        );
+        return <button onClick={onClaimRequirement}>Claim</button>;
       case CheckoutStep.CLAIMED:
         return <pre>{JSON.stringify(membership, null, 4)}</pre>;
 
