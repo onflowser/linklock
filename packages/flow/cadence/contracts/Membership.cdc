@@ -69,6 +69,7 @@ pub contract Membership: NonFungibleToken {
        ///         developers to know which parameter to pass to the resolveView() method.
        ///
        pub fun getViews(): [Type] {
+           // TODO: Implement metadata views
            return []
        }
 
@@ -78,6 +79,7 @@ pub contract Membership: NonFungibleToken {
        /// @return A structure representing the requested view.
        ///
        pub fun resolveView(_ view: Type): AnyStruct? {
+           // TODO: Implement metadata view resolution
            return nil
        }
    }
@@ -249,7 +251,7 @@ pub contract Membership: NonFungibleToken {
         )
 
         let currentTimestamp = getCurrentBlock().timestamp
-        return <- create NFT(
+        let membership <- create NFT(
             id: Membership.totalSupply,
             name: definition.name,
             description: "",
@@ -257,6 +259,12 @@ pub contract Membership: NonFungibleToken {
             metadata: {},
             validUntilTimestamp: currentTimestamp + definition.expirationInterval
         )
+
+        Membership.totalSupply = Membership.totalSupply + UInt64(1)
+
+        // TODO: Should we deposit NFT here instead of returning?
+        // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
+        return <- membership
     }
 
     init() {
@@ -268,18 +276,6 @@ pub contract Membership: NonFungibleToken {
         self.CollectionPublicPath = /public/membership
         self.DefinitionStoragePath = /storage/membership_definition
         self.DefinitionPublicPath = /public/membership_definition
-
-        // Create a Collection resource and save it to storage
-        // TODO: Temporary disable
-        // let collection <- create Collection()
-        // self.account.save(<-collection, to: self.CollectionStoragePath)
-
-        // create a public capability for the collection
-        // TODO: Temporary disable
-        // self.account.link<&Membership.Collection{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
-        //    self.CollectionPublicPath,
-        //    target: self.CollectionStoragePath
-        // )
 
         emit ContractInitialized()
     }
