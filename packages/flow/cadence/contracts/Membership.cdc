@@ -17,10 +17,13 @@ pub contract Membership: NonFungibleToken {
     /// The event that is emitted when an NFT is deposited to a Collection
     pub event Deposit(id: UInt64, to: Address?)
 
-    /// Storage and Public Paths
+    /// Membership Storage and Public Paths
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
-    pub let MinterStoragePath: StoragePath
+
+    /// Membership definition Storage and Public Paths
+    pub let DefinitionStoragePath: StoragePath
+    pub let DefinitionPublicPath: PublicPath
 
    /// The core resource that represents a Non Fungible Token.
    /// New instances will be created using the NFTMinter resource
@@ -229,7 +232,7 @@ pub contract Membership: NonFungibleToken {
         // and call `claimRequirement` on membership claim contracts
         let adminAccount = getAccount(adminAddress)
 
-        let definition = adminAccount.getCapability(/public/membership)
+        let definition = adminAccount.getCapability(self.DefinitionPublicPath)
             .borrow<&MembershipDefinition>()
 			?? panic("Could not borrow reference to membership definition")
 
@@ -261,9 +264,10 @@ pub contract Membership: NonFungibleToken {
         self.totalSupply = 0
 
         // Set the named paths
-        self.CollectionStoragePath = /storage/exampleNFTCollection
-        self.CollectionPublicPath = /public/exampleNFTCollection
-        self.MinterStoragePath = /storage/exampleNFTMinter
+        self.CollectionStoragePath = /storage/membership
+        self.CollectionPublicPath = /public/membership
+        self.DefinitionStoragePath = /storage/membership_definition
+        self.DefinitionPublicPath = /public/membership_definition
 
         // Create a Collection resource and save it to storage
         // TODO: Temporary disable

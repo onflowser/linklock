@@ -1,6 +1,8 @@
 import Membership from 0xf3fcd2c1a78f5eee
 import FungibleToken from 0xee82856bf20e2aa6
+import NonFungibleToken from 0xf8d6e0586b0a20c7
 import FlowToken from 0x0ae53cb6e3f42a79
+import MetadataViews from 0xf8d6e0586b0a20c7
 
 transaction(
     adminAddress: Address,
@@ -8,6 +10,10 @@ transaction(
     fungibleTokenStoragePath: String
 ) {
     let signer: AuthAccount
+
+    /// Reference to the receiver's collection
+    let claimerCollectionRef: &{NonFungibleToken.CollectionPublic}
+
     // The Vault resource that holds the tokens that are being transferred
     let claimerVault: @FungibleToken.Vault
 
@@ -21,6 +27,11 @@ transaction(
 
         // Withdraw tokens from the signer's stored vault
         self.claimerVault <- vaultRef.withdraw(amount: paymentAmount)
+
+        self.claimerCollectionRef = getAccount(signer.address)
+            .getCapability(Membership.CollectionPublicPath)
+            .borrow<&{NonFungibleToken.CollectionPublic}>()
+            ?? panic("Could not get claimer reference to the NFT Collection")
     }
 
     pre {}
@@ -32,11 +43,7 @@ transaction(
             claimerVault: <- self.claimerVault
         )
 
-        self.signer.save(<- membership, to: /storage/member)
-        self.signer.link<&Membership.NFT>(
-            /public/member,
-            target: /storage/member
-        )
+        self.claimerCollectionRef.deposit(token: <- membership)
     }
 
     post {}

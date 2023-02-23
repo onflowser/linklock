@@ -11,7 +11,7 @@ transaction() {
     pre {}
 
     execute {
-        self.signer.save<@Membership.NFTDefinition>(
+        self.signer.save<@Membership.MembershipDefinition>(
             <-Membership.defineMembership(
                 name: "Test",
                 expirationInterval: 100000.0,
@@ -21,11 +21,11 @@ transaction() {
                     contractAddress: 0xf3fcd2c1a78f5eee
                 )
             ),
-            to: /storage/membership
+            to: Membership.DefinitionStoragePath
         )
-        self.signer.link<&Membership.NFTDefinition>(
-            /public/membership,
-            target: /storage/membership
+        self.signer.link<&Membership.MembershipDefinition>(
+            Membership.DefinitionPublicPath,
+            target: Membership.DefinitionStoragePath
         )
     }
 

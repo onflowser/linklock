@@ -35,13 +35,18 @@ export function MembershipCheckout({
 
   function onClaimRequirement() {
     flowService
-      .sendClaimMembershipTransaction({
-        adminAddress: testAdminAddress,
-        paymentAmount: membershipDefinition!.requirement.price,
-        // TODO: Dynamically retrieve fungible token type or storage path
-        fungibleTokenStoragePath: "flowTokenVault",
+      .setupAccount()
+      .then(() => {
+        flowService
+          .sendClaimMembershipTransaction({
+            adminAddress: testAdminAddress,
+            paymentAmount: membershipDefinition!.requirement.price,
+            // TODO: Dynamically retrieve fungible token type or storage path
+            fungibleTokenStoragePath: "flowTokenVault",
+          })
+          .then(() => setCheckoutStep(CheckoutStep.CLAIMED))
+          .catch(console.error);
       })
-      .then(() => setCheckoutStep(CheckoutStep.CLAIMED))
       .catch(console.error);
   }
 

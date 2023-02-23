@@ -4,7 +4,7 @@ import * as fcl from "@onflow/fcl";
 import * as type from "@onflow/types";
 import { AppEnvironment, getConfig } from "../utils";
 import { transactions, scripts } from "@membership/flow";
-import { MembershipDefinition, Membership } from "@membership/flow/index";
+import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
 
 export type FclCurrentUser = { addr: string };
 
@@ -61,6 +61,18 @@ export class FlowService {
       .then(Number);
   }
 
+  // TODO: Can we setup and claim membership in a single transaction?
+  public async setupAccount() {
+    const transactionId = await fcl.mutate({
+      cadence: transactions.setupAccount,
+      proposer: fcl.currentUser,
+      payer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 50,
+    });
+    return { transactionId };
+  }
+
   public async sendClaimMembershipTransaction(
     options: ClaimMembershipOptions
   ): Promise<{ transactionId: string }> {
@@ -79,10 +91,10 @@ export class FlowService {
     return { transactionId };
   }
 
-  public async getMembership(address: string): Promise<Membership> {
+  public async getMemberships(address: string): Promise<MembershipNFT[]> {
     return fcl
       .send([
-        fcl.script(scripts.getMembershipNft),
+        fcl.script(scripts.getMembershipNFTs),
         fcl.args([fcl.arg(address, type.Address)]),
       ])
       .then(fcl.decode);
