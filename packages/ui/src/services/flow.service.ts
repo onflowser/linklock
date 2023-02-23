@@ -14,6 +14,12 @@ export type ClaimMembershipOptions = {
   fungibleTokenStoragePath: string;
 };
 
+export type DefineMembershipOptions = {
+  name: string;
+  expirationInterval: number;
+  flowPrice: number;
+};
+
 export class FlowService {
   private static instance: FlowService;
 
@@ -82,6 +88,24 @@ export class FlowService {
         arg(options.adminAddress, t.Address),
         arg(options.paymentAmount, t.UFix64),
         arg(options.fungibleTokenStoragePath, t.String),
+      ],
+      proposer: fcl.currentUser,
+      payer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 100,
+    });
+    return { transactionId };
+  }
+
+  public async sendDefineMembershipTransaction(
+    options: DefineMembershipOptions
+  ): Promise<{ transactionId: string }> {
+    const transactionId = await fcl.mutate({
+      cadence: transactions.defineMembership,
+      args: (arg: any, t: any) => [
+        arg(options.name, t.String),
+        arg(options.expirationInterval, t.UFix64),
+        arg(options.flowPrice, t.UFix64),
       ],
       proposer: fcl.currentUser,
       payer: fcl.currentUser,

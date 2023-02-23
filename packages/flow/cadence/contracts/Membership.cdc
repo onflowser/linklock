@@ -205,6 +205,7 @@ pub contract Membership: NonFungibleToken {
 
     pub resource MembershipDefinition {
         // TODO: Should we let communities define collection storage path?
+        // I think yes, and we should also allow communities to define max NFTs that can be claimed.
         pub var name: String
         // Expiration interval in milliseconds
         pub var expirationInterval: UFix64

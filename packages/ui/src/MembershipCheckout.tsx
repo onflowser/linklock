@@ -4,7 +4,11 @@ import { useFlow } from "./providers/flow.provider";
 import { useGetMembership, useGetMembershipDefinition } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
 
-export type MembershipCheckoutProps = {};
+export type MembershipCheckoutProps = {
+  communityAddress: string;
+  isOpenModal: boolean;
+  onCloseModal: () => void;
+};
 
 enum CheckoutStep {
   PREVIEW,
@@ -12,16 +16,16 @@ enum CheckoutStep {
   CLAIMED,
 }
 
-const testAdminAddress = "0xf8d6e0586b0a20c7";
-
 const flowService = FlowService.create();
 
 export function MembershipCheckout({
-  ...centerModalProps
+  communityAddress,
+  isOpenModal,
+    onCloseModal
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
   const { data: membershipDefinition, error: membershipDefinitionError } =
-    useGetMembershipDefinition(testAdminAddress);
+    useGetMembershipDefinition(communityAddress);
   const { data: membership, error: membershipError } = useGetMembership(
     currentUser?.address
   );
@@ -39,7 +43,7 @@ export function MembershipCheckout({
       .then(() => {
         flowService
           .sendClaimMembershipTransaction({
-            adminAddress: testAdminAddress,
+            adminAddress: communityAddress,
             paymentAmount: membershipDefinition!.requirement.price,
             // TODO: Dynamically retrieve fungible token type or storage path
             fungibleTokenStoragePath: "flowTokenVault",
@@ -83,9 +87,9 @@ export function MembershipCheckout({
     return renderStep();
   }
 
-  return (
-    <CenterModal isOpen={true} {...centerModalProps}>
-      {renderModalContent()}
-    </CenterModal>
-  );
+  function onRequestClose() {
+    onCloseModal()
+  }
+
+  return <CenterModal isOpen={isOpenModal} onRequestClose={onRequestClose}>{renderModalContent()}</CenterModal>;
 }

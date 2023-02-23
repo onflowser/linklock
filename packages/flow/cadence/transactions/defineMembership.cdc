@@ -1,7 +1,10 @@
 import "Membership"
 
-// TODO: Provide requirements via params
-transaction() {
+transaction(
+    name: String,
+    expirationInterval: UFix64,
+    flowPrice: UFix64
+) {
     let signer: AuthAccount
 
     prepare(signer: AuthAccount) {
@@ -13,10 +16,11 @@ transaction() {
     execute {
         self.signer.save<@Membership.MembershipDefinition>(
             <-Membership.defineMembership(
-                name: "Test",
-                expirationInterval: 100000.0,
+                name: name,
+                expirationInterval: expirationInterval,
                 requirement: Membership.RequirementDefinition(
-                    price: 1.0,
+                    price: flowPrice,
+                    // TODO: Accept these via params
                     contractName: "FlowRequirement",
                     contractAddress: 0xf3fcd2c1a78f5eee
                 )
