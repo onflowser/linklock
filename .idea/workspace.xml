@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2M5cerRC97jzb8RV5a4W9JG4jjn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/apps/docs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/bartkozorog/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8214.51/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/docs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps" />
+      <recent name="$PROJECT_DIR$/apps/web/components" />
+      <recent name="$PROJECT_DIR$/packages/ui/src/services" />
+      <recent name="$PROJECT_DIR$/packages/flow" />
+      <recent name="$PROJECT_DIR$/packages" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.build">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/flow/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/flow/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="" />
+      <created>1677060981838</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677060981838</updated>
+      <workItem from="1677060982923" duration="13835000" />
+      <workItem from="1677142410841" duration="14696000" />
+      <workItem from="1677158801193" duration="241000" />
+      <workItem from="1677182278863" duration="5844000" />
+    </task>
+    <task id="LOCAL-00001" summary="init turborepo">
+      <created>1677061407840</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1677061407840</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add prettier config, add basic modal component">
+      <created>1677062301763</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677062301763</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add emotion, add unstyled button">
+      <created>1677062731280</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677062731280</updated>
+    </task>
+    <task id="LOCAL-00004" summary="move cadence source to `flow` package">
+      <created>1677063674856</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677063674856</updated>
+    </task>
+    <task id="LOCAL-00005" summary="setup webpack config for flow package">
+      <created>1677065326659</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677065326659</updated>
+    </task>
+    <task id="LOCAL-00006" summary="replaced webpack with rollup, imported flow lib">
+      <created>1677067336194</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677067336194</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add flow service with sample script">
+      <created>1677069738400</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677069738400</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add flow provider">
+      <created>1677071091103</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1677071091103</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fetch membership definition">
+      <created>1677071707514</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1677071707514</updated>
+    </task>
+    <task id="LOCAL-00010" summary="basic membership claim flow working">
+      <created>1677076765017</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1677076765017</updated>
+    </task>
+    <task id="LOCAL-00011" summary="temp skip checkout steps if memberhip found">
+      <created>1677076962654</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1677076962654</updated>
+    </task>
+    <task id="LOCAL-00012" summary="provide claim membership options via args">
+      <created>1677144682140</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1677144682140</updated>
+    </task>
+    <task id="LOCAL-00013" summary="define transaction return types">
+      <created>1677145005540</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1677145005540</updated>
+    </task>
+    <task id="LOCAL-00014" summary="rename contracts/resources">
+      <created>1677146036685</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1677146036685</updated>
+    </task>
+    <task id="LOCAL-00015" summary="implement basic NFT standard">
+      <created>1677147732763</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1677147732763</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix account setup, nft querying">
+      <created>1677150927637</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1677150927637</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix increment total supply">
+      <created>1677151111882</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1677151111882</updated>
+    </task>
+    <task id="LOCAL-00018" summary="store admin address in membership NFT">
+      <created>1677152008702</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1677152008702</updated>
+    </task>
+    <task id="LOCAL-00019" summary="create memberships via UI">
+      <created>1677154614704</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1677154614704</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add admin route">
+      <created>1677157375917</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1677157375917</updated>
+    </task>
+    <task id="LOCAL-00021" summary="add claim route, check for sufficient balance">
+      <created>1677158406784</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1677158406784</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix transaction argument format">
+      <created>1677227769647</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1677227769647</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fix find target membership">
+      <created>1677228669112</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1677228669112</updated>
+    </task>
+    <task id="LOCAL-00024" summary="rename web to dashboard">
+      <created>1677231061215</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1677231061215</updated>
+    </task>
+    <task id="LOCAL-00025" summary="add flowtea source">
+      <created>1677232478677</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1677232478677</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/packages/flow/dist/index.js" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add emotion, add unstyled button" />
+    <MESSAGE value="move cadence source to `flow` package" />
+    <MESSAGE value="setup webpack config for flow package" />
+    <MESSAGE value="replaced webpack with rollup, imported flow lib" />
+    <MESSAGE value="add flow service with sample script" />
+    <MESSAGE value="add flow provider" />
+    <MESSAGE value="fetch membership definition" />
+    <MESSAGE value="basic membership claim flow working" />
+    <MESSAGE value="temp skip checkout steps if memberhip found" />
+    <MESSAGE value="provide claim membership options via params" />
+    <MESSAGE value="provide claim membership options via args" />
+    <MESSAGE value="define transaction return types" />
+    <MESSAGE value="rename contracts/resources" />
+    <MESSAGE value="implement basic NFT standard" />
+    <MESSAGE value="fix account setup, nft querying" />
+    <MESSAGE value="fix increment total supply" />
+    <MESSAGE value="store admin address in membership NFT" />
+    <MESSAGE value="create memberships via UI" />
+    <MESSAGE value="add admin route" />
+    <MESSAGE value="add claim route, check for sufficient balance" />
+    <MESSAGE value="fix transaction argument format" />
+    <MESSAGE value="fix find target membership" />
+    <MESSAGE value="rename web to dashboard" />
+    <MESSAGE value="add source from flowtea" />
+    <MESSAGE value="add flowtea source" />
+    <option name="LAST_COMMIT_MESSAGE" value="add flowtea source" />
+  </component>
+</project>
