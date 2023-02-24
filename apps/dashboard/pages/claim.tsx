@@ -1,4 +1,4 @@
-import { MembershipCheckout } from "ui/src";
+import { MembershipCheckout } from "@membership/client";
 import { useState } from "react";
 
 export default function ClaimMembership() {

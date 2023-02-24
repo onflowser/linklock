@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { useFlow } from "ui/src/providers/flow.provider";
-import { FlowService } from "ui";
+import { FlowService, useFlow } from "@membership/client";
 
 export type LayoutProps = {
   children: ReactNode;

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FlowService } from "ui";
-import { useFlow } from "ui/src/providers/flow.provider";
+import { FlowService, useFlow } from "@membership/client";
 
 const flowService = new FlowService();
 

@@ -1,5 +1,4 @@
-import { useGetMemberships } from "ui";
-import { useFlow } from "ui/src/providers/flow.provider";
+import { useGetMemberships, useFlow } from "@membership/client";
 
 export default function Index() {
   const { currentUser } = useFlow();
