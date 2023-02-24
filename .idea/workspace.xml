@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="" />
+    <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/components/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,23 +35,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/apps/docs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/bartkozorog/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8214.51/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/apps/docs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/prettier",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/docs" />
@@ -100,6 +104,7 @@
       <workItem from="1677142410841" duration="14696000" />
       <workItem from="1677158801193" duration="241000" />
       <workItem from="1677182278863" duration="5844000" />
+      <workItem from="1677232519871" duration="245000" />
     </task>
     <task id="LOCAL-00001" summary="init turborepo">
       <created>1677061407840</created>
@@ -276,7 +281,35 @@
       <option name="project" value="LOCAL" />
       <updated>1677232478677</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="add .idea">
+      <created>1677232556207</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1677232556207</updated>
+    </task>
+    <task id="LOCAL-00027" summary="add .idea">
+      <created>1677232567067</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1677232567067</updated>
+    </task>
+    <task id="LOCAL-00028" summary="add .idea">
+      <created>1677232575298</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1677232575298</updated>
+    </task>
+    <task id="LOCAL-00029" summary="add .idea">
+      <created>1677232590253</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1677232590253</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +332,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add emotion, add unstyled button" />
     <MESSAGE value="move cadence source to `flow` package" />
     <MESSAGE value="setup webpack config for flow package" />
     <MESSAGE value="replaced webpack with rollup, imported flow lib" />
@@ -324,6 +356,7 @@
     <MESSAGE value="rename web to dashboard" />
     <MESSAGE value="add source from flowtea" />
     <MESSAGE value="add flowtea source" />
-    <option name="LAST_COMMIT_MESSAGE" value="add flowtea source" />
+    <MESSAGE value="add .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="add .idea" />
   </component>
 </project>

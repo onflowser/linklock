@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import bmft_logo_ver from "../public/images/logo-BMFT-vertical-white.svg";
 import Link from "next/link";
 import styled from "styled-components";

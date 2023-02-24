@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import Image from "next/image";
-import styled, { css } from "styled-components";
-import { Children, useState } from "react";
+import Image, { StaticImageData } from "next/legacy/image";
+import styled from "styled-components";
+import { useState } from "react";
 import { theme } from "../common/theme";
 import { useFcl } from "../common/user-context";
 import { toast } from "react-hot-toast";
@@ -30,7 +30,7 @@ const BigNameInputWrapper = styled.div`
   opacity: 1;
 
   display: flex;
-  direction: row;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0.8rem 0.8rem 0.8rem 2rem;
@@ -268,7 +268,7 @@ const BoldNormal = styled.div`
 `;
 const NormalText = styled.div`
   font-size: 1.5rem;
-  font-weight: medium;
+  font-weight: normal;
   line-height: 2rem;
   padding-bottom: 2rem;
 `;
@@ -345,7 +345,7 @@ const BenefitTitle = styled.div`
 const BenefitText = styled.div`
   font-size: 1rem;
   line-height: 1.5rem;
-  font-weight: medium;
+  font-weight: normal;
   letter-spacing: 0px;
   color: white;
 `;
