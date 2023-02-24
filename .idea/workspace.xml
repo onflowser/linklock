@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/packages/domains/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/domains/src/domains.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/domains/src/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/domains/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/common/fcl-service.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/platform/components/UserProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/components/UserProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/pages/[handle].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/[handle].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/pages/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/services/flow.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/services/flow.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,7 +353,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677236712563</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="first pass at removing legacy code">
+      <created>1677237057823</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1677237057823</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

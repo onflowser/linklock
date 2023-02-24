@@ -6,6 +6,6 @@ export type AppConfig = {
 
 export function getConfig(): AppConfig {
     return {
-        environment: "development"
+        environment: "production"
     }
 }

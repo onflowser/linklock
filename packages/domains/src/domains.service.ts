@@ -1,0 +1,171 @@
+// @ts-ignore
+import * as fcl from "@onflow/fcl";
+// @ts-ignore
+import * as type from "@onflow/types";
+import Sha3 from "js-sha3";
+
+const lookupDomainByFlownsNameHashSource = `
+import Domains from 0xFlownsAddress
+
+// Source: https://github.com/flowns-org/flow-name-service-contracts/blob/main/cadence/scripts/query_domain_info.cdc
+pub fun main(nameHash: String): Domains.DomainDetail? {
+  let address = Domains.getRecords(nameHash) ?? panic("Domain not exist")
+  let account = getAccount(address)
+  let collectionCap = account.getCapability<&{Domains.CollectionPublic}>(Domains.CollectionPublicPath)
+  let collection = collectionCap.borrow()!
+  var detail: Domains.DomainDetail? = nil
+
+  let id = Domains.getDomainId(nameHash)
+  if id != nil && !Domains.isDeprecated(nameHash: nameHash, domainId: id!) {
+    let domain = collection.borrowDomain(id: id!)
+    detail = domain.getDetail()
+  }
+
+  return detail
+}
+`;
+
+const lookupProfileByFindNameSource = `
+import FIND, Profile from 0xFindAddress
+
+pub fun main(name: String): Profile.UserProfile? {
+    return FIND.lookup(name)?.asProfile()
+}
+`;
+
+export type FindLink = {
+  url: string;
+  title: string;
+  type: string;
+}
+
+export type FindWalletProfile = {
+  name: string;
+  balance: number;
+  accept: string;
+  tags: string[];
+}
+
+export type FindFriendStatus = {
+  follower: string;
+  following: String;
+  tags: string[];
+}
+
+// https://github.com/findonflow/find/blob/main/contracts/Profile.cdc
+export type FindUserProfile = {
+  findName: string;
+  createdAt: string;
+  address: string;
+  name: string;
+  gender: string;
+  description: string;
+  tags: string[];
+  avatar: string;
+  links: FindLink[];
+  wallets: FindWalletProfile[];
+  following: FindFriendStatus[]
+  followers: FindFriendStatus[]
+  allowStoringFollowers: boolean;
+}
+
+// https://github.com/flowns-org/flow-name-service-contracts/blob/main/cadence/contracts/Domains.cdc
+export type FlownsDomainDetail = {
+  id: string;
+  // Address of the owner account.
+  owner: string;
+  name: string;
+  nameHash: string;
+  addresses: Record<number, string>;
+  texts: Record<number, string>;
+  parentName: string;
+  // Timestamp of the expiration
+  expiredAt: string;
+  // Timestamp of the creation date.
+  createdAt: string;
+}
+
+export type FlowNameInfo = {
+  flowns: FlownsDomainDetail | null;
+  find: FindUserProfile| null;
+}
+
+export class DomainsService {
+
+  constructor() {
+    this.init({
+      findAddress: "0x097bafa4e0b48eef",
+      flownsAddress: "0x233eb012d34b0070"
+    });
+  }
+
+  private init(props: {
+    flownsAddress: string;
+    findAddress: string;
+  }) {
+    fcl.config()
+      .put("0xFlownsAddress", props.flownsAddress)
+      .put("0xFindAddress", props.findAddress);
+  }
+
+  public async resolveNameToAddress(name: string): Promise<string | undefined> {
+    const { flowns, find } = await this.lookupNameInfo(name);
+    return flowns?.owner ?? find?.address;
+  }
+
+  public async lookupNameInfo(name: string): Promise<FlowNameInfo> {
+    // @ts-ignore
+    const [flownsResponse, findResponse] = await Promise.allSettled([
+      this.lookupDomainByFlownsName(name),
+      this.lookupProfileByFindName(name)
+    ]);
+
+    return {
+      flowns: flownsResponse.status === "fulfilled"
+        ? flownsResponse.value
+        : null,
+      find: findResponse.status === "fulfilled"
+        ? findResponse.value
+        : null
+    };
+  }
+
+  private lookupDomainByFlownsName(name: string): Promise<FlownsDomainDetail> {
+    const nameHash = this.flownsNameHash(name);
+    return fcl
+      .send([
+        fcl.script(lookupDomainByFlownsNameHashSource),
+        fcl.args([fcl.arg(nameHash, type.String)])
+      ])
+      .then(fcl.decode);
+  }
+
+  private lookupProfileByFindName(name: string): Promise<FindUserProfile> {
+    return fcl
+      .send([
+        fcl.script(lookupProfileByFindNameSource),
+        fcl.args([fcl.arg(name, type.String)])
+      ])
+      .then(fcl.decode);
+  }
+
+  // Source: https://github.com/flowns-org/flow-name-service-contracts/blob/main/utils/hash.js
+  private flownsNameHash(domainName: string) {
+    const sha3 = Sha3.sha3_256;
+    // Reject empty names:
+    let node = "";
+    for (let i = 0; i < 32; i++) {
+      node += "00";
+    }
+    if (domainName) {
+      let labels = domainName.split(".");
+
+      for (let i = labels.length - 1; i >= 0; i--) {
+        let labelSha = sha3(labels[i]);
+        node = sha3(node + labelSha);
+      }
+    }
+
+    return "0x" + node;
+  }
+}

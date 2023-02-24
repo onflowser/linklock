@@ -35,7 +35,7 @@ export class FlowService {
     const { environment } = getConfig();
     fcl.config({
       "app.detail.title": "Membership protocol", // TODO: Change name
-      env: this.getFlowEnv(environment),
+      "flow.network": this.getFlowNetwork(environment),
       "app.detail.icon": "", // TODO: Add path to icon
       "accessNode.api": this.getAccessNodeApi(environment),
       "discovery.wallet": this.getDiscoveryWallet(environment),
@@ -168,9 +168,9 @@ export class FlowService {
   private getAccessNodeApi(env: AppEnvironment) {
     switch (env) {
       case "production":
-        return "https://rest-mainnet.onflow.org/v1"; // TODO: this is probably not a correct address
+        return "https://rest-mainnet.onflow.org"; // TODO: this is probably not a correct address
       case "staging":
-        return "https://access-testnet.onflow.org";
+        return "https://rest-testnet.onflow.org";
       case "development":
       default:
         return "http://localhost:8888";
@@ -187,7 +187,7 @@ export class FlowService {
     }
   }
 
-  private getFlowEnv(env: AppEnvironment) {
+  private getFlowNetwork(env: AppEnvironment) {
     switch (env) {
       case "production":
         return "mainnet";

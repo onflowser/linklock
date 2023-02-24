@@ -4,22 +4,29 @@ import Switch from "react-switch";
 import { colors } from "../common/theme";
 import { HTMLAttributes, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useUserInfo } from "../common/use-user-info";
 import Link from "next/link";
 import { TextArea } from "./inputs/Input";
 import { MarkdownPreview } from "./MarkdownPreview";
+import { FlowNameInfo } from "@membership/domains";
+
+export type UserProfileProps = {
+  address: string;
+  nameInfo: FlowNameInfo|undefined;
+}
 
 export default function UserProfile({
-  handleOrAddress,
-}: {
-  handleOrAddress: string | undefined;
-}) {
-  const { address, isSelf, info, infoError, donations, donationsError } =
-    useUserInfo(handleOrAddress);
+  nameInfo,
+  address
+}: UserProfileProps) {
   const [recurring, setRecurring] = useState(false);
   const [flowTeaAmount, setFlowTeaAmount] = useState(0);
   const [message, setMessage] = useState("");
   const [showConfirmTxModal, setConfirmTxModal] = useState(false);
+
+  console.log(nameInfo)
+
+  const name = nameInfo?.find?.name ?? nameInfo?.flowns?.name ?? address;
+  const description = nameInfo?.find?.description;
 
   async function onConfirmTx() {
    // TODO: Remove
@@ -33,17 +40,6 @@ export default function UserProfile({
     setConfirmTxModal(true);
   }
 
-  if (infoError) {
-    return (
-      <Container>
-        <div className="dark-background-profile" />
-        {/* TODO: display user friendly errors */}
-        {/* @ts-ignore */}
-        <pre style={{ margin: 20 }}>{infoError.toString()}</pre>
-      </Container>
-    );
-  }
-
   return (
     <Container>
 
@@ -51,30 +47,31 @@ export default function UserProfile({
 
       <div className="profile-photo-main-wrapper">
         <img src="/images/profile-photo-main.svg" alt="" />
-        <h3 className="profile-name">{info?.name}</h3>
+        <h3 className="profile-name">{name}</h3>
         <a
           target="_blank"
           href={`https://flowscan.org/account/${address}`}
           rel="noreferrer"
         >
-          {address || "-"}
+          {name}
         </a>
-        {info?.websiteUrl && (
-          <a target="_blank" href={info?.websiteUrl} rel="noreferrer">
-            {formatWebsiteUrl(info?.websiteUrl)}
-          </a>
-        )}
+        {/* TODO: Adapt */}
+        {/*{info?.websiteUrl && (*/}
+        {/*  <a target="_blank" href={info?.websiteUrl} rel="noreferrer">*/}
+        {/*    {formatWebsiteUrl(info?.websiteUrl)}*/}
+        {/*  </a>*/}
+        {/*)}*/}
       </div>
 
       <div
         className="profile-content-wrapper"
-        style={{ maxWidth: isSelf ? 800 : 1200 }}
+        style={{ maxWidth: 800 }}
       >
         <div className="bio-and-transactions">
-          {info?.description && (
+          {description && (
             <Shadow className="bio-profile">
-              <h5>About {info?.name}</h5>
-              <MarkdownPreview source={info?.description} />
+              <h5>About this user</h5>
+              <MarkdownPreview source={description} />
             </Shadow>
           )}
 
@@ -83,47 +80,45 @@ export default function UserProfile({
               style={{ marginRight: 10 }}
               icon="🏆"
               title="Received donations"
-              value={donations?.to?.length ?? 0}
+              value={0}
             />
             <TransactionStats
               style={{ marginLeft: 10 }}
               icon="💎"
               title="Sent donations"
-              value={donations?.from?.length ?? 0}
+              value={0}
             />
           </TransactionStatsContainer>
 
-          {/* TODO: ADapt*/}
+          {/* TODO: Adapt */}
           <Transaction
             teaCount={1}
             fromAddress={"0x"}
           />
         </div>
-        {!isSelf && (
-          <Shadow className="buy-flow-tea-form">
-            <h5>Buy {info?.name} a FLOW Tea</h5>
-            <ChooseFlowAmount
-              onChange={setFlowTeaAmount}
-              value={flowTeaAmount}
-            />
-            <RepeatPaymentSwitch
-              style={{ marginTop: 50 }}
-              checked={recurring}
-              onChange={(checked) => setRecurring(!!checked)}
-            />
-            <TextArea
-              placeholder="Enter your message ..."
-              onInput={(e) => setMessage(e.currentTarget.value)}
-            />
-            <PrimaryButton
-              isLoading={false}
-              onClick={onSubmit}
-              style={{ width: "100%", maxWidth: "unset" }}
-            >
-              Support {flowTeaAmount || "X"} FLOW
-            </PrimaryButton>
-          </Shadow>
-        )}
+        <Shadow className="buy-flow-tea-form">
+          <h5>Buy me a FLOW Tea</h5>
+          <ChooseFlowAmount
+            onChange={setFlowTeaAmount}
+            value={flowTeaAmount}
+          />
+          <RepeatPaymentSwitch
+            style={{ marginTop: 50 }}
+            checked={recurring}
+            onChange={(checked) => setRecurring(!!checked)}
+          />
+          <TextArea
+            placeholder="Enter your message ..."
+            onInput={(e) => setMessage(e.currentTarget.value)}
+          />
+          <PrimaryButton
+            isLoading={false}
+            onClick={onSubmit}
+            style={{ width: "100%", maxWidth: "unset" }}
+          >
+            Support {flowTeaAmount || "X"} FLOW
+          </PrimaryButton>
+        </Shadow>
       </div>
     </Container>
   );

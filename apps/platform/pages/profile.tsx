@@ -13,7 +13,7 @@ export default function Profile() {
   return (
     <>
       <MetaTags title="Your FlowTea profile" />
-      <UserProfile handleOrAddress={currentUser?.address} />
+      <UserProfile nameInfo={currentUser?.address} />
     </>
   );
 }

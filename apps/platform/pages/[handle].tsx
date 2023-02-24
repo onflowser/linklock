@@ -1,21 +1,22 @@
 import MainLayout from "../components/layouts/MainLayout";
 import Profile from "./profile";
-import { useRouter } from "next/router";
-import UserProfile from "../components/UserProfile";
+import UserProfile, { UserProfileProps } from "../components/UserProfile";
 import { GetServerSideProps } from "next";
+import { DomainsService } from "@membership/domains";
 
-type Data = {};
+type HandlePageProps = UserProfileProps;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const handleOrAddress = context.query.handle as string;
-  // TODO: Adapt
-  const data: Data = {  };
-  return { props: { data } };
+  const nameOrAddress = context.query.handle as string;
+  const nameInfo = await new DomainsService().lookupNameInfo(nameOrAddress)
+  const props: HandlePageProps = {
+    address: nameInfo?.find?.address ?? nameInfo?.flowns?.owner ?? nameOrAddress,
+    nameInfo
+  }
+  return { props };
 };
 
-export default function OtherUserProfile({ data }: { data: Data }) {
-  const router = useRouter();
-
+export default function OtherUserProfile({ nameInfo, address }: UserProfileProps) {
   // TODO: prerender UserProfile component with above data ^
   return (
     <>
@@ -24,7 +25,7 @@ export default function OtherUserProfile({ data }: { data: Data }) {
       {/*  title={`${name} (${address})`}*/}
       {/*  description={`${descPrefix}${description}`}*/}
       {/*/>*/}
-      <UserProfile handleOrAddress={router.query.handle as string} />
+      <UserProfile address={address} nameInfo={nameInfo} />
     </>
   );
 }
