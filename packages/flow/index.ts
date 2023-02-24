@@ -29,6 +29,7 @@ export type MembershipNFT = {
   name: string;
   description: string;
   thumbnail: string;
+  adminAddress: string;
   metadata: Record<string, unknown>;
   validUntilTimestamp: string;
 };

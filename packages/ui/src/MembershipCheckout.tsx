@@ -37,10 +37,13 @@ export function MembershipCheckout({
     error: membershipError,
     mutate: refetchMemberships,
   } = useGetMemberships(currentUser?.address);
+  const ownedTargetMembership = ownedMemberships?.find(
+    (membership) => membership.adminAddress === communityAddress
+  );
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
-    if (ownedMemberships && ownedMemberships.length > 0) {
+    if (ownedTargetMembership) {
       setCheckoutStep(CheckoutStep.CLAIMED);
     }
   }, [ownedMemberships]);
@@ -93,7 +96,7 @@ export function MembershipCheckout({
           </div>
         );
       case CheckoutStep.CLAIMED:
-        return <pre>{JSON.stringify(ownedMemberships, null, 4)}</pre>;
+        return <pre>{JSON.stringify(ownedTargetMembership, null, 4)}</pre>;
 
       default:
         return <></>;
