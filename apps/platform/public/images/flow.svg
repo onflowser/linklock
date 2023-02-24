@@ -1,0 +1,11 @@
+<svg id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Layer_1-2">
+    <g id="g43">
+      <circle id="circle20" cx="10" cy="10" r="10" fill="#fe6f6f"/>
+      <rect id="rect22" width="2.82" height="2.82" transform="translate(11.56 8.44)" fill="#fff"/>
+      <path id="path24" d="M53.58,111.912a1.06,1.06,0,1,1-1.06-1.06h1.06v-2.82H52.52a3.88,3.88,0,1,0,3.88,3.88h0v-1.06H53.58Z" transform="translate(-44.84 -99.592)" fill="#fff"/>
+      <path id="path26" d="M115.752,56.58h3.18V53.76h-3.18a3.884,3.884,0,0,0-3.88,3.88V58h2.82v-.36A1.067,1.067,0,0,1,115.752,56.58Z" transform="translate(-103.132 -49.56)" fill="#fff"/>
+      <path id="polygon28" d="M114.692,108.032h-2.82v2.82h2.82Z" transform="translate(-103.132 -99.592)" fill="#fe6f6f"/>
+    </g>
+  </g>
+</svg>
