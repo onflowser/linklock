@@ -68,6 +68,8 @@ export class FlowService {
   }
 
   // TODO: Can we setup and claim membership in a single transaction?
+  // See how this is done at .find:
+  // https://github.com/findonflow/find/blob/main/transactions/createProfile.cdc
   public async setupAccount() {
     const transactionId = await fcl.mutate({
       cadence: transactions.setupAccount,
