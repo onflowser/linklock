@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-custom",
+  "name": "@membership/config",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -15,5 +15,10 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "react-library.json"
+  ]
 }
