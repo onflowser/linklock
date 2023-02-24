@@ -8,10 +8,11 @@ type HandlePageProps = UserProfileProps;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const nameOrAddress = context.query.handle as string;
-  const nameInfo = await new DomainsService().lookupNameInfo(nameOrAddress)
+  const nameInfo = await new DomainsService().getNameInfo(nameOrAddress)
   const props: HandlePageProps = {
-    address: nameInfo?.find?.address ?? nameInfo?.flowns?.owner ?? nameOrAddress,
-    nameInfo
+    address:nameInfo?.address ?? nameOrAddress,
+    // Remove undefined variables to avoid Next.js error
+    nameInfo: JSON.parse(JSON.stringify(nameInfo))
   }
   return { props };
 };

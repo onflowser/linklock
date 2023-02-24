@@ -7,11 +7,11 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { TextArea } from "./inputs/Input";
 import { MarkdownPreview } from "./MarkdownPreview";
-import { FlowNameInfo } from "@membership/domains";
+import { FlowAbstractNameInfo } from "@membership/domains";
 
 export type UserProfileProps = {
   address: string;
-  nameInfo: FlowNameInfo|undefined;
+  nameInfo: FlowAbstractNameInfo|undefined;
 }
 
 export default function UserProfile({
@@ -22,15 +22,6 @@ export default function UserProfile({
   const [flowTeaAmount, setFlowTeaAmount] = useState(0);
   const [message, setMessage] = useState("");
   const [showConfirmTxModal, setConfirmTxModal] = useState(false);
-
-  console.log(nameInfo)
-
-  const name = nameInfo?.find?.name ?? nameInfo?.flowns?.name ?? address;
-  const description = nameInfo?.find?.description;
-
-  async function onConfirmTx() {
-   // TODO: Remove
-  }
 
   async function onSubmit() {
     if (!flowTeaAmount) {
@@ -46,14 +37,14 @@ export default function UserProfile({
       <div className="dark-background-profile" />
 
       <div className="profile-photo-main-wrapper">
-        <img src="/images/profile-photo-main.svg" alt="" />
-        <h3 className="profile-name">{name}</h3>
+        <img style={{borderRadius: '50%'}} src={nameInfo?.avatar ?? "/images/profile-photo-main.svg"} alt="" />
+        <h3 className="profile-name">{nameInfo?.name ?? "Unknown"}</h3>
         <a
           target="_blank"
           href={`https://flowscan.org/account/${address}`}
           rel="noreferrer"
         >
-          {name}
+          {address}
         </a>
         {/* TODO: Adapt */}
         {/*{info?.websiteUrl && (*/}
@@ -68,10 +59,10 @@ export default function UserProfile({
         style={{ maxWidth: 800 }}
       >
         <div className="bio-and-transactions">
-          {description && (
+          {nameInfo?.description && (
             <Shadow className="bio-profile">
               <h5>About this user</h5>
-              <MarkdownPreview source={description} />
+              <MarkdownPreview source={nameInfo.description} />
             </Shadow>
           )}
 

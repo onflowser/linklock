@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/domains/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/domains/src/domains.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/domains/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/domains/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/common/fcl-service.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/platform/components/UserProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/components/UserProfile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/pages/[handle].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/[handle].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/pages/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/services/flow.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/services/flow.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -360,7 +350,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677237057823</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="add flow domains module, show basic user info">
+      <created>1677243858558</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1677243858558</updated>
+    </task>
+    <task id="LOCAL-00037" summary="add abstract user info retrieval">
+      <created>1677244729947</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1677244729947</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,8 +387,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add flow provider" />
-    <MESSAGE value="fetch membership definition" />
     <MESSAGE value="basic membership claim flow working" />
     <MESSAGE value="temp skip checkout steps if memberhip found" />
     <MESSAGE value="provide claim membership options via params" />
@@ -408,6 +410,8 @@
     <MESSAGE value="run next codemon (https://nextjs.org/docs/messages/next-image-upgrade-to-13)" />
     <MESSAGE value="fix hydration issue" />
     <MESSAGE value="first pass at removing legacy code" />
-    <option name="LAST_COMMIT_MESSAGE" value="first pass at removing legacy code" />
+    <MESSAGE value="add flow domains module, show basic user info" />
+    <MESSAGE value="add abstract user info retrieval" />
+    <option name="LAST_COMMIT_MESSAGE" value="add abstract user info retrieval" />
   </component>
 </project>

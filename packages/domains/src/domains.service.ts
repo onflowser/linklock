@@ -85,9 +85,20 @@ export type FlownsDomainDetail = {
   createdAt: string;
 }
 
-export type FlowNameInfo = {
+export type FlowNameRawInfo = {
   flowns: FlownsDomainDetail | null;
   find: FindUserProfile| null;
+}
+
+export type FlowAbstractNameInfo = {
+  address: string;
+  domainName: string;
+  twitterUrl?: string;
+  websiteUrl?: string;
+  name?: string;
+  description?: string;
+  avatar?: string;
+  tags?: string[]
 }
 
 export class DomainsService {
@@ -109,11 +120,35 @@ export class DomainsService {
   }
 
   public async resolveNameToAddress(name: string): Promise<string | undefined> {
-    const { flowns, find } = await this.lookupNameInfo(name);
+    const { flowns, find } = await this.lookupRawInfosByName(name);
     return flowns?.owner ?? find?.address;
   }
 
-  public async lookupNameInfo(name: string): Promise<FlowNameInfo> {
+  public async getNameInfo(name: string): Promise<FlowAbstractNameInfo|undefined> {
+    const {find, flowns} = await this.lookupRawInfosByName(name);
+
+    if (!find && !flowns) {
+      return undefined;
+    }
+
+    // TODO: What are the possible link types?
+    const twitterLink = find?.links.find(link => link.type === "twitter");
+    const websiteLink = find?.links.find(link => link.type === "global");
+
+    return {
+      address: find?.address ?? flowns?.owner!,
+      domainName: find?.findName ?? flowns?.name!,
+      name: find?.name ?? flowns?.name,
+      avatar: find?.avatar,
+      // TODO: Read from flowns text records
+      twitterUrl: twitterLink?.url,
+      websiteUrl: websiteLink?.url,
+      tags: find?.tags,
+      description: find?.description
+    }
+  }
+
+  public async lookupRawInfosByName(name: string): Promise<FlowNameRawInfo> {
     // @ts-ignore
     const [flownsResponse, findResponse] = await Promise.allSettled([
       this.lookupDomainByFlownsName(name),
