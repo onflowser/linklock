@@ -2,11 +2,11 @@ import Link from "next/link";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { PrimaryButton } from "./PrimaryButton";
 import styled from "styled-components";
-import { useFcl } from "../common/user-context";
 import { theme } from "../common/theme";
+import { useFlow } from "@membership/client";
 
 export function Navigation() {
-  const { login, logout, isLoggingIn, isLoggingOut, isLoggedIn } = useFcl();
+  const { login, logout, isLoggingIn, isLoggingOut, isLoggedIn } = useFlow();
 
   return (
     <Container>

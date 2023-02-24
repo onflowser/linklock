@@ -5,34 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/components/Layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/pages/admin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/pages/admin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/pages/claim.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/pages/claim.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/dashboard/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/dashboard/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/.prettierignore" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/.prettierignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/.prettierrc.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/MembershipCheckout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/MembershipCheckout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/core/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/core/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/core/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/core/Modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/core/SizedBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/core/SizedBox.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/core/UnstyledButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/core/UnstyledButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/hooks/cache.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/hooks/cache.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/providers/flow.provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/providers/flow.provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/providers/root.provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/providers/root.provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/services/flow.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/services/flow.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/theme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/components/UserProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/components/UserProfile.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,23 +33,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/apps/docs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/prettier",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/apps/docs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/bartkozorog/Projects/flow-hackaton-2023/membership-protocol/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/docs" />
@@ -362,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677233629971</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="first pass at removing legacy code">
+      <created>1677236712563</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1677236712563</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -385,7 +365,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add flow service with sample script" />
     <MESSAGE value="add flow provider" />
     <MESSAGE value="fetch membership definition" />
     <MESSAGE value="basic membership claim flow working" />
@@ -410,6 +389,7 @@
     <MESSAGE value="fix styled-components config" />
     <MESSAGE value="run next codemon (https://nextjs.org/docs/messages/next-image-upgrade-to-13)" />
     <MESSAGE value="fix hydration issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix hydration issue" />
+    <MESSAGE value="first pass at removing legacy code" />
+    <option name="LAST_COMMIT_MESSAGE" value="first pass at removing legacy code" />
   </component>
 </project>

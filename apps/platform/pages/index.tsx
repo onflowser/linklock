@@ -3,8 +3,6 @@ import Image, { StaticImageData } from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
 import { theme } from "../common/theme";
-import { useFcl } from "../common/user-context";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 
 // components
@@ -482,30 +480,9 @@ const HWorkRightColumn = styled(Column)`
 const Home: NextPage = () => {
   const router = useRouter();
   const [handle, setHandle] = useState("");
-  const { isLoggedIn, isRegistered, isHandleAvailable } = useFcl();
-  const isExistingUser = isLoggedIn && isRegistered;
 
-  async function onGoToProfile() {
-    const handleAvailable = await isHandleAvailable(handle).catch((e) => {
-      toast.error("Failed to fetch project info!");
-    });
-    if (isExistingUser) {
-      if (!handleAvailable) {
-        await router.push(`/${handle}`);
-      } else {
-        toast.error("Project not found, try a different handle!");
-      }
-      return;
-    }
-    if (!handle) {
-      toast.error("Please enter a handle!");
-      return;
-    }
-    if (handleAvailable) {
-      return router.push(`/settings?handle=${handle}`);
-    } else {
-      toast.error("This handle is already taken!");
-    }
+  async function goToAddress() {
+    await router.push(`/${handle}`);
   }
 
   return <>
@@ -521,12 +498,10 @@ const Home: NextPage = () => {
         <BigInput
           value={handle}
           onChange={setHandle}
-          placeholder={
-            isExistingUser ? "project handle" : "your unique handle"
-          }
-          linkTitle={isExistingUser ? "Search" : "Create your page"}
+          placeholder={".find name or address"}
+          linkTitle="Go"
           linkHref=""
-          onClick={onGoToProfile}
+          onClick={goToAddress}
         />
       </CenterTitleBox>
     </LandingSection>

@@ -1,4 +1,3 @@
-import { useFcl } from "../common/user-context";
 import styled, { css } from "styled-components";
 import { PrimaryButton } from "./PrimaryButton";
 import Switch from "react-switch";
@@ -9,43 +8,21 @@ import { useUserInfo } from "../common/use-user-info";
 import Link from "next/link";
 import { TextArea } from "./inputs/Input";
 import { MarkdownPreview } from "./MarkdownPreview";
-import { ConfirmTransactionModal } from "./modals/ConfirmTransactionModal";
 
-/**
- * @param userId Can either be a handle or account address.
- */
 export default function UserProfile({
-  userId,
+  handleOrAddress,
 }: {
-  userId: string | undefined;
+  handleOrAddress: string | undefined;
 }) {
-  const { isSendingDonation, donateFlow } = useFcl();
   const { address, isSelf, info, infoError, donations, donationsError } =
-    useUserInfo(userId);
+    useUserInfo(handleOrAddress);
   const [recurring, setRecurring] = useState(false);
   const [flowTeaAmount, setFlowTeaAmount] = useState(0);
   const [message, setMessage] = useState("");
   const [showConfirmTxModal, setConfirmTxModal] = useState(false);
 
-  function resetValues() {
-    setRecurring(false);
-    setFlowTeaAmount(0);
-    setMessage("");
-  }
-
   async function onConfirmTx() {
-    setConfirmTxModal(false);
-    if (!address) {
-      return;
-    }
-    try {
-      await donateFlow(message, flowTeaAmount, recurring, address);
-      resetValues();
-      toast.success(`You successfully donated ${flowTeaAmount}FLOW!`);
-    } catch (e) {
-      console.error(e);
-      toast.error("Donation failed!");
-    }
+   // TODO: Remove
   }
 
   async function onSubmit() {
@@ -69,13 +46,6 @@ export default function UserProfile({
 
   return (
     <Container>
-      <ConfirmTransactionModal
-        isOpen={showConfirmTxModal}
-        flowTeaAmount={flowTeaAmount}
-        shouldCloseOnOverlayClick
-        onConfirm={onConfirmTx}
-        onRequestClose={() => setConfirmTxModal(false)}
-      />
 
       <div className="dark-background-profile" />
 
@@ -123,17 +93,11 @@ export default function UserProfile({
             />
           </TransactionStatsContainer>
 
-          {donations?.to.length > 0 ? (
-            donations.to.map((donation: any) => (
-              <Transaction
-                key={donation.id}
-                teaCount={donation.amount}
-                fromAddress={donation.from}
-              />
-            ))
-          ) : donationsError ? (
-            <div>Could not retrieve user donations.</div>
-          ) : null}
+          {/* TODO: ADapt*/}
+          <Transaction
+            teaCount={1}
+            fromAddress={"0x"}
+          />
         </div>
         {!isSelf && (
           <Shadow className="buy-flow-tea-form">
@@ -152,7 +116,7 @@ export default function UserProfile({
               onInput={(e) => setMessage(e.currentTarget.value)}
             />
             <PrimaryButton
-              isLoading={isSendingDonation}
+              isLoading={false}
               onClick={onSubmit}
               style={{ width: "100%", maxWidth: "unset" }}
             >

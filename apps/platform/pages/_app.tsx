@@ -3,12 +3,12 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import DefaultLayout from "../components/layouts/MainLayout";
 import { GlobalStyle } from "../components/GlobalStyles";
-import { FclProvider } from "../common/user-context";
 import { Toaster } from "react-hot-toast";
 import { theme } from "../common/theme";
 import { SWRConfig } from "swr";
 import Head from "next/head";
 import { config } from "../common/config";
+import { MembershipProvider } from "@membership/client";
 
 function App({ Component, pageProps }: AppProps) {
   // @ts-ignore
@@ -29,11 +29,11 @@ function App({ Component, pageProps }: AppProps) {
               fetch(config.apiHost + resource, init).then((res) => res.json()),
           }}
         >
-          <FclProvider>
+          <MembershipProvider>
             <Layout>
               <Component {...pageProps} />
             </Layout>
-          </FclProvider>
+          </MembershipProvider>
         </SWRConfig>
       </ThemeProvider>
     </>

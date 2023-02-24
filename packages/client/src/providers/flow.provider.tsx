@@ -14,6 +14,11 @@ export type CurrentUserInfo = {
 
 export type FlowState = {
   currentUser: CurrentUserInfo | undefined;
+  isLoggingIn: boolean;
+  isLoggingOut: boolean;
+  isLoggedIn: boolean;
+  login: () => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const FlowContext = React.createContext<FlowState>({} as FlowState);
@@ -22,15 +27,18 @@ const flowService = FlowService.create();
 
 export function FlowProvider(props: FlowProviderProps) {
   const [fclUser, setFclUser] = useState<FclCurrentUser | undefined>();
+  // TODO: Implement these states
+  const [isLoggingIn, setLoggingIn] = useState(false);
+  const [isLoggingOut, setLoggingOut] = useState(false);
   const { data: flowBalance, error } = useFlowBalance(fclUser?.addr);
   const currentUser = useMemo<CurrentUserInfo | undefined>(
     () =>
       fclUser?.addr
         ? {
-            address: fclUser.addr,
-            flowBalance,
-            raw: fclUser,
-          }
+          address: fclUser.addr,
+          flowBalance,
+          raw: fclUser
+        }
         : undefined,
     [fclUser, flowBalance]
   );
@@ -39,8 +47,16 @@ export function FlowProvider(props: FlowProviderProps) {
     flowService.subscribeCurrentUser(setFclUser);
   }, []);
 
+  async function login() {
+
+  }
+
+  async function logout() {
+
+  }
+
   return (
-    <FlowContext.Provider value={{ currentUser }}>
+    <FlowContext.Provider value={{ login, logout, currentUser, isLoggedIn: Boolean(currentUser), isLoggingIn, isLoggingOut }}>
       {props.children}
     </FlowContext.Provider>
   );

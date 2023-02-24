@@ -3,10 +3,12 @@ import { createRef, HTMLAttributes, useState } from "react";
 import { useClickOutside } from "../common/use-click-outside";
 import { useRouter } from "next/router";
 import { WidgetGenerationModal } from "./modals/WidgetGenerationModal";
-import { useFcl } from "../common/user-context";
+import { useFlow } from "@membership/client";
 
 export function ProfileDropdown(props: HTMLAttributes<HTMLDivElement>) {
-  const { isRegistered, isLoggedIn, logout } = useFcl();
+  const { isLoggedIn, logout } = useFlow();
+  // TODO: Remove concept of "registered profile"
+  const isRegistered = false;
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const menuRef = createRef<HTMLDivElement>();
