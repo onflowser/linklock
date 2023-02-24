@@ -86,7 +86,7 @@ export class FlowService {
       cadence: transactions.claimMembership,
       args: (arg: any, t: any) => [
         arg(options.adminAddress, t.Address),
-        arg(options.paymentAmount, t.UFix64),
+        arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
         arg(options.fungibleTokenStoragePath, t.String),
       ],
       proposer: fcl.currentUser,
@@ -104,8 +104,8 @@ export class FlowService {
       cadence: transactions.defineMembership,
       args: (arg: any, t: any) => [
         arg(options.name, t.String),
-        arg(options.expirationInterval, t.UFix64),
-        arg(options.flowPrice, t.UFix64),
+        arg(Number(options.expirationInterval).toFixed(1), t.UFix64),
+        arg(Number(options.flowPrice).toFixed(1), t.UFix64),
       ],
       proposer: fcl.currentUser,
       payer: fcl.currentUser,

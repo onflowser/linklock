@@ -230,6 +230,8 @@ pub contract Membership: NonFungibleToken {
         )
     }
 
+    // TODO: Add renew/redeem membership function
+    // TODO: Add membership specific events (e.g. renew)
     pub fun claimMembership(
         adminAddress: Address,
         claimerAddress: Address,

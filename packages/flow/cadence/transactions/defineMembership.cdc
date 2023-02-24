@@ -1,4 +1,4 @@
-import "Membership"
+import Membership from 0xf3fcd2c1a78f5eee
 
 transaction(
     name: String,
