@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import bmft_logo_ver from "../public/images/logo-BMFT-vertical-white.svg";
 import Link from "next/link";
 import styled from "styled-components";
@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <Container>
       <FooterImageWrapper>
-        <Image src={bmft_logo_ver} layout="fill" />
+        <Image alt="Logo" src={bmft_logo_ver} fill sizes="100vw" />
       </FooterImageWrapper>
       <FooterText>
         Buy me a FLOW tea is created and supported by{" "}

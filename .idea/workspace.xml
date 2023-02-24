@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/platform/pages/_document.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/_document.tsx" afterDir="false" />
+    <list default="true" id="97fa1ef9-9d13-4768-93e8-e09bd411f376" name="Changes" comment="fix styled-components config">
+      <change beforePath="$PROJECT_DIR$/apps/platform/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/components/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/platform/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/platform/pages/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +103,7 @@
       <workItem from="1677142410841" duration="14696000" />
       <workItem from="1677158801193" duration="241000" />
       <workItem from="1677182278863" duration="5844000" />
-      <workItem from="1677232519871" duration="684000" />
+      <workItem from="1677232519871" duration="806000" />
     </task>
     <task id="LOCAL-00001" summary="init turborepo">
       <created>1677061407840</created>
@@ -316,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677232813259</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="fix styled-components config">
+      <created>1677233214705</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1677233214705</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -339,7 +345,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="setup webpack config for flow package" />
     <MESSAGE value="replaced webpack with rollup, imported flow lib" />
     <MESSAGE value="add flow service with sample script" />
     <MESSAGE value="add flow provider" />
@@ -364,6 +369,7 @@
     <MESSAGE value="add flowtea source" />
     <MESSAGE value="add .idea" />
     <MESSAGE value="run next codemon (https://nextjs.org/docs/messages/next-image-upgrade-to-13)" />
-    <option name="LAST_COMMIT_MESSAGE" value="run next codemon (https://nextjs.org/docs/messages/next-image-upgrade-to-13)" />
+    <MESSAGE value="fix styled-components config" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix styled-components config" />
   </component>
 </project>
