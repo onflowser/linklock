@@ -6,7 +6,7 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string;
 };
 
-const RoundButtonLink = styled.a`
+const RoundButtonLink = styled(Link)`
   background: ${(props) => props.theme.colors.primary} 0% 0% no-repeat
     padding-box;
   border-radius: 10rem;
@@ -24,8 +24,6 @@ const RoundButtonLink = styled.a`
 // TODO: merge PrimaryLink & PrimaryButton into a single button component
 export default function RoundLink({ href, ...props }: Props) {
   return (
-    <Link href={href} passHref>
-      <RoundButtonLink {...props} />
-    </Link>
+    <RoundButtonLink href={href} passHref {...props} />
   );
 }
