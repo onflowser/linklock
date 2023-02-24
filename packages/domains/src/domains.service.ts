@@ -149,7 +149,6 @@ export class DomainsService {
   }
 
   public async lookupRawInfosByName(name: string): Promise<FlowNameRawInfo> {
-    // @ts-ignore
     const [flownsResponse, findResponse] = await Promise.allSettled([
       this.lookupDomainByFlownsName(name),
       this.lookupProfileByFindName(name)
@@ -166,6 +165,10 @@ export class DomainsService {
   }
 
   private lookupDomainByFlownsName(name: string): Promise<FlownsDomainDetail> {
+    const isFlownsName = name.endsWith(".fn")
+    if (!isFlownsName) {
+      return Promise.reject("Not a valid .fn name")
+    }
     const nameHash = this.flownsNameHash(name);
     return fcl
       .send([
@@ -176,6 +179,10 @@ export class DomainsService {
   }
 
   private lookupProfileByFindName(name: string): Promise<FindUserProfile> {
+    const isFindName = name.endsWith(".find");
+    if (!isFindName) {
+      return Promise.reject("Not a valid .find name")
+    }
     return fcl
       .send([
         fcl.script(lookupProfileByFindNameSource),

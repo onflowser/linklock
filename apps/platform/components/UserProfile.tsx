@@ -8,6 +8,7 @@ import Link from "next/link";
 import { TextArea } from "./inputs/Input";
 import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
+import { MembershipCheckout } from "@membership/client";
 
 export type UserProfileProps = {
   address: string;
@@ -20,19 +21,17 @@ export default function UserProfile({
 }: UserProfileProps) {
   const [recurring, setRecurring] = useState(false);
   const [flowTeaAmount, setFlowTeaAmount] = useState(0);
+  const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
   const [message, setMessage] = useState("");
-  const [showConfirmTxModal, setConfirmTxModal] = useState(false);
 
   async function onSubmit() {
-    if (!flowTeaAmount) {
-      toast.error("Select FLOW amount!");
-      return;
-    }
-    setConfirmTxModal(true);
+    setOpenMembershipCheckout(true)
   }
 
   return (
     <Container>
+
+      <MembershipCheckout communityAddress={address} isOpenModal={openMembershipCheckout} onCloseModal={() => setOpenMembershipCheckout(false)} />
 
       <div className="dark-background-profile" />
 
@@ -80,34 +79,14 @@ export default function UserProfile({
               value={0}
             />
           </TransactionStatsContainer>
-
-          {/* TODO: Adapt */}
-          <Transaction
-            teaCount={1}
-            fromAddress={"0x"}
-          />
         </div>
         <Shadow className="buy-flow-tea-form">
-          <h5>Buy me a FLOW Tea</h5>
-          <ChooseFlowAmount
-            onChange={setFlowTeaAmount}
-            value={flowTeaAmount}
-          />
-          <RepeatPaymentSwitch
-            style={{ marginTop: 50 }}
-            checked={recurring}
-            onChange={(checked) => setRecurring(!!checked)}
-          />
-          <TextArea
-            placeholder="Enter your message ..."
-            onInput={(e) => setMessage(e.currentTarget.value)}
-          />
           <PrimaryButton
             isLoading={false}
             onClick={onSubmit}
             style={{ width: "100%", maxWidth: "unset" }}
           >
-            Support {flowTeaAmount || "X"} FLOW
+            Buy Membership
           </PrimaryButton>
         </Shadow>
       </div>

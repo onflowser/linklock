@@ -498,7 +498,7 @@ const Home: NextPage = () => {
         <BigInput
           value={handle}
           onChange={setHandle}
-          placeholder={".find name or address"}
+          placeholder={".find, .fn name or address"}
           linkTitle="Go"
           linkHref=""
           onClick={goToAddress}
