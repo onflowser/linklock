@@ -3,6 +3,11 @@ import FungibleToken from 0xee82856bf20e2aa6
 import FlowToken from 0x0ae53cb6e3f42a79
 
 pub contract FlowRequirement: MembershipRequirement {
+    pub let fungibleTokenPath: PublicPath?
+
+    pub fun getDescription(): String {
+        return "Transfers provided FLOW token amount to community admin."
+    }
 
     pub fun claimRequirement(
         claimerAddress: Address,
@@ -18,12 +23,16 @@ pub contract FlowRequirement: MembershipRequirement {
         let vault <- claimerVault as! @FlowToken.Vault
 
         // Get a reference to the recipient's Receiver
-        let receiverRef =  getAccount(adminAddress)
-            .getCapability(/public/flowTokenReceiver)
+        let receiverRef = getAccount(adminAddress)
+            .getCapability(self.fungibleTokenPath!)
             .borrow<&{FungibleToken.Receiver}>()
 			?? panic("Could not borrow receiver reference to the recipient's Vault")
 
         // Deposit the withdrawn tokens in the recipient's receiver
         receiverRef.deposit(from: <-vault)
+    }
+
+    init() {
+        self.fungibleTokenPath = PublicPath(identifier: "flowTokenReceiver")
     }
 }
