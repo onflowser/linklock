@@ -9,9 +9,8 @@ const flowService = new FlowService();
 
 export default function AdminDashboard() {
   const { currentUser } = useFlow();
-  const { data: membershipDefinitions } = useGetMembershipDefinitionsByAdmin(
-    currentUser?.address
-  );
+  const { data: membershipDefinitions, mutate: refetchMembershipDefinitions } =
+    useGetMembershipDefinitionsByAdmin(currentUser?.address);
   const [name, setName] = useState("TestMembership");
   const [description, setDescription] = useState(
     "This membership is for testing."
@@ -32,28 +31,36 @@ export default function AdminDashboard() {
     const expirationIntervalInMilliseconds =
       expirationIntervalInDays * 24 * 60 * 60 * 1000;
     flowService
-      .sendDefineMembershipTransaction({
-        name,
-        description,
-        thumbnail,
-        expirationInterval: String(expirationIntervalInMilliseconds),
-        maxSupply,
-        requirement: {
-          price: String(requirementPrice),
-          contractAddress: requirementContractAddress,
-          contractName: requirementContractName,
-        },
-      })
+      .setupMembershipDefinitionCollection()
       .then(() => {
-        alert("Success");
+        flowService
+          .sendDefineMembershipTransaction({
+            name,
+            description,
+            thumbnail,
+            expirationInterval: String(expirationIntervalInMilliseconds),
+            maxSupply,
+            requirement: {
+              price: String(requirementPrice),
+              contractAddress: requirementContractAddress,
+              contractName: requirementContractName,
+            },
+          })
+          .then(() => {
+            refetchMembershipDefinitions();
+          })
+          .catch((e) => {
+            alert(`Error defining membership: ${e}`);
+          });
       })
-      .catch((e) => {
-        alert(`Error: ${e}`);
-      });
+      .catch((e) =>
+        alert(`Error setting up membership definition collection: ${e}`)
+      );
   }
 
   return (
     <div>
+      <h3>Existing memberships</h3>
       <pre>{JSON.stringify(membershipDefinitions, null, 4)}</pre>
       <h3>Create membership</h3>
       <label>

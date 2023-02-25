@@ -217,14 +217,12 @@ pub contract Membership: NonFungibleToken {
         claimerAddress: Address,
         claimerVault: @FungibleToken.Vault
     ): @NFT {
-        let adminAccount = getAccount(adminAddress)
+         let membershipDefinitionCollection = getAccount(adminAddress)
+             .getCapability(MembershipDefinition.CollectionPublicPath)
+             .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
+             ?? panic("Could not borrow reference to membership definition collection")
 
-        let definitionCollection = adminAccount.getCapability(MembershipDefinition.CollectionPublicPath)
-            .borrow<&MembershipDefinition.Collection>()
-            ?? panic("Could not borrow reference to membership definition collection")
-
-        // TODO: Change hardcoded value
-        let definition = definitionCollection
+        let definition = membershipDefinitionCollection
             .borrowMembershipDefinitionNFT(id: membershipDefinitionId)
             ?? panic("Could not borrow reference to membership definition NFT")
 

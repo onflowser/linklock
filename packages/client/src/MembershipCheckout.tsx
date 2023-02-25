@@ -55,7 +55,7 @@ export function MembershipCheckout({
 
   function onClaimRequirement() {
     flowService
-      .setupAccount()
+      .setupMembershipCollection()
       .then(() => {
         flowService
           .sendClaimMembershipTransaction({

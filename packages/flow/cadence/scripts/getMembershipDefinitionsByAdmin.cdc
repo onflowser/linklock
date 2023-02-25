@@ -4,20 +4,22 @@ import NonFungibleToken from 0xf8d6e0586b0a20c7
 
 pub fun main(adminAddress: Address): [&MembershipDefinition.NFT] {
 
-    let membershipCollection = getAccount(adminAddress)
+    let membershipDefinitionCollection = getAccount(adminAddress)
         .getCapability(MembershipDefinition.CollectionPublicPath)
         .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
 
-    if (membershipCollection == nil) {
+    if (membershipDefinitionCollection == nil) {
+        log("Membership definition NFT collection not found")
         return []
     }
 
-    let ownedNftIds = membershipCollection!.getIDs()
+    let ownedNftIds = membershipDefinitionCollection!.getIDs()
 
     let nfts: [&MembershipDefinition.NFT] = []
 
     for nftId in ownedNftIds {
-        nfts.append(membershipCollection!.borrowMembershipDefinitionNFT(id: nftId)!)
+        log(nftId)
+        nfts.append(membershipDefinitionCollection!.borrowMembershipDefinitionNFT(id: nftId)!)
     }
 
     return nfts
