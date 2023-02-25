@@ -8,9 +8,7 @@ export function Avatar({ imageUrl, size = 200 }: AvatarProps) {
   // TODO: Use hexagonal shape for NFTs?
   return (
     <img
-      style={{ borderRadius: "50%" }}
-      width={size}
-      height={size}
+      style={{ borderRadius: "50%", width: size, height: size }}
       src={imageUrl ?? defaultImageUrl}
       alt=""
     />

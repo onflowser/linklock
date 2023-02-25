@@ -1,19 +1,27 @@
-import LoginLayout from "../components/layouts/LoginLayout";
-import { PrimaryButton } from "../components/PrimaryButton";
-import { Input } from "../components/inputs/Input";
+import LoginLayout from "../../components/layouts/LoginLayout";
+import { PrimaryButton } from "../../components/PrimaryButton";
+import { Input } from "../../components/inputs/Input";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useUserInfo } from "../common/use-user-info";
-import MetaTags from "../components/MetaTags";
-import { RichTextEditor } from "../components/inputs/RichTextEditor";
-import { useFlow } from "@membership/client";
+import MetaTags from "../../components/MetaTags";
+import { RichTextEditor } from "../../components/inputs/RichTextEditor";
+import {
+  useFlow,
+  useGetMembershipDefinitionsByAdmin,
+} from "@membership/client";
+import { Avatar } from "../../components/Avatar";
 
-export default function Settings() {
-  const router = useRouter();
-  const {currentUser} = useFlow()
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { handle: liveHandle } = useUserInfo(currentUser?.address);
+export default function MembershipSettings() {
+  const { currentUser } = useFlow();
   const { query } = useRouter();
+  const { membershipId } = query;
+  const { data: membershipDefinitions } = useGetMembershipDefinitionsByAdmin(
+    currentUser?.address
+  );
+  const membershipDefinition = membershipDefinitions?.find(
+    (definition) => definition.id === membershipId
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [handle, setHandle] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,15 +42,14 @@ export default function Settings() {
     <>
       <MetaTags title="Profile settings" />
       <div className="profile-settings">
-        <h3>Create your profile</h3>
+        <h3>Membership settings</h3>
 
         {/* TODO: add profile photo functionality */}
-        {/*<img src="/images/add-profile-photo.svg" alt=""/>*/}
-        {/*<p>Drop image to change photo</p>*/}
+        <Avatar imageUrl={membershipDefinition?.thumbnail} />
 
         <div className="profile-fields">
           {/* Hide the input if user is not signed in. */}
-          {currentUser?.address&& (
+          {currentUser?.address && (
             <Input
               label="Address"
               placeholder="Address"
@@ -104,4 +111,4 @@ export default function Settings() {
   );
 }
 
-Settings.Layout = LoginLayout;
+MembershipSettings.Layout = LoginLayout;

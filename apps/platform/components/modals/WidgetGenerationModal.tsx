@@ -5,7 +5,6 @@ import { useState } from "react";
 import { PrimaryButton } from "../PrimaryButton";
 import { TextArea } from "../inputs/Input";
 import { toast } from "react-hot-toast";
-import { useUserInfo } from "../../common/use-user-info";
 import { getDomain } from "../../common/config";
 import { useFlow } from "@membership/client";
 
@@ -15,7 +14,8 @@ const widgetVariants = ["coral", "light-violet", "main-dark", "violet"];
 
 export function WidgetGenerationModal({ isOpen, ...props }: Props) {
   const { currentUser } = useFlow();
-  const { handle } = useUserInfo(currentUser?.address);
+  // TODO: Adapt
+  const handle = "idk";
   const [selected, setSelected] = useState(-1);
   const [showSelection, setShowSelection] = useState(true);
   const widgets = widgetVariants.map(

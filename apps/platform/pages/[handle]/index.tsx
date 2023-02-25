@@ -1,8 +1,8 @@
-import MainLayout from "../components/layouts/MainLayout";
-import UserProfile, { UserProfileProps } from "../components/UserProfile";
+import MainLayout from "../../components/layouts/MainLayout";
+import UserProfile, { UserProfileProps } from "../../components/UserProfile";
 import { GetServerSideProps } from "next";
 import { DomainsService } from "@membership/domains";
-import MetaTags from "../components/MetaTags";
+import MetaTags from "../../components/MetaTags";
 
 type HandlePageProps = UserProfileProps;
 

@@ -35,10 +35,10 @@ export function FlowProvider(props: FlowProviderProps) {
     () =>
       fclUser?.addr
         ? {
-          address: fclUser.addr,
-          flowBalance,
-          raw: fclUser
-        }
+            address: fclUser.addr,
+            flowBalance,
+            raw: fclUser,
+          }
         : undefined,
     [fclUser, flowBalance]
   );
@@ -48,15 +48,24 @@ export function FlowProvider(props: FlowProviderProps) {
   }, []);
 
   async function login() {
-
+    await flowService.authenticate();
   }
 
   async function logout() {
-
+    await flowService.unAuthenticate();
   }
 
   return (
-    <FlowContext.Provider value={{ login, logout, currentUser, isLoggedIn: Boolean(currentUser), isLoggingIn, isLoggingOut }}>
+    <FlowContext.Provider
+      value={{
+        login,
+        logout,
+        currentUser,
+        isLoggedIn: Boolean(currentUser),
+        isLoggingIn,
+        isLoggingOut,
+      }}
+    >
       {props.children}
     </FlowContext.Provider>
   );
