@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useFlow } from "./providers/flow.provider";
 import {
   useGetMemberships,
-  useGetMembershipDefinition,
+  useGetMembershipDefinitionsByAdmin,
   useFlowBalance,
 } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
@@ -31,14 +31,17 @@ export function MembershipCheckout({
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
   const { data: flowBalance } = useFlowBalance(currentUser?.address);
-  const { data: membershipDefinition, error: membershipDefinitionError } =
-    useGetMembershipDefinition(adminAddress);
+  const { data: membershipDefinitions, error: membershipDefinitionError } =
+    useGetMembershipDefinitionsByAdmin(adminAddress);
   // TODO: Handle transaction errors
   const {
     data: ownedMemberships,
     error: membershipError,
     mutate: refetchMemberships,
   } = useGetMemberships(currentUser?.address);
+  const membershipDefinition = membershipDefinitions?.find(
+    (definition) => definition.id === String(membershipDefinitionId)
+  );
   const ownedTargetMembership = ownedMemberships?.find(
     (membership) => membership.adminAddress === adminAddress
   );

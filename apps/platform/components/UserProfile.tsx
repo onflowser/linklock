@@ -5,7 +5,7 @@ import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
 import {
   MembershipCheckout,
-  useGetMembershipDefinition,
+  useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
 import { formatWebsiteUrl } from "../common/utils";
 import { SizedBox } from "@membership/client/src/core/SizedBox";

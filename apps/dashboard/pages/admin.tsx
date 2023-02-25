@@ -1,9 +1,17 @@
 import { useState } from "react";
-import { FlowService, useFlow } from "@membership/client";
+import {
+  FlowService,
+  useFlow,
+  useGetMembershipDefinitionsByAdmin,
+} from "@membership/client";
 
 const flowService = new FlowService();
 
 export default function AdminDashboard() {
+  const { currentUser } = useFlow();
+  const { data: membershipDefinitions } = useGetMembershipDefinitionsByAdmin(
+    currentUser?.address
+  );
   const [name, setName] = useState("TestMembership");
   const [description, setDescription] = useState(
     "This membership is for testing."
@@ -46,6 +54,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
+      <pre>{JSON.stringify(membershipDefinitions, null, 4)}</pre>
       <h3>Create membership</h3>
       <label>
         Name

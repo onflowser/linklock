@@ -15,11 +15,6 @@ export type ClaimMembershipOptions = {
   fungibleTokenStoragePath: string;
 };
 
-export type GetMembershipDefinitionOptions = {
-  adminAddress: string;
-  membershipDefinitionId: number;
-};
-
 export class FlowService {
   private static instance: FlowService;
 
@@ -101,7 +96,7 @@ export class FlowService {
   }
 
   public async sendDefineMembershipTransaction(
-    definition: MembershipDefinition
+    definition: Omit<MembershipDefinition, "id">
   ): Promise<{ transactionId: string }> {
     const transactionId = await fcl.mutate({
       cadence: transactions.defineMembership,
@@ -123,7 +118,9 @@ export class FlowService {
     return { transactionId };
   }
 
-  public async getMemberships(address: string): Promise<MembershipNFT[]> {
+  public async getMembershipsByAccount(
+    address: string
+  ): Promise<MembershipNFT[]> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipNFTs),
@@ -132,14 +129,13 @@ export class FlowService {
       .then(fcl.decode);
   }
 
-  public async getMembershipDefinition(
-    options: GetMembershipDefinitionOptions
-  ): Promise<MembershipDefinition> {
+  public async getMembershipDefinitionsByAdmin(
+    adminAddress: string
+  ): Promise<MembershipDefinition[]> {
     return fcl
       .send([
-        fcl.script(scripts.getMembershipDefinition),
-        fcl.args([fcl.arg(options.adminAddress, type.Address)]),
-        fcl.args([fcl.arg(options.membershipDefinitionId, type.UInt64)]),
+        fcl.script(scripts.getMembershipDefinitionsByAdmin),
+        fcl.args([fcl.arg(adminAddress, type.Address)]),
       ])
       .then(fcl.decode);
   }

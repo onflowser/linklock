@@ -9,18 +9,23 @@ export function useFlowBalance(address: string | undefined) {
   );
 }
 
-export function useGetMembershipDefinition(address: string | undefined) {
+export function useGetMembershipDefinitionsByAdmin(
+  adminAddress: string | undefined
+) {
   const flowService = FlowService.create();
   return useSWR(
-    () => (address ? `membership-definition/${address}` : null),
-    () => (address ? flowService.getMembershipDefinition(address) : undefined)
+    () => (adminAddress ? `membership-definitions/${adminAddress}` : null),
+    () =>
+      adminAddress
+        ? flowService.getMembershipDefinitionsByAdmin(adminAddress)
+        : undefined
   );
 }
 
 export function useGetMemberships(address: string | undefined) {
   const flowService = FlowService.create();
   return useSWR(
-      () => (address ? `membership/${address}` : null),
-      () => (address ? flowService.getMemberships(address) : undefined)
+    () => (address ? `membership/${address}` : null),
+    () => (address ? flowService.getMembershipsByAccount(address) : undefined)
   );
 }
