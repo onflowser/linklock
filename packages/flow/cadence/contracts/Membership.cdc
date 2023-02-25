@@ -5,8 +5,12 @@ import MetadataViews from 0xf8d6e0586b0a20c7
 
 pub contract Membership: NonFungibleToken {
 
-    /// Total supply of ExampleNFTs in existence
+    /// Total supply of all membrship NFTs
     pub var totalSupply: UInt64
+    /// Total supply of MembershipDefinition NFTs
+    pub var totalDefinitionSupply: UInt64
+    /// Total supply of membership NFT per each membership definition ID
+    pub var totalMembershipSupplyPerDefinition: {UInt64: UInt64}
 
     /// The event that is emitted when the contract is created
     pub event ContractInitialized()
@@ -214,7 +218,7 @@ pub contract Membership: NonFungibleToken {
 
         // Expiration interval in milliseconds
         pub var expirationInterval: UFix64
-
+        pub var maxSupply: UInt64
         pub var requirement: RequirementDefinition
 
         init(
@@ -224,6 +228,7 @@ pub contract Membership: NonFungibleToken {
             thumbnail: String,
             metadata: {String: AnyStruct},
             expirationInterval: UFix64,
+            maxSupply: UInt64,
             requirement: RequirementDefinition
         ) {
             self.id = id
@@ -232,6 +237,7 @@ pub contract Membership: NonFungibleToken {
             self.thumbnail = thumbnail
             self.metadata = metadata
             self.expirationInterval = expirationInterval
+            self.maxSupply = maxSupply
             self.requirement = requirement
         }
 
@@ -259,22 +265,28 @@ pub contract Membership: NonFungibleToken {
         description: String,
         thumbnail: String,
         expirationInterval: UFix64,
+        maxSupply: UInt64,
         requirement: RequirementDefinition
     ): @MembershipDefinition {
-        return <- create MembershipDefinition(
-            id: 0, // TODO: Generate unique ID
+        let definition <- create MembershipDefinition(
+            id: self.totalDefinitionSupply, // TODO: Generate unique ID
             name: name,
             description: description,
             thumbnail: thumbnail,
             metadata: {},
             expirationInterval: expirationInterval,
+            maxSupply: maxSupply,
             requirement: requirement
         )
+
+        self.totalDefinitionSupply = self.totalDefinitionSupply + 1
+        self.totalMembershipSupplyPerDefinition[definition.id] = 0
+
+        return <- definition
     }
 
     // TODO: Add renew/redeem membership function
     // TODO: Add membership specific events (e.g. renew)
-    // TODO: Also allow communities to define max NFTs that can be claimed.
     pub fun claimMembership(
         adminAddress: Address,
         claimerAddress: Address,
@@ -301,9 +313,15 @@ pub contract Membership: NonFungibleToken {
             claimerVault: <- claimerVault
         )
 
+        let currentSupplyForDefinition = self.totalMembershipSupplyPerDefinition[definition.id]!
+
+        if (currentSupplyForDefinition >= definition.maxSupply) {
+            panic("Max membership supply reached")
+        }
+
         let currentTimestamp = getCurrentBlock().timestamp
         let membership <- create NFT(
-            id: Membership.totalSupply,
+            id: self.totalSupply,
             name: definition.name,
             description: "",
             thumbnail: "",
@@ -312,7 +330,8 @@ pub contract Membership: NonFungibleToken {
             adminAddress: adminAddress
         )
 
-        Membership.totalSupply = Membership.totalSupply + UInt64(1)
+        self.totalMembershipSupplyPerDefinition[definition.id] = currentSupplyForDefinition + UInt64(1)
+        self.totalSupply = self.totalSupply + UInt64(1)
 
         // TODO: Should we deposit NFT here instead of returning?
         // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
@@ -322,6 +341,8 @@ pub contract Membership: NonFungibleToken {
     init() {
         // Initialize the total supply
         self.totalSupply = 0
+        self.totalDefinitionSupply = 0
+        self.totalMembershipSupplyPerDefinition = {}
 
         // Set the named paths
         self.CollectionStoragePath = /storage/membership
