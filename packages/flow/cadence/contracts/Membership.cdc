@@ -238,7 +238,12 @@ pub contract Membership: NonFungibleToken {
             claimerVault: <- claimerVault
         )
 
-        let currentSupplyForDefinition = self.totalMembershipSupplyPerDefinition[definition.id]!
+        if (self.totalMembershipSupplyPerDefinition[definition.id] == nil) {
+            // Initialize membership supply
+            self.totalMembershipSupplyPerDefinition[definition.id] = 0
+        }
+
+        var currentSupplyForDefinition = self.totalMembershipSupplyPerDefinition[definition.id]!
 
         if (currentSupplyForDefinition >= definition.maxSupply) {
             panic("Max membership supply reached")
@@ -255,7 +260,6 @@ pub contract Membership: NonFungibleToken {
             adminAddress: adminAddress
         )
 
-        // TODO: Fix
         self.totalMembershipSupplyPerDefinition[definition.id] = currentSupplyForDefinition + UInt64(1)
         self.totalSupply = self.totalSupply + UInt64(1)
 

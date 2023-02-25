@@ -9,7 +9,6 @@ pub fun main(adminAddress: Address): [&MembershipDefinition.NFT] {
         .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
 
     if (membershipDefinitionCollection == nil) {
-        log("Membership definition NFT collection not found")
         return []
     }
 
@@ -18,7 +17,6 @@ pub fun main(adminAddress: Address): [&MembershipDefinition.NFT] {
     let nfts: [&MembershipDefinition.NFT] = []
 
     for nftId in ownedNftIds {
-        log(nftId)
         nfts.append(membershipDefinitionCollection!.borrowMembershipDefinitionNFT(id: nftId)!)
     }
 

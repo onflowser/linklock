@@ -134,7 +134,7 @@ export class FlowService {
   ): Promise<MembershipNFT[]> {
     return fcl
       .send([
-        fcl.script(scripts.getMembershipNFTs),
+        fcl.script(scripts.getMembershipsByAccount),
         fcl.args([fcl.arg(address, type.Address)]),
       ])
       .then(fcl.decode);
