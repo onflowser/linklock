@@ -8,7 +8,7 @@ import {
   useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
 import { formatWebsiteUrl } from "../common/utils";
-import { SizedBox } from "@membership/client/src/core/SizedBox";
+import { SizedBox } from "@membership/client/src/view/shared/SizedBox";
 import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
 import { Carousel } from "react-responsive-carousel";

@@ -1,8 +1,7 @@
 import { IoMdClose } from "react-icons/io";
 import ReactModal from "react-modal";
-import { SizedBox } from "./SizedBox";
 import { UnstyledButton } from "./UnstyledButton";
-import { colors } from "../theme";
+import { colors } from "../../theme";
 
 export type CenterModalProps = ReactModal.Props & {
   title?: string;
@@ -44,7 +43,7 @@ export function CenterModal({
           backgroundColor: colors.white,
           border: "none",
           padding: 0,
-          paddingTop: '40px',
+          paddingTop: "40px",
           overflow: "scroll",
           borderRadius: 10,
           color: "black",

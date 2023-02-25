@@ -1,4 +1,4 @@
-import { CenterModal } from "./core/Modal";
+import { CenterModal } from "./view/shared/Modal";
 import { useEffect, useState } from "react";
 import { useFlow } from "./providers/flow.provider";
 import {
@@ -7,10 +7,10 @@ import {
   useFlowBalance,
 } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
-import './index.scss';
-import { StepOnePreview } from './view/StepOnePreview';
-import { StepTwoRequirement } from './view/StepTwoRequirement';
-import { StepThreeClaimed } from './view/StepThreeClaimed';
+import "./index.scss";
+import { StepOnePreview } from "./view/StepOnePreview";
+import { StepTwoRequirement } from "./view/StepTwoRequirement";
+import { StepThreeClaimed } from "./view/StepThreeClaimed";
 
 export type MembershipCheckoutProps = {
   adminAddress: string;
@@ -78,15 +78,15 @@ export function MembershipCheckout({
       .catch(console.error);
   }
 
-  function onDone() {
-
-  }
+  function onDone() {}
 
   function renderStep() {
     switch (checkoutStep) {
       case CheckoutStep.PREVIEW:
         return (
-            <StepOnePreview onClick={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}></StepOnePreview>
+          <StepOnePreview
+            onClick={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}
+          ></StepOnePreview>
           // <div>
           //   <pre>{JSON.stringify(membershipDefinition, null, 4)}</pre>
           //   <button onClick={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}>
@@ -110,14 +110,20 @@ export function MembershipCheckout({
         //     <button onClick={onClaimRequirement}>Claim</button>
         //   </div>
         // );
-            return (
-                <StepTwoRequirement onClick={onClaimRequirement}></StepTwoRequirement>
-            );
+        return (
+          <StepTwoRequirement onClick={onClaimRequirement}></StepTwoRequirement>
+        );
       case CheckoutStep.CLAIMED:
         // return <pre>{JSON.stringify(ownedTargetMembership, null, 4)}</pre>;
-        return <StepThreeClaimed onClick={onDone}
-            thumb={'https://www.visme.co/wp-content/uploads/2021/06/Thumbnail-maker-share.jpg'}
-                                 name={'Membership name'}></StepThreeClaimed>
+        return (
+          <StepThreeClaimed
+            onClick={onDone}
+            thumb={
+              "https://www.visme.co/wp-content/uploads/2021/06/Thumbnail-maker-share.jpg"
+            }
+            name={"Membership name"}
+          ></StepThreeClaimed>
+        );
 
       default:
         return <></>;
@@ -141,7 +147,11 @@ export function MembershipCheckout({
   }
 
   return (
-    <CenterModal isOpen={isOpenModal} onRequestClose={onRequestClose} maxWidth={'525px'}>
+    <CenterModal
+      isOpen={isOpenModal}
+      onRequestClose={onRequestClose}
+      maxWidth={"525px"}
+    >
       {renderModalContent()}
     </CenterModal>
   );
