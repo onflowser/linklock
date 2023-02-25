@@ -1,0 +1,43 @@
+@use '../../../styles/layout';
+@use '../../../styles/typography';
+@use '../../../styles/colors';
+@use '../../../styles/variables';
+
+.stepper-container {
+  @include layout.paddedBox();
+  @include layout.verticalLayout(variables.$smallGap);
+
+  .steps {
+    @include layout.horizontalLayout(0);
+    position: relative;
+    justify-content: flex-end;
+
+    &:after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 50%;
+      width: 100%;
+      border-top: 1px solid colors.$colorBlack100;
+    }
+
+    &.completed {
+      justify-content: flex-start;
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .steps-title {
+    font-size: typography.$fontSizeS;
+    color: colors.$colorMain500;
+
+    &.step-2 {
+      padding-left: calc(variables.$baseGap + 15px);
+    }
+    &.step-3 {
+      padding-left: calc(variables.$doubleGap + variables.$baseGap + 5px);
+    }
+  }
+}

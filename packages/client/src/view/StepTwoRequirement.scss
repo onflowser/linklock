@@ -1,0 +1,68 @@
+@use '../styles/layout';
+@use '../styles/typography';
+@use '../styles/colors';
+@use '../styles/variables';
+
+.content-wrapper {
+
+  @include layout.paddedBox();
+  border-bottom: 1px solid colors.$colorBlack100;
+  padding-bottom: variables.$baseGap;
+  min-height: 300px;
+
+  .box-wrapper {
+    @include layout.verticalLayout(variables.$smallGap);
+    padding: 30px variables.$baseGap;
+    border: 1px solid colors.$colorMain500;
+    border-radius: 15px;
+    background: #657FF710 0 0 no-repeat padding-box;
+    position: relative;
+
+    .badge {
+      color: colors.$colorWhite500;
+      font-size: typography.$fontSizeS;
+      font-weight: typography.$fontWeightBold;
+      padding: 0 variables.$baseGap;
+      position: absolute;
+      top: -14px;
+      right: 30px;
+      border-radius: 10px;
+      background-color: colors.$colorOrange500;
+    }
+
+
+    .line-1,
+    .line-3 {
+      @include layout.horizontalLayout(variables.$smallGap);
+      font-size: typography.$fontSizeS;
+      color: colors.$colorBlack500;
+    }
+
+    .line-2 {
+      @include layout.verticalLayout(0);
+      align-items: end;
+
+      & > span:first-child {
+        font-weight: typography.$fontWeightBold;
+        font-size: typography.$fontSizeXL;
+      }
+
+      & > span:last-child {
+        font-size: typography.$fontSizeS;
+      }
+    }
+
+    .line-3 {
+      justify-content: space-between;
+    }
+
+  }
+}
+
+.button-wrapper {
+  @include layout.paddedBox();
+  @include layout.horizontalLayout();
+  justify-content: center;
+  padding-bottom: variables.$doubleGap;
+  padding-top: variables.$baseGap;
+}

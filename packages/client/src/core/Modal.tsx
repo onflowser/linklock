@@ -6,7 +6,6 @@ import { colors } from "../theme";
 
 export type CenterModalProps = ReactModal.Props & {
   title?: string;
-  contentPadding?: number;
   shouldShowCloseIcon?: boolean;
   zIndex?: number;
   maxWidth?: number | string;
@@ -16,7 +15,6 @@ export type CenterModalProps = ReactModal.Props & {
 export function CenterModal({
   title,
   children,
-  contentPadding = 15,
   shouldShowCloseIcon = true,
   zIndex = 10,
   maxWidth = "100%",
@@ -38,27 +36,26 @@ export function CenterModal({
           left: "50%",
           right: "auto",
           bottom: "auto",
-          maxWidth: "90vw",
-          maxHeight: "90vh",
+          maxWidth: maxWidth,
+          minWidth: maxWidth,
+          maxHeight: maxHeight,
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
           backgroundColor: colors.white,
           border: "none",
+          padding: 0,
+          paddingTop: '40px',
           overflow: "scroll",
           borderRadius: 10,
           color: "black",
-          ...reactModalProps.style?.content,
           zIndex: 100,
         },
       }}
     >
-      <div style={{ padding: contentPadding }}>
-        <div className="flex items-start justify-between">
-          <UnstyledButton onClick={reactModalProps.onRequestClose}>
-            <IoMdClose size={20} />
-          </UnstyledButton>
-        </div>
-        <SizedBox height={20} />
+      <div>
+        <UnstyledButton onClick={reactModalProps.onRequestClose}>
+          <IoMdClose size={20} />
+        </UnstyledButton>
         {children}
       </div>
     </ReactModal>

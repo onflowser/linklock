@@ -1,0 +1,114 @@
+@use '../../../styles/colors';
+@use '../../../styles/layout';
+@use '../../../styles/variables';
+@use '../../../styles/typography';
+
+.membership-box-container {
+  .badge {
+    color: colors.$colorWhite500;
+    font-size: typography.$fontSizeS;
+    font-weight: typography.$fontWeightBold;
+    padding: 0 variables.$baseGap;
+    position: absolute;
+    top: -14px;
+    right: 30px;
+    border-radius: 10px;
+
+    &.valid {
+      background-color: colors.$colorGreen500;
+    }
+    &.expired {
+      background-color: colors.$colorOrange500;
+    }
+
+  }
+
+  height: 175px;
+
+  @include layout.verticalLayout(0);
+  position: relative;
+  padding: 30px;
+  box-sizing: border-box;
+
+  &:after {
+    content: "";
+    background-color: colors.$colorWhite500;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.35;
+    border-radius: 15px;
+    border: 1px solid colors.$colorWhite500;
+    box-shadow: 0 3px 6px colors.$colorBlack200;
+  }
+
+  .top {
+    @include layout.horizontalLayout(variables.$baseGap);
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 20px #F8F8F8;
+    }
+
+    & > div {
+      @include layout.verticalLayout(0);
+      margin-top: -3px;
+
+
+      span:first-child {
+        font-size: typography.$fontSizeXL;
+        font-weight: typography.$fontWeightBolder;
+        color: colors.$colorBlack500;
+      }
+
+      span:last-child {
+        font-size: typography.$fontSizeL;
+        font-weight: typography.$fontWeightNormal;
+        color: colors.$colorBlack500;
+      }
+
+      a {
+        color: colors.$colorMain500;
+        text-decoration: none;
+        font-size: typography.$fontSizeS;
+        margin-top: -5px;
+        @include layout.horizontalLayout(variables.$smallGap);
+        align-items: baseline;
+      }
+    }
+  }
+
+  .bottom {
+    @include layout.horizontalLayout(variables.$baseGap);
+    align-items: end;
+    justify-content: space-between;
+
+    & > span {
+      color: colors.$colorBlack500;
+      font-size: typography.$fontSizeS;
+      @include layout.horizontalLayout(5px);
+      align-items: center;
+    }
+
+    & > div {
+      @include layout.verticalLayout(0);
+      align-items: end;
+
+      span:first-child {
+        font-size: typography.$fontSizeL;
+        font-weight: typography.$fontWeightNormal;
+        line-height: typography.$lineSpacingS;
+      }
+
+      span:last-child {
+        color: colors.$colorBlack500;
+        font-size: typography.$fontSizeS;
+      }
+    }
+  }
+}

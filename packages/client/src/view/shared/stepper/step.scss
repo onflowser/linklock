@@ -1,0 +1,42 @@
+@use '../../../styles/typography';
+@use '../../../styles/colors';
+@use '../../../styles/variables';
+@use '../../../styles/layout';
+
+$stepPadding: 5px;
+
+.circle-wrapper {
+  padding-left: $stepPadding;
+  background-color: colors.$colorWhite500;
+
+  .circle {
+    width: calc(variables.$baseGap + 5px);
+    height: calc(variables.$baseGap + 5px);
+    border: 1px solid colors.$colorBlack100;
+    color: colors.$colorBlack200;
+    font-size: typography.$fontSizeS;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: colors.$colorWhite500;
+  }
+
+  &.active {
+    border: none;
+    padding-right: $stepPadding;
+    padding-left: 0;
+
+    .circle {
+      background-color: colors.$colorMain500;
+      color: colors.$colorWhite500;
+      font-size: typography.$fontSizeM;
+      font-weight: typography.$fontWeightBolder;
+    }
+  }
+
+  &.active + &:not(.active) {
+    margin-left: auto;
+  }
+}

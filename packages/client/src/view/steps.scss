@@ -1,0 +1,12 @@
+@use '../styles/layout';
+@use '../styles/variables';
+
+.step-container {
+  @include layout.verticalLayout();
+
+  .header {
+    margin-bottom: variables.$baseGap;
+  }
+}
+
+
