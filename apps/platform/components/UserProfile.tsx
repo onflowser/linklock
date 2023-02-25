@@ -3,7 +3,7 @@ import { PrimaryButton } from "./PrimaryButton";
 import { useState } from "react";
 import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
-import { MembershipCheckout } from "@membership/client";
+import { MembershipCheckout, useGetMembershipDefinition } from "@membership/client";
 import { formatWebsiteUrl } from "../common/utils";
 
 export type UserProfileProps = {
@@ -16,6 +16,7 @@ export default function UserProfile({
   address
 }: UserProfileProps) {
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
+  const {data: membershipDefinition} = useGetMembershipDefinition(address);
 
   async function onSubmit() {
     setOpenMembershipCheckout(true)
@@ -45,34 +46,40 @@ export default function UserProfile({
         )}
       </div>
 
-      <div
-        className="profile-content-wrapper"
-        style={{ maxWidth: 800 }}
-      >
-        <div className="bio-and-transactions">
+      <DetailsCard>
+        <LeftDetails>
           {nameInfo?.description && (
-            <Shadow className="bio-profile">
-              <h5>About this user</h5>
+            <div>
+              <h4>About</h4>
               <MarkdownPreview source={nameInfo.description} />
-            </Shadow>
+            </div>
           )}
-
-        </div>
-        <Shadow className="buy-flow-tea-form">
-          <PrimaryButton
-            isLoading={false}
-            onClick={onSubmit}
-            style={{ width: "100%", maxWidth: "unset" }}
-          >
-            Buy Membership
-          </PrimaryButton>
-        </Shadow>
-      </div>
+        </LeftDetails>
+        <RightDetails>
+          {membershipDefinition ? (
+            <div>
+              <PrimaryButton
+                isLoading={false}
+                onClick={onSubmit}
+                style={{ width: "100%", maxWidth: "unset" }}
+              >
+                Buy Membership
+              </PrimaryButton>
+            </div>
+          ) : (
+            <div>
+              No membership found
+            </div>
+          )}
+        </RightDetails>
+      </DetailsCard>
     </Container>
   );
 }
 
 const Container = styled.div`
+  margin-bottom: 100px;
+  
   .profile-photo-main-wrapper h3 {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -80,26 +87,6 @@ const Container = styled.div`
 
   .profile-photo-main-wrapper a {
     display: block;
-  }
-
-  .profile-content-wrapper {
-    max-width: 1200px;
-    padding-left: 20px;
-    padding-right: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 0 auto 100px;
-  }
-
-  .profile-content-wrapper > *:first-child {
-    margin-right: 30px;
-  }
-
-  .profile-content-wrapper h5 {
-    font-size: 24px;
-    color: var(--main-dark-color);
-    font-weight: 700;
   }
 
   .bio-profile {
@@ -138,4 +125,18 @@ const Shadow = styled.div`
   padding: 15px 50px 15px 50px;
   background: #f6f6f6;
   box-shadow: 20px 20px 40px #d1d1d164, -20px -20px 60px #ffffff;
+`;
+
+const DetailsCard =  styled(Shadow)`
+  display: flex;
+  max-width: 800px;
+  margin: auto;
+`;
+
+const LeftDetails = styled.div`
+  flex: 1;
+`;
+
+const RightDetails = styled.div`
+  flex: 1;
 `;
