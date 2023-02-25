@@ -10,14 +10,18 @@ export type FclCurrentUser = { addr: string };
 
 export type ClaimMembershipOptions = {
   adminAddress: string;
+  membershipDefinitionId: number;
   paymentAmount: string;
   fungibleTokenStoragePath: string;
 };
 
-export type DefineMembershipOptions = {
-  name: string;
-  expirationInterval: number;
-  flowPrice: number;
+export type TransactionError = {
+  raw: string;
+};
+
+export type TransactionResult = {
+  transactionId: string;
+  error: null | TransactionError;
 };
 
 export class FlowService {
@@ -57,6 +61,53 @@ export class FlowService {
     fcl.currentUser.subscribe(onChanged);
   }
 
+  // TODO: Can we setup and claim membership in a single transaction?
+  // See how this is done at .find:
+  // https://github.com/findonflow/find/blob/main/transactions/createProfile.cdc
+  public async setupMembershipCollection() {
+    return this.sendTransaction({
+      cadence: transactions.setupMembershipCollection,
+    });
+  }
+
+  public async setupMembershipDefinitionCollection() {
+    return this.sendTransaction({
+      cadence: transactions.setupMembershipDefinitionCollection,
+    });
+  }
+
+  public async claimMembership(
+    options: ClaimMembershipOptions
+  ): Promise<unknown> {
+    return this.sendTransaction({
+      cadence: transactions.claimMembership,
+      args: (arg: any, t: any) => [
+        arg(options.adminAddress, t.Address),
+        arg(Number(options.membershipDefinitionId), t.UInt64),
+        arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
+        arg(options.fungibleTokenStoragePath, t.String),
+      ],
+    });
+  }
+
+  public async createMembership(
+    definition: Omit<MembershipDefinition, "id">
+  ): Promise<unknown> {
+    return this.sendTransaction({
+      cadence: transactions.createMembership,
+      args: (arg: any, t: any) => [
+        arg(definition.name, t.String),
+        arg(definition.description, t.String),
+        arg(definition.thumbnail, t.String),
+        arg(Number(definition.expirationInterval).toFixed(1), t.UFix64),
+        arg(Number(definition.maxSupply), t.UInt64),
+        arg(Number(definition.requirement.price).toFixed(1), t.UFix64),
+        arg(definition.requirement.contractName, t.String),
+        arg(definition.requirement.contractAddress, t.Address),
+      ],
+    });
+  }
+
   public async getFlowBalance(address: string): Promise<number> {
     return fcl
       .send([
@@ -67,78 +118,52 @@ export class FlowService {
       .then(Number);
   }
 
-  // TODO: Can we setup and claim membership in a single transaction?
-  // See how this is done at .find:
-  // https://github.com/findonflow/find/blob/main/transactions/createProfile.cdc
-  public async setupAccount() {
-    const transactionId = await fcl.mutate({
-      cadence: transactions.setupAccount,
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 50,
-    });
-    return { transactionId };
-  }
-
-  public async sendClaimMembershipTransaction(
-    options: ClaimMembershipOptions
-  ): Promise<{ transactionId: string }> {
-    const transactionId = await fcl.mutate({
-      cadence: transactions.claimMembership,
-      args: (arg: any, t: any) => [
-        arg(options.adminAddress, t.Address),
-        arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
-        arg(options.fungibleTokenStoragePath, t.String),
-      ],
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 100,
-    });
-    return { transactionId };
-  }
-
-  public async sendDefineMembershipTransaction(
-    options: DefineMembershipOptions
-  ): Promise<{ transactionId: string }> {
-    const transactionId = await fcl.mutate({
-      cadence: transactions.defineMembership,
-      args: (arg: any, t: any) => [
-        arg(options.name, t.String),
-        arg(Number(options.expirationInterval).toFixed(1), t.UFix64),
-        arg(Number(options.flowPrice).toFixed(1), t.UFix64),
-      ],
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 100,
-    });
-    return { transactionId };
-  }
-
-  public async getMemberships(address: string): Promise<MembershipNFT[]> {
-    return fcl
-      .send([
-        fcl.script(scripts.getMembershipNFTs),
-        fcl.args([fcl.arg(address, type.Address)]),
-      ])
-      .then(fcl.decode);
-  }
-
-  public async getMembershipDefinition(
+  public async getMembershipsByAccount(
     address: string
-  ): Promise<MembershipDefinition> {
+  ): Promise<MembershipNFT[]> {
     return fcl
       .send([
-        fcl.script(scripts.getMembershipDefinition),
+        fcl.script(scripts.getMembershipsByAccount),
         fcl.args([fcl.arg(address, type.Address)]),
       ])
       .then(fcl.decode);
   }
 
-  public async waitForSealedStatus(transactionId: string) {
-    return fcl.tx(transactionId).onceSealed();
+  public async getMembershipDefinitionsByAdmin(
+    adminAddress: string
+  ): Promise<MembershipDefinition[]> {
+    return fcl
+      .send([
+        fcl.script(scripts.getMembershipDefinitionsByAdmin),
+        fcl.args([fcl.arg(adminAddress, type.Address)]),
+      ])
+      .then(fcl.decode);
+  }
+
+  private async sendTransaction(
+    options: Record<string, unknown>
+  ): Promise<TransactionResult> {
+    const transactionId = await fcl.mutate({
+      proposer: fcl.currentUser,
+      payer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 100,
+      ...options,
+    });
+    try {
+      await fcl.tx(transactionId).onceSealed();
+      return {
+        transactionId,
+        error: null,
+      };
+    } catch (rawError) {
+      return {
+        transactionId,
+        error: {
+          raw: String(rawError),
+        },
+      };
+    }
   }
 
   private getFlowTokenAddress(env: AppEnvironment) {

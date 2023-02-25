@@ -24,9 +24,4 @@ const Navigation = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  & > img {
-    max-width: 150px;
-    width: 100%;
-  }
 `;

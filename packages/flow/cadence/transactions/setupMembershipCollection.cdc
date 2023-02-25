@@ -21,7 +21,11 @@ transaction {
         signer.save(<-collection, to: Membership.CollectionStoragePath)
 
         // create a public capability for the collection
-        signer.link<&{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
+        signer.link<&{
+            Membership.MembershipNFTCollectionPublic,
+            NonFungibleToken.CollectionPublic,
+            MetadataViews.ResolverCollection
+        }>(
             Membership.CollectionPublicPath,
             target: Membership.CollectionStoragePath
         )

@@ -1,17 +1,11 @@
 import "MembershipRequirement"
-import "MembershipDefinition"
 import NonFungibleToken from 0xf8d6e0586b0a20c7
 import FungibleToken from 0xee82856bf20e2aa6
 import MetadataViews from 0xf8d6e0586b0a20c7
 
-pub contract Membership: NonFungibleToken {
-
-    /// Total supply of all membrship NFTs
+pub contract MembershipDefinition: NonFungibleToken {
+    /// Total supply of all membership definition NFTs
     pub var totalSupply: UInt64
-    /// Total supply of MembershipDefinition NFTs
-    pub var totalDefinitionSupply: UInt64
-    /// Total supply of membership NFT per each membership definition ID
-    pub var totalMembershipSupplyPerDefinition: {UInt64: UInt64}
 
     /// The event that is emitted when the contract is created
     pub event ContractInitialized()
@@ -26,17 +20,20 @@ pub contract Membership: NonFungibleToken {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
 
-    /// Membership definition Storage and Public Paths
-    pub let DefinitionStoragePath: StoragePath
-    pub let DefinitionPublicPath: PublicPath
 
-    /// The core resource that represents a Non Fungible Token.
-    /// New instances will be created using the NFTMinter resource
-    /// and stored in the Collection resource
-    ///
+    pub struct RequirementDefinition {
+        pub let price: UFix64
+        pub let contractName: String
+        pub let contractAddress: Address
+
+        init(price: UFix64, contractName: String, contractAddress: Address) {
+            self.price = price
+            self.contractName = contractName
+            self.contractAddress = contractAddress
+        }
+    }
+
     pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
-
-        /// The unique ID that each NFT has
         pub let id: UInt64
 
         /// Metadata fields
@@ -45,8 +42,10 @@ pub contract Membership: NonFungibleToken {
         pub let thumbnail: String
         access(self) let metadata: {String: AnyStruct}
 
-        pub var adminAddress: Address
-        pub var validUntilTimestamp: UFix64
+        // Expiration interval in milliseconds
+        pub var expirationInterval: UFix64
+        pub var maxSupply: UInt64
+        pub var requirement: RequirementDefinition
 
         init(
             id: UInt64,
@@ -54,22 +53,19 @@ pub contract Membership: NonFungibleToken {
             description: String,
             thumbnail: String,
             metadata: {String: AnyStruct},
-            validUntilTimestamp: UFix64,
-            adminAddress: Address,
+            expirationInterval: UFix64,
+            maxSupply: UInt64,
+            requirement: RequirementDefinition
         ) {
             self.id = id
             self.name = name
             self.description = description
             self.thumbnail = thumbnail
             self.metadata = metadata
-            self.validUntilTimestamp = validUntilTimestamp
-            self.adminAddress = adminAddress
+            self.expirationInterval = expirationInterval
+            self.maxSupply = maxSupply
+            self.requirement = requirement
         }
-
-         pub fun isValid(): Bool {
-             let currentTimestamp = getCurrentBlock().timestamp
-             return self.validUntilTimestamp < currentTimestamp
-         }
 
         /// Function that returns all the Metadata Views implemented by a Non Fungible Token
         ///
@@ -77,7 +73,6 @@ pub contract Membership: NonFungibleToken {
         ///         developers to know which parameter to pass to the resolveView() method.
         ///
         pub fun getViews(): [Type] {
-            // TODO: Implement metadata views
             return []
         }
 
@@ -87,19 +82,18 @@ pub contract Membership: NonFungibleToken {
         /// @return A structure representing the requested view.
         ///
         pub fun resolveView(_ view: Type): AnyStruct? {
-            // TODO: Implement metadata view resolution
             return nil
         }
     }
 
-    pub resource interface MembershipNFTCollectionPublic {
+    pub resource interface MembershipDefinitionNFTCollectionPublic {
         pub fun deposit(token: @NonFungibleToken.NFT)
         pub fun getIDs(): [UInt64]
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
-        pub fun borrowMembershipNFT(id: UInt64): &NFT? {
+        pub fun borrowMembershipDefinitionNFT(id: UInt64): &NFT? {
             post {
                 (result == nil) || (result?.id == id):
-                    "Cannot borrow Membership NFT reference: the ID of the returned reference is incorrect"
+                    "Cannot borrow Membership definition NFT reference: the ID of the returned reference is incorrect"
             }
         }
     }
@@ -108,7 +102,7 @@ pub contract Membership: NonFungibleToken {
     /// In order to be able to manage NFTs any account will need to create
     /// an empty collection first
     ///
-    pub resource Collection: MembershipNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
+    pub resource Collection: MembershipDefinitionNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
@@ -123,7 +117,6 @@ pub contract Membership: NonFungibleToken {
         /// @return The NFT resource that has been taken out of the collection
         ///
         pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
-            // TODO: Should we disallow withdrawal?
             let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
 
             emit Withdraw(id: token.id, from: self.owner?.address)
@@ -136,7 +129,7 @@ pub contract Membership: NonFungibleToken {
         /// @param token: The NFT resource to be included in the collection
         ///
         pub fun deposit(token: @NonFungibleToken.NFT) {
-            let token <- token as! @Membership.NFT
+            let token <- token as! @NFT
 
             let id: UInt64 = token.id
 
@@ -172,7 +165,7 @@ pub contract Membership: NonFungibleToken {
         /// @param id: The ID of the wanted NFT
         /// @return A reference to the wanted NFT resource
         ///
-        pub fun borrowMembershipNFT(id: UInt64): &NFT? {
+        pub fun borrowMembershipDefinitionNFT(id: UInt64): &NFT? {
             if self.ownedNFTs[id] != nil {
                 // Create an authorized reference to allow downcasting
                 let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
@@ -191,7 +184,7 @@ pub contract Membership: NonFungibleToken {
         ///
         pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
             let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
-            let exampleNFT = nft as! &Membership.NFT
+            let exampleNFT = nft as! &NFT
             return exampleNFT as &AnyResource{MetadataViews.Resolver}
         }
 
@@ -208,77 +201,37 @@ pub contract Membership: NonFungibleToken {
         return <- create Collection()
     }
 
-    // TODO: Add renew/redeem membership function
-    // TODO: Add membership specific events (e.g. renew)
-    // TODO: Pass definition NFT as argument instead?
-    pub fun claimMembership(
-        adminAddress: Address,
-        membershipDefinitionId: UInt64,
-        claimerAddress: Address,
-        claimerVault: @FungibleToken.Vault
+    pub fun create(
+        name: String,
+        description: String,
+        thumbnail: String,
+        expirationInterval: UFix64,
+        maxSupply: UInt64,
+        requirement: RequirementDefinition
     ): @NFT {
-         let membershipDefinitionCollection = getAccount(adminAddress)
-             .getCapability(MembershipDefinition.CollectionPublicPath)
-             .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
-             ?? panic("Could not borrow reference to membership definition collection")
-
-        let definition = membershipDefinitionCollection
-            .borrowMembershipDefinitionNFT(id: membershipDefinitionId)
-            ?? panic("Could not borrow reference to membership definition NFT")
-
-        let requirementAddress = getAccount(definition.requirement.contractAddress)
-
-        let requirementContract = requirementAddress.contracts.borrow<&MembershipRequirement>(
-            name: definition.requirement.contractName
-        )!
-        requirementContract.claimRequirement(
-            claimerAddress: claimerAddress,
-            adminAddress: adminAddress,
-            expectedPrice: definition.requirement.price,
-            claimerVault: <- claimerVault
-        )
-
-        if (self.totalMembershipSupplyPerDefinition[definition.id] == nil) {
-            // Initialize membership supply
-            self.totalMembershipSupplyPerDefinition[definition.id] = 0
-        }
-
-        var currentSupplyForDefinition = self.totalMembershipSupplyPerDefinition[definition.id]!
-
-        if (currentSupplyForDefinition >= definition.maxSupply) {
-            panic("Max membership supply reached")
-        }
-
-        let currentTimestamp = getCurrentBlock().timestamp
-        let membership <- create NFT(
+        let definition <- create NFT(
             id: self.totalSupply,
-            name: definition.name,
-            description: "",
-            thumbnail: "",
+            name: name,
+            description: description,
+            thumbnail: thumbnail,
             metadata: {},
-            validUntilTimestamp: currentTimestamp + definition.expirationInterval,
-            adminAddress: adminAddress
+            expirationInterval: expirationInterval,
+            maxSupply: maxSupply,
+            requirement: requirement
         )
 
-        self.totalMembershipSupplyPerDefinition[definition.id] = currentSupplyForDefinition + UInt64(1)
-        self.totalSupply = self.totalSupply + UInt64(1)
+        self.totalSupply = self.totalSupply + 1
 
-        // TODO: Should we deposit NFT here instead of returning?
-        // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
-        return <- membership
+        return <- definition
     }
 
     init() {
         // Initialize the total supply
         self.totalSupply = 0
-        self.totalDefinitionSupply = 0
-        self.totalMembershipSupplyPerDefinition = {}
 
         // Set the named paths
-        self.CollectionStoragePath = /storage/membership
-        self.CollectionPublicPath = /public/membership
-        self.DefinitionStoragePath = /storage/membership_definition
-        self.DefinitionPublicPath = /public/membership_definition
+        self.CollectionStoragePath = /storage/membership_definition
+        self.CollectionPublicPath = /public/membership_definition
 
         emit ContractInitialized()
     }

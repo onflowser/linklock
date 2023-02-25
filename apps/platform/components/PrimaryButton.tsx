@@ -17,7 +17,7 @@ export function PrimaryButton({ isLoading, children, ...props }: Props) {
 }
 
 const Container = styled.button`
-  background-color: var(--dark-violet-color);
+  background-color: var(--main-dark-color);
   max-width: 250px;
   padding: 1.2rem 1.8rem;
   border-radius: 33px;

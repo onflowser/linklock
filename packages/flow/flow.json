@@ -2,6 +2,7 @@
 	"contracts": {
 		"FlowRequirement": "cadence/contracts/FlowRequirement.cdc",
 		"Membership": "cadence/contracts/Membership.cdc",
+		"MembershipDefinition": "cadence/contracts/MembershipDefinition.cdc",
 		"MembershipRequirement": "cadence/contracts/MembershipRequirement.cdc"
 	},
 	"networks": {
@@ -24,6 +25,7 @@
 			"default": [
 				"FlowRequirement",
 				"Membership",
+				"MembershipDefinition",
 				"MembershipRequirement"
 			]
 		}
