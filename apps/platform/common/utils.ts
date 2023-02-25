@@ -11,3 +11,7 @@ export function isValidWebsiteUrl(url: string) {
 export function round(value: number, precision = 2) {
   return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
 }
+
+export function formatWebsiteUrl(value: string) {
+  return value.replace(/https?:\/\//, "");
+}

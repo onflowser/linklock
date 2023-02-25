@@ -1,14 +1,10 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { PrimaryButton } from "./PrimaryButton";
-import Switch from "react-switch";
-import { colors } from "../common/theme";
-import { HTMLAttributes, useState } from "react";
-import { toast } from "react-hot-toast";
-import Link from "next/link";
-import { TextArea } from "./inputs/Input";
+import { useState } from "react";
 import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
 import { MembershipCheckout } from "@membership/client";
+import { formatWebsiteUrl } from "../common/utils";
 
 export type UserProfileProps = {
   address: string;
@@ -19,16 +15,11 @@ export default function UserProfile({
   nameInfo,
   address
 }: UserProfileProps) {
-  const [recurring, setRecurring] = useState(false);
-  const [flowTeaAmount, setFlowTeaAmount] = useState(0);
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
-  const [message, setMessage] = useState("");
 
   async function onSubmit() {
     setOpenMembershipCheckout(true)
   }
-
-  console.log(nameInfo)
 
   return (
     <Container>
@@ -66,20 +57,6 @@ export default function UserProfile({
             </Shadow>
           )}
 
-          <TransactionStatsContainer>
-            <TransactionStats
-              style={{ marginRight: 10 }}
-              icon="🏆"
-              title="Received donations"
-              value={0}
-            />
-            <TransactionStats
-              style={{ marginLeft: 10 }}
-              icon="💎"
-              title="Sent donations"
-              value={0}
-            />
-          </TransactionStatsContainer>
         </div>
         <Shadow className="buy-flow-tea-form">
           <PrimaryButton
@@ -92,224 +69,6 @@ export default function UserProfile({
         </Shadow>
       </div>
     </Container>
-  );
-}
-
-function RepeatPaymentSwitch({
-  onChange,
-  checked,
-  style,
-  ...props
-}: {
-  onChange: (checked: boolean) => void;
-  checked: boolean;
-} & HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        ...style,
-      }}
-      {...props}
-    >
-      <div>
-        <b style={{ margin: 0 }}>Repeat this payment every month</b>
-        <p style={{ fontSize: 12, margin: 0 }}>
-          Don&apos;t worry, you will get an email to confirm it every month.
-        </p>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          flex: 1,
-        }}
-      >
-        <Switch
-          uncheckedIcon={false}
-          checkedIcon={false}
-          checked={checked}
-          onColor={colors.pink}
-          onHandleColor={colors.white}
-          offColor="#dfdfe1"
-          onChange={onChange}
-        />
-      </div>
-    </div>
-  );
-}
-
-function formatWebsiteUrl(value: string) {
-  return value.replace(/https?:\/\//, "");
-}
-
-function ChooseFlowAmount({
-  onChange,
-  value,
-  amounts = [1, 3, 10],
-}: {
-  onChange: (value: number) => void;
-  value: number;
-  amounts?: number[];
-}) {
-  const [isCustom, setIsCustom] = useState(false);
-  return (
-    <div style={{ display: "flex" }}>
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <img src="/images/flow-tea-cup.svg" alt="" />
-        <X>X</X>
-      </div>
-      <div
-        style={{ flex: 3, display: "flex", justifyContent: "space-between" }}
-      >
-        {amounts.map((flowAmount) => (
-          <FlowAmountButton
-            key={flowAmount}
-            active={!isCustom && flowAmount === value}
-            onClick={() => {
-              onChange(flowAmount);
-              setIsCustom(false);
-            }}
-          >
-            {flowAmount}
-          </FlowAmountButton>
-        ))}
-        <CustomFlowAmountInput
-          active={isCustom}
-          placeholder="X"
-          type="number"
-          onClick={() => setIsCustom(true)}
-          onInput={(e) => onChange(e.currentTarget.valueAsNumber)}
-        />
-      </div>
-    </div>
-  );
-}
-
-const TransactionStatsContainer = styled.div`
-  display: flex;
-  margin-bottom: 50px;
-`;
-
-function TransactionStats({
-  icon,
-  title,
-  value,
-  style,
-  ...props
-}: {
-  icon: string;
-  title: string;
-  value: number;
-} & HTMLAttributes<HTMLDivElement>) {
-  return (
-    <Shadow style={{ flex: 1, ...style }} {...props}>
-      <h4 style={{ textAlign: "center", fontSize: "20px" }}>
-        {icon}
-        <br />
-      </h4>
-      <b
-        style={{ textAlign: "center", display: "block", fontWeight: "normal" }}
-      >
-        {title}
-      </b>
-      <h4 style={{ textAlign: "center", fontSize: "20px" }}>{value}</h4>
-    </Shadow>
-  );
-}
-
-const X = styled.span`
-  color: ${({ theme }) => theme.colors.darkViolet};
-  font-size: 25px;
-  font-weight: bold;
-`;
-
-const Button = css`
-  border: 1px solid ${({ theme }) => theme.colors.darkViolet};
-  border-radius: 3px;
-  width: 76px;
-  height: 68px;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  text-align: center;
-`;
-
-const FlowAmountButton = styled.button<{ active: boolean }>`
-  ${({ active, theme }) =>
-    active
-      ? `
-      background: ${theme.colors.darkViolet};
-      color: white;
-  `
-      : `
-      background: white;
-      color: ${theme.colors.darkViolet};
-  `}
-  ${Button}
-`;
-
-const CustomFlowAmountInput = styled.input<{ active: boolean }>`
-  ${({ active, theme }) =>
-    active
-      ? `
-      background: ${theme.colors.darkViolet};
-      color: white;
-      ::placeholder {
-        color: white;
-      }
-  `
-      : `
-      background: white;
-      color: ${theme.colors.darkViolet};
-  `}
-  ${Button};
-  height: unset;
-
-  ::placeholder {
-    opacity: 0.3;
-  }
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  &[type="number"] {
-    -moz-appearance: textfield;
-  }
-`;
-
-function Transaction({
-  teaCount,
-  fromAddress,
-}: {
-  teaCount: number;
-  fromAddress: string;
-}) {
-  return (
-    <Shadow className="transactions-profil-details">
-      <div className="tea-count">
-        <img src="/images/flow-tea-cup.svg" alt="" />
-        <h4>x</h4>
-        <h4 className="tea-count-number">{teaCount}</h4>
-      </div>
-      <h6 className="address-id">
-        Appreciated by {` `}
-        <Link href={`/${fromAddress}`}>{fromAddress}</Link>
-      </h6>
-    </Shadow>
   );
 }
 
@@ -343,10 +102,6 @@ const Container = styled.div`
     font-weight: 700;
   }
 
-  .bio-and-transactions {
-    flex: 1;
-  }
-
   .bio-profile {
     padding: 50px 30px 50px 30px;
     margin-bottom: 50px;
@@ -364,48 +119,6 @@ const Container = styled.div`
     color: var(--secondary-color);
     text-decoration: none;
     font-weight: 500;
-  }
-
-  .transactions-profil-details {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 20px;
-  }
-
-  .tea-count {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 80px;
-    width: 100%;
-    * {
-      color: var(--dark-violet-color);
-    }
-  }
-
-  .tea-count img {
-    max-width: 30px;
-    width: 100%;
-  }
-
-  .address-id {
-    color: var(--placeholder-text-color);
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    margin-left: 20px;
-  }
-
-  .buy-flow-tea-form {
-    padding: 50px 30px 50px 30px;
-    flex: 1;
-  }
-
-  .buy-flow-tea-form h5 {
-    margin-top: 0;
   }
 
   .profile-photo-main-wrapper {
