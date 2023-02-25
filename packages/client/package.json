@@ -5,7 +5,8 @@
   "types": "src/index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.ts*\""
+    "lint": "eslint \"**/*.ts*\"",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/react": "^18.0.22",

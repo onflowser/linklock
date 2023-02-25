@@ -1,5 +1,5 @@
-@use '../styles/layout';
-@use '../styles/variables';
+@use "../styles/layout";
+@use "../styles/variables";
 
 .step-container {
   @include layout.verticalLayout();
@@ -8,5 +8,3 @@
     margin-bottom: variables.$baseGap;
   }
 }
-
-

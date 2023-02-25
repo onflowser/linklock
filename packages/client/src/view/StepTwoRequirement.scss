@@ -1,10 +1,9 @@
-@use '../styles/layout';
-@use '../styles/typography';
-@use '../styles/colors';
-@use '../styles/variables';
+@use "../styles/layout";
+@use "../styles/typography";
+@use "../styles/colors";
+@use "../styles/variables";
 
 .content-wrapper {
-
   @include layout.paddedBox();
   border-bottom: 1px solid colors.$colorBlack100;
   padding-bottom: variables.$baseGap;
@@ -15,7 +14,7 @@
     padding: 30px variables.$baseGap;
     border: 1px solid colors.$colorMain500;
     border-radius: 15px;
-    background: #657FF710 0 0 no-repeat padding-box;
+    background: #657ff710 0 0 no-repeat padding-box;
     position: relative;
 
     .badge {
@@ -29,7 +28,6 @@
       border-radius: 10px;
       background-color: colors.$colorOrange500;
     }
-
 
     .line-1,
     .line-3 {
@@ -55,7 +53,6 @@
     .line-3 {
       justify-content: space-between;
     }
-
   }
 }
 

@@ -23,7 +23,6 @@ export function StepTwoRequirement({
     membershipDefinition &&
     flowBalance >= Number(membershipDefinition.requirement.price);
 
-
   return (
     <div className="step-container">
       <Header></Header>

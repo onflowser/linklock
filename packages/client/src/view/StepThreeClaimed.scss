@@ -1,7 +1,7 @@
-@use '../styles/layout';
-@use '../styles/typography';
-@use '../styles/colors';
-@use '../styles/variables';
+@use "../styles/layout";
+@use "../styles/typography";
+@use "../styles/colors";
+@use "../styles/variables";
 
 .wrapper {
   @include layout.paddedBox();
@@ -36,14 +36,13 @@
     position: relative;
 
     .membership-name {
-
       @include layout.horizontalLayout();
 
       img {
         width: 70px;
         height: 70px;
         border-radius: 10px;
-        box-shadow: 0px 2px 20px #F8F8F8;
+        box-shadow: 0px 2px 20px #f8f8f8;
       }
 
       p {
@@ -51,7 +50,6 @@
         line-height: typography.$lineSpacingM;
         color: colors.$colorBlack500;
       }
-
 
       &:after {
         content: "";
@@ -82,5 +80,4 @@
       align-items: baseline;
     }
   }
-
 }

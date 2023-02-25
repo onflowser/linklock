@@ -1,15 +1,15 @@
-@use '../styles/variables';
+@use "../styles/variables";
 
-@mixin verticalLayout ($gap: variables.$baseGap) {
+@mixin verticalLayout($gap: variables.$baseGap) {
   display: flex;
   flex-direction: column;
-  gap: $gap
+  gap: $gap;
 }
 
-@mixin horizontalLayout ($gap: variables.$baseGap) {
+@mixin horizontalLayout($gap: variables.$baseGap) {
   display: flex;
   flex-direction: row;
-  gap: $gap
+  gap: $gap;
 }
 
 @mixin paddedBox($padding: variables.$doubleGap) {
