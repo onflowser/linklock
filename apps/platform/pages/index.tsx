@@ -485,146 +485,148 @@ const Home: NextPage = () => {
     await router.push(`/${handle}`);
   }
 
-  return <>
-    <MetaTags title="FlowTea ☕️" />
-    <LandingSection>
-      <CenterTitleBox>
-        <MainHeading>Let your appreciators buy you a Flow tea.</MainHeading>
-        <Subtitle>
-          Start getting founds for your project(s) in FLOW crypto currency.
-          Create your profile and share it to your appreciators. It is easy,
-          free and quick!
-        </Subtitle>
-        <BigInput
-          value={handle}
-          onChange={setHandle}
-          placeholder={".find, .fn name or address"}
-          linkTitle="Go"
-          linkHref=""
-          onClick={goToAddress}
-        />
-      </CenterTitleBox>
-    </LandingSection>
-    <Section
-      bgcolor={theme.colors.lightViolet}
-      color={theme.colors.secondary}
-    >
-      <Column>
-        <SmallRedText>WHAT IS FlowTea?</SmallRedText>
-        <BigHeading>HEY YOU!</BigHeading>
-        <BoldNormal>
-          You have built something really awesome or designed something really
-          beautiful!
-        </BoldNormal>
-        <NormalText>
-          Wouldn’t be nice if everyone, who appreciate your work, would buy
-          you a tea? Now they can! They are not your <s>customers</s>, they
-          are your appreciators 💜
-        </NormalText>
-      </Column>
-      <HeyYouBlobColumn>
-        <BlobImageWrapper>
-          <Image alt="" src={blobImage} fill sizes="100vw" />
-          <TeaCupsWrapper>
-            <div>
-              {[...Array(5)].map((_, i) => (
-                <TeaCupRow key={`_tea_cup_row_${i}`}>
-                  {[...Array(4)].map((__, j) =>
-                    i == 4 - j ? (
-                      <HeartImage key={`_heart_${i}${j}`}>
-                        <Image alt="" src={heartImage} fill sizes="100vw" />
-                      </HeartImage>
-                    ) : (
-                      <TeaCup key={`_tea_cup_${i}${j}`}>
-                        <Image alt="" src={teaCupImage} fill sizes="100vw" />
-                      </TeaCup>
-                    )
-                  )}
-                </TeaCupRow>
-              ))}
-            </div>
-          </TeaCupsWrapper>
-        </BlobImageWrapper>
-      </HeyYouBlobColumn>
-    </Section>
-    <Section bgcolor={theme.colors.secondary} color={theme.colors.white}>
-      <BenefitLeftColumn>
-        <SmallRedText>BUY ME A FLOW TEA.</SmallRedText>
-        <BigHeading style={{ color: "white" }}>AMAZING BENEFITS</BigHeading>
-        <SmallSquare color={theme.colors.primary} />
-        <NormalText style={{ color: "white" }}>
-          You are working hard, and you have a passion for what you do.
-          Wouldn’t it be nice to get some appreciation and even Flow tokens
-          for your project? FlowTea was designed for amazing people who are
-          building awesome projects and for awesome people, who appreciate
-          amazing projects.
-        </NormalText>
-      </BenefitLeftColumn>
-      <ColumnCenterWrapper style={{ flex: 0.9 }}>
-        <BenefitRightColumn>
-          <BenefitCard
-            icon={clapHands}
-            title={"Get paid from your appreciators"}
-            body={
-              "Share your link or widget with your community and your appreciators can support you directly!"
-            }
+  return (
+    <>
+      <MetaTags title="FlowTea ☕️" />
+      <LandingSection>
+        <CenterTitleBox>
+          <MainHeading>Let your appreciators buy you a Flow tea.</MainHeading>
+          <Subtitle>
+            Start getting founds for your project(s) in FLOW crypto currency.
+            Create your profile and share it to your appreciators. It is easy,
+            free and quick!
+          </Subtitle>
+          <BigInput
+            value={handle}
+            onChange={setHandle}
+            placeholder={".find, .fn name or address"}
+            linkTitle="Go"
+            linkHref=""
+            onClick={goToAddress}
           />
-          <BenefitCard
-            icon={freeIcon}
-            title={"It is FREE!"}
-            body={
-              "There is no membership you would have to pay! There is only 5% fee on the transaction, you know, for our tea."
-            }
-          />
-          <BenefitCard
-            icon={flowIcon}
-            title={"Get paid in FLOW"}
-            body={
-              "You will get your FLOW tokens directly on your FLOW address. Isn’t that awesome?"
-            }
-          />
-          <BenefitCard
-            icon={recurringPaymentIcon}
-            title={"Recurring Payments"}
-            body={
-              "Your appreciators can support you or your project monthly! With the Recurring Payment possibility, the same amount of Flow tokens can be transferred each month!"
-            }
-          />
-        </BenefitRightColumn>
-      </ColumnCenterWrapper>
-    </Section>
-    <Section color={theme.colors.white} bgcolor={theme.colors.darkViolet}>
-      <HWorkLeftColumn>
-        <SmallRedText style={{ color: theme.colors.white }}>
-          4 SIMPLE STEPS.
-        </SmallRedText>
-        <BigHeading style={{ color: theme.colors.darkBlue }}>
-          HOW DOES IT WORK?
-        </BigHeading>
-        <SmallSquare color={theme.colors.darkBlue} />
-        <NormalText>
-          It could not be easier! Create your profile, add your FLOW address
-          and share your link or the widget. When you will get the support
-          from your appreciator, the amount will be send on your FLOW address.
-        </NormalText>
-      </HWorkLeftColumn>
-      <HWorkRightColumn>
-        <StepsWrapper>
-          <Steps>
-            <Step num={1} text={"Create your page"} />
-            <Step num={2} text={"Connect your wallet"} />
-            <Step num={3} text={"Share your link"} />
-            <Step num={4} text={"Get your FLOW tokens"} />
-          </Steps>
-          <TeaImageWrapper>
-            <TeaImage>
-              <Image alt="" src={teaImage} fill sizes="100vw" />
-            </TeaImage>
-          </TeaImageWrapper>
-        </StepsWrapper>
-      </HWorkRightColumn>
-    </Section>
-  </>;
+        </CenterTitleBox>
+      </LandingSection>
+      <Section
+        bgcolor={theme.colors.lightViolet}
+        color={theme.colors.secondary}
+      >
+        <Column>
+          <SmallRedText>WHAT IS FlowTea?</SmallRedText>
+          <BigHeading>HEY YOU!</BigHeading>
+          <BoldNormal>
+            You have built something really awesome or designed something really
+            beautiful!
+          </BoldNormal>
+          <NormalText>
+            Wouldn’t be nice if everyone, who appreciate your work, would buy
+            you a tea? Now they can! They are not your <s>customers</s>, they
+            are your appreciators 💜
+          </NormalText>
+        </Column>
+        <HeyYouBlobColumn>
+          <BlobImageWrapper>
+            <Image alt="" src={blobImage} fill sizes="100vw" />
+            <TeaCupsWrapper>
+              <div>
+                {[...Array(5)].map((_, i) => (
+                  <TeaCupRow key={`_tea_cup_row_${i}`}>
+                    {[...Array(4)].map((__, j) =>
+                      i == 4 - j ? (
+                        <HeartImage key={`_heart_${i}${j}`}>
+                          <Image alt="" src={heartImage} fill sizes="100vw" />
+                        </HeartImage>
+                      ) : (
+                        <TeaCup key={`_tea_cup_${i}${j}`}>
+                          <Image alt="" src={teaCupImage} fill sizes="100vw" />
+                        </TeaCup>
+                      )
+                    )}
+                  </TeaCupRow>
+                ))}
+              </div>
+            </TeaCupsWrapper>
+          </BlobImageWrapper>
+        </HeyYouBlobColumn>
+      </Section>
+      <Section bgcolor={theme.colors.secondary} color={theme.colors.white}>
+        <BenefitLeftColumn>
+          <SmallRedText>BUY ME A FLOW TEA.</SmallRedText>
+          <BigHeading style={{ color: "white" }}>AMAZING BENEFITS</BigHeading>
+          <SmallSquare color={theme.colors.primary} />
+          <NormalText style={{ color: "white" }}>
+            You are working hard, and you have a passion for what you do.
+            Wouldn’t it be nice to get some appreciation and even Flow tokens
+            for your project? FlowTea was designed for amazing people who are
+            building awesome projects and for awesome people, who appreciate
+            amazing projects.
+          </NormalText>
+        </BenefitLeftColumn>
+        <ColumnCenterWrapper style={{ flex: 0.9 }}>
+          <BenefitRightColumn>
+            <BenefitCard
+              icon={clapHands}
+              title={"Get paid from your appreciators"}
+              body={
+                "Share your link or widget with your community and your appreciators can support you directly!"
+              }
+            />
+            <BenefitCard
+              icon={freeIcon}
+              title={"It is FREE!"}
+              body={
+                "There is no membership-card you would have to pay! There is only 5% fee on the transaction, you know, for our tea."
+              }
+            />
+            <BenefitCard
+              icon={flowIcon}
+              title={"Get paid in FLOW"}
+              body={
+                "You will get your FLOW tokens directly on your FLOW address. Isn’t that awesome?"
+              }
+            />
+            <BenefitCard
+              icon={recurringPaymentIcon}
+              title={"Recurring Payments"}
+              body={
+                "Your appreciators can support you or your project monthly! With the Recurring Payment possibility, the same amount of Flow tokens can be transferred each month!"
+              }
+            />
+          </BenefitRightColumn>
+        </ColumnCenterWrapper>
+      </Section>
+      <Section color={theme.colors.white} bgcolor={theme.colors.darkViolet}>
+        <HWorkLeftColumn>
+          <SmallRedText style={{ color: theme.colors.white }}>
+            4 SIMPLE STEPS.
+          </SmallRedText>
+          <BigHeading style={{ color: theme.colors.darkBlue }}>
+            HOW DOES IT WORK?
+          </BigHeading>
+          <SmallSquare color={theme.colors.darkBlue} />
+          <NormalText>
+            It could not be easier! Create your profile, add your FLOW address
+            and share your link or the widget. When you will get the support
+            from your appreciator, the amount will be send on your FLOW address.
+          </NormalText>
+        </HWorkLeftColumn>
+        <HWorkRightColumn>
+          <StepsWrapper>
+            <Steps>
+              <Step num={1} text={"Create your page"} />
+              <Step num={2} text={"Connect your wallet"} />
+              <Step num={3} text={"Share your link"} />
+              <Step num={4} text={"Get your FLOW tokens"} />
+            </Steps>
+            <TeaImageWrapper>
+              <TeaImage>
+                <Image alt="" src={teaImage} fill sizes="100vw" />
+              </TeaImage>
+            </TeaImageWrapper>
+          </StepsWrapper>
+        </HWorkRightColumn>
+      </Section>
+    </>
+  );
 };
 
 export default Home;

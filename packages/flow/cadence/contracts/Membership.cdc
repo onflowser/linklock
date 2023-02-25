@@ -208,8 +208,8 @@ pub contract Membership: NonFungibleToken {
         return <- create Collection()
     }
 
-    // TODO: Add renew/redeem membership function
-    // TODO: Add membership specific events (e.g. renew)
+    // TODO: Add renew/redeem membership-card function
+    // TODO: Add membership-card specific events (e.g. renew)
     // TODO: Pass definition NFT as argument instead?
     pub fun claimMembership(
         adminAddress: Address,
@@ -239,7 +239,7 @@ pub contract Membership: NonFungibleToken {
         )
 
         if (self.totalMembershipSupplyPerDefinition[definition.id] == nil) {
-            // Initialize membership supply
+            // Initialize membership-card supply
             self.totalMembershipSupplyPerDefinition[definition.id] = 0
         }
 

@@ -4,7 +4,6 @@ import { useFlow } from "./providers/flow.provider";
 import {
   useGetMemberships,
   useGetMembershipDefinitionsByAdmin,
-  useFlowBalance,
 } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
 import "./index.scss";
@@ -34,10 +33,9 @@ export function MembershipCheckout({
   onCloseModal,
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
-  const { data: flowBalance } = useFlowBalance(currentUser?.address);
   const { data: membershipDefinitions, error: membershipDefinitionError } =
     useGetMembershipDefinitionsByAdmin(adminAddress);
-  // TODO: Handle transaction errors
+  // TODO: Handle errors
   const {
     data: ownedMemberships,
     error: membershipError,
@@ -53,7 +51,7 @@ export function MembershipCheckout({
 
   useEffect(() => {
     if (ownedTargetMembership) {
-      setCheckoutStep(CheckoutStep.CLAIMED);
+      // setCheckoutStep(CheckoutStep.CLAIMED);
     }
   }, [ownedMemberships]);
 
@@ -81,65 +79,42 @@ export function MembershipCheckout({
   function onDone() {}
 
   function renderStep() {
-    switch (checkoutStep) {
-      case CheckoutStep.PREVIEW:
-        return (
-          <StepOnePreview
-            onClick={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}
-          ></StepOnePreview>
-          // <div>
-          //   <pre>{JSON.stringify(membershipDefinition, null, 4)}</pre>
-          //   <button onClick={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}>
-          //     Next
-          //   </button>
-          // </div>
-        );
-      case CheckoutStep.REQUIREMENT:
-        const hasSufficientBalance =
-          flowBalance &&
-          membershipDefinition &&
-          flowBalance >= Number(membershipDefinition.requirement.price);
-        // return (
-        //   <div>
-        //     <p>Flow balance: {flowBalance}</p>
-        //     <p>
-        //       {hasSufficientBalance
-        //         ? "Sufficient balance"
-        //         : "Insufficient balance"}
-        //     </p>
-        //     <button onClick={onClaimRequirement}>Claim</button>
-        //   </div>
-        // );
-        return (
-          <StepTwoRequirement onClick={onClaimRequirement}></StepTwoRequirement>
-        );
-      case CheckoutStep.CLAIMED:
-        // return <pre>{JSON.stringify(ownedTargetMembership, null, 4)}</pre>;
-        return (
-          <StepThreeClaimed
-            onClick={onDone}
-            thumb={
-              "https://www.visme.co/wp-content/uploads/2021/06/Thumbnail-maker-share.jpg"
-            }
-            name={"Membership name"}
-          ></StepThreeClaimed>
-        );
-
-      default:
-        return <></>;
-    }
-  }
-
-  function renderModalContent() {
     if (membershipDefinitionError) {
       return `Error loading membership definition: ${JSON.stringify(
         membershipDefinitionError
       )}`;
     }
     if (!membershipDefinition) {
-      return "Loading...";
+      return "No membership-card definition";
     }
-    return renderStep();
+    switch (checkoutStep) {
+      case CheckoutStep.PREVIEW:
+        return (
+          <StepOnePreview
+            membershipDefinition={membershipDefinition}
+            onCompleteStep={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}
+          />
+        );
+      case CheckoutStep.REQUIREMENT:
+        return (
+          <StepTwoRequirement
+            membershipDefinition={membershipDefinition}
+            onCompleteStep={onClaimRequirement}
+          />
+        );
+      case CheckoutStep.CLAIMED:
+        return ownedTargetMembership ? (
+          <StepThreeClaimed
+            onCompleteStep={onDone}
+            membership={ownedTargetMembership}
+          />
+        ) : (
+          "Loading..."
+        );
+
+      default:
+        return <></>;
+    }
   }
 
   function onRequestClose() {
@@ -152,7 +127,7 @@ export function MembershipCheckout({
       onRequestClose={onRequestClose}
       maxWidth={"525px"}
     >
-      {renderModalContent()}
+      {renderStep()}
     </CenterModal>
   );
 }
