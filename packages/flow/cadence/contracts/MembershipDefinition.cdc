@@ -87,6 +87,9 @@ pub contract MembershipDefinition: NonFungibleToken {
     }
 
     pub resource interface MembershipDefinitionNFTCollectionPublic {
+        pub fun deposit(token: @NonFungibleToken.NFT)
+        pub fun getIDs(): [UInt64]
+        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
         pub fun borrowMembershipDefinitionNFT(id: UInt64): &NFT? {
             post {
                 (result == nil) || (result?.id == id):
