@@ -66,16 +66,18 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
         <RightDetails>
           <Carousel
             showArrows={true}
+            showStatus={false}
             onChange={console.log}
             onClickItem={console.log}
             onClickThumb={console.log}
           >
             {membershipDefinitions?.map((definition) => (
-              <div>
+              <div style={{ height: 200, marginLeft: 20, marginRight: 20 }}>
+                <span>{definition.name}</span>
                 <PrimaryButton
                   isLoading={false}
                   onClick={() => {
-                    setSelectedMembershipId(definition.id);
+                    setSelectedMembershipId(+definition.id);
                     setOpenMembershipCheckout(true);
                   }}
                   style={{ width: "100%", maxWidth: "unset" }}
@@ -117,7 +119,7 @@ const Shadow = styled.div`
 
 const DetailsCard = styled(Shadow)`
   display: flex;
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
 `;
 
