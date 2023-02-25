@@ -28,6 +28,8 @@ export default function UserProfile({
     setOpenMembershipCheckout(true)
   }
 
+  console.log(nameInfo)
+
   return (
     <Container>
 
@@ -45,12 +47,11 @@ export default function UserProfile({
         >
           {address}
         </a>
-        {/* TODO: Adapt */}
-        {/*{info?.websiteUrl && (*/}
-        {/*  <a target="_blank" href={info?.websiteUrl} rel="noreferrer">*/}
-        {/*    {formatWebsiteUrl(info?.websiteUrl)}*/}
-        {/*  </a>*/}
-        {/*)}*/}
+        {nameInfo?.websiteUrl && (
+          <a target="_blank" href={nameInfo.websiteUrl} rel="noreferrer">
+            {formatWebsiteUrl(nameInfo.websiteUrl)}
+          </a>
+        )}
       </div>
 
       <div

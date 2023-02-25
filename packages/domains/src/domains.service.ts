@@ -133,7 +133,7 @@ export class DomainsService {
 
     // TODO: What are the possible link types?
     const twitterLink = find?.links.find(link => link.type === "twitter");
-    const websiteLink = find?.links.find(link => link.type === "global");
+    const websiteLink = find?.links.find(link => link.type === "globe");
 
     return {
       address: find?.address ?? flowns?.owner!,
