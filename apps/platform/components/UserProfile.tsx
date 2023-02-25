@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PrimaryButton } from "./PrimaryButton";
-import { useState } from "react";
+import React, { useState } from "react";
 import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
 import {
@@ -11,6 +11,8 @@ import { formatWebsiteUrl } from "../common/utils";
 import { SizedBox } from "@membership/client/src/core/SizedBox";
 import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export type UserProfileProps = {
   address: string;
@@ -19,19 +21,23 @@ export type UserProfileProps = {
 
 export default function UserProfile({ nameInfo, address }: UserProfileProps) {
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
-  const { data: membershipDefinition } = useGetMembershipDefinition(address);
-
-  async function onSubmit() {
-    setOpenMembershipCheckout(true);
-  }
+  const [selectedMembershipId, setSelectedMembershipId] = useState<number>();
+  const { data: membershipDefinitions } =
+    useGetMembershipDefinitionsByAdmin(address);
 
   return (
     <Container>
-      <MembershipCheckout
-        adminAddress={address}
-        isOpenModal={openMembershipCheckout}
-        onCloseModal={() => setOpenMembershipCheckout(false)}
-      />
+      {selectedMembershipId !== undefined && (
+        <MembershipCheckout
+          membershipDefinitionId={selectedMembershipId}
+          adminAddress={address}
+          isOpenModal={openMembershipCheckout}
+          onCloseModal={() => {
+            setOpenMembershipCheckout(false);
+            setSelectedMembershipId(undefined);
+          }}
+        />
+      )}
 
       <SizedBox backgroundColor="var(--main-dark-color)" height={200} />
 
@@ -58,19 +64,27 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
           )}
         </LeftDetails>
         <RightDetails>
-          {membershipDefinition ? (
-            <div>
-              <PrimaryButton
-                isLoading={false}
-                onClick={onSubmit}
-                style={{ width: "100%", maxWidth: "unset" }}
-              >
-                Buy Membership
-              </PrimaryButton>
-            </div>
-          ) : (
-            <div>No membership found</div>
-          )}
+          <Carousel
+            showArrows={true}
+            onChange={console.log}
+            onClickItem={console.log}
+            onClickThumb={console.log}
+          >
+            {membershipDefinitions?.map((definition) => (
+              <div>
+                <PrimaryButton
+                  isLoading={false}
+                  onClick={() => {
+                    setSelectedMembershipId(definition.id);
+                    setOpenMembershipCheckout(true);
+                  }}
+                  style={{ width: "100%", maxWidth: "unset" }}
+                >
+                  Buy Membership
+                </PrimaryButton>
+              </div>
+            ))}
+          </Carousel>
         </RightDetails>
       </DetailsCard>
     </Container>
