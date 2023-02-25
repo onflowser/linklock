@@ -203,28 +203,70 @@ pub contract Membership: NonFungibleToken {
         }
     }
 
-    pub resource MembershipDefinition {
-        // TODO: Should we let communities define collection storage path?
-        // I think yes, and we should also allow communities to define max NFTs that can be claimed.
-        pub var name: String
+    pub resource MembershipDefinition: NonFungibleToken.INFT, MetadataViews.Resolver {
+        pub let id: UInt64
+
+        /// Metadata fields
+        pub let name: String
+        pub let description: String
+        pub let thumbnail: String
+        access(self) let metadata: {String: AnyStruct}
+
         // Expiration interval in milliseconds
         pub var expirationInterval: UFix64
+
         pub var requirement: RequirementDefinition
 
-        init(name: String, expirationInterval: UFix64, requirement: RequirementDefinition) {
+        init(
+            id: UInt64,
+            name: String,
+            description: String,
+            thumbnail: String,
+            metadata: {String: AnyStruct},
+            expirationInterval: UFix64,
+            requirement: RequirementDefinition
+        ) {
+            self.id = id
             self.name = name
+            self.description = description
+            self.thumbnail = thumbnail
+            self.metadata = metadata
             self.expirationInterval = expirationInterval
             self.requirement = requirement
+        }
+
+        /// Function that returns all the Metadata Views implemented by a Non Fungible Token
+        ///
+        /// @return An array of Types defining the implemented views. This value will be used by
+        ///         developers to know which parameter to pass to the resolveView() method.
+        ///
+        pub fun getViews(): [Type] {
+            return []
+        }
+
+        /// Function that resolves a metadata view for this token.
+        ///
+        /// @param view: The Type of the desired view.
+        /// @return A structure representing the requested view.
+        ///
+        pub fun resolveView(_ view: Type): AnyStruct? {
+            return nil
         }
     }
 
     pub fun defineMembership(
         name: String,
+        description: String,
+        thumbnail: String,
         expirationInterval: UFix64,
         requirement: RequirementDefinition
     ): @MembershipDefinition {
         return <- create MembershipDefinition(
+            id: 0, // TODO: Generate unique ID
             name: name,
+            description: description,
+            thumbnail: thumbnail,
+            metadata: {},
             expirationInterval: expirationInterval,
             requirement: requirement
         )
@@ -232,6 +274,7 @@ pub contract Membership: NonFungibleToken {
 
     // TODO: Add renew/redeem membership function
     // TODO: Add membership specific events (e.g. renew)
+    // TODO: Also allow communities to define max NFTs that can be claimed.
     pub fun claimMembership(
         adminAddress: Address,
         claimerAddress: Address,
