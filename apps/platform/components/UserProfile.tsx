@@ -120,13 +120,32 @@ const Shadow = styled.div`
 const DetailsCard = styled(Shadow)`
   display: flex;
   max-width: 1000px;
+  height: 500px;
   margin: auto;
+  position: relative;
+  &:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-radius: 20px;
+    height: 100%;
+    opacity: 0.8;
+    background-image: url("/images/background.jpg");
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+  }
 `;
 
 const LeftDetails = styled.div`
   flex: 1;
+  z-index: 1;
 `;
 
 const RightDetails = styled.div`
   flex: 1;
+  z-index: 1;
 `;
