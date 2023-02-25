@@ -86,11 +86,20 @@ pub contract MembershipDefinition: NonFungibleToken {
         }
     }
 
+    pub resource interface MembershipDefinitionNFTCollectionPublic {
+        pub fun borrowMembershipDefinitionNFT(id: UInt64): &NFT? {
+            post {
+                (result == nil) || (result?.id == id):
+                    "Cannot borrow Membership definition NFT reference: the ID of the returned reference is incorrect"
+            }
+        }
+    }
+
     /// The resource that will be holding the NFTs inside any account.
     /// In order to be able to manage NFTs any account will need to create
     /// an empty collection first
     ///
-    pub resource Collection: NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
+    pub resource Collection: MembershipDefinitionNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
@@ -145,6 +154,22 @@ pub contract MembershipDefinition: NonFungibleToken {
         ///
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
             return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
+        }
+
+        /// Gets a reference to an NFT in the collection so that
+        /// the caller can read its metadata and call its methods
+        ///
+        /// @param id: The ID of the wanted NFT
+        /// @return A reference to the wanted NFT resource
+        ///
+        pub fun borrowMembershipDefinitionNFT(id: UInt64): &NFT? {
+            if self.ownedNFTs[id] != nil {
+                // Create an authorized reference to allow downcasting
+                let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+                return ref as! &NFT
+            }
+
+            return nil
         }
 
         /// Gets a reference to the NFT only conforming to the `{MetadataViews.Resolver}`
