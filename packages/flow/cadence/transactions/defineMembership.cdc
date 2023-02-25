@@ -1,4 +1,5 @@
 import MembershipDefinition from 0xf3fcd2c1a78f5eee
+import NonFungibleToken from 0xf8d6e0586b0a20c7
 
 transaction(
     name: String,
@@ -12,33 +13,36 @@ transaction(
 ) {
     let signer: AuthAccount
 
+    /// Reference to the receiver's collection
+    let claimerCollectionRef: &{NonFungibleToken.CollectionPublic}
+
     prepare(signer: AuthAccount) {
         self.signer = signer
+
+        self.claimerCollectionRef = getAccount(signer.address)
+            .getCapability(MembershipDefinition.CollectionPublicPath)
+            .borrow<&{NonFungibleToken.CollectionPublic}>()
+            ?? panic("Could not get claimer reference to the NFT Collection")
     }
 
     pre {}
 
     execute {
-        // TODO: Handle case when collection is already in storage
-        self.signer.save<@MembershipDefinition.NFT>(
-            <-MembershipDefinition.create(
-                name: name,
-                description: description,
-                thumbnail: thumbnail,
-                expirationInterval: expirationInterval,
-                maxSupply: maxSupply,
-                requirement: MembershipDefinition.RequirementDefinition(
-                    price: requirementPrice,
-                    contractName: requirementContractName,
-                    contractAddress: requirementContractAddress
-                )
-            ),
-            to: MembershipDefinition.CollectionStoragePath
+        // TODO: rename defineMembership to createMembership
+        // TODO: Rename getMembershipNFTs to getMemberships
+        let membershipDefinition <- MembershipDefinition.create(
+            name: name,
+            description: description,
+            thumbnail: thumbnail,
+            expirationInterval: expirationInterval,
+            maxSupply: maxSupply,
+            requirement: MembershipDefinition.RequirementDefinition(
+                price: requirementPrice,
+                contractName: requirementContractName,
+                contractAddress: requirementContractAddress
+            )
         )
-        self.signer.link<&MembershipDefinition.NFT>(
-            MembershipDefinition.CollectionPublicPath,
-            target: MembershipDefinition.CollectionStoragePath
-        )
+        self.claimerCollectionRef.deposit(token: <- membershipDefinition)
     }
 
     post {}

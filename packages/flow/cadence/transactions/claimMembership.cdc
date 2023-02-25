@@ -1,8 +1,6 @@
 import Membership from 0xf3fcd2c1a78f5eee
 import FungibleToken from 0xee82856bf20e2aa6
 import NonFungibleToken from 0xf8d6e0586b0a20c7
-import FlowToken from 0x0ae53cb6e3f42a79
-import MetadataViews from 0xf8d6e0586b0a20c7
 
 transaction(
     adminAddress: Address,
@@ -32,7 +30,7 @@ transaction(
         self.claimerCollectionRef = getAccount(signer.address)
             .getCapability(Membership.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic}>()
-            ?? panic("Could not get claimer reference to the NFT Collection")
+            ?? panic("Could not get claimer reference to the membership NFT Collection")
     }
 
     pre {}
