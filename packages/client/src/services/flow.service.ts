@@ -15,6 +15,15 @@ export type ClaimMembershipOptions = {
   fungibleTokenStoragePath: string;
 };
 
+export type TransactionError = {
+  raw: string;
+};
+
+export type TransactionResult = {
+  transactionId: string;
+  error: null | TransactionError;
+};
+
 export class FlowService {
   private static instance: FlowService;
 
@@ -52,45 +61,25 @@ export class FlowService {
     fcl.currentUser.subscribe(onChanged);
   }
 
-  public async getFlowBalance(address: string): Promise<number> {
-    return fcl
-      .send([
-        fcl.script(scripts.getFlowTokenBalance),
-        fcl.args([fcl.arg(address, type.Address)]),
-      ])
-      .then(fcl.decode)
-      .then(Number);
-  }
-
   // TODO: Can we setup and claim membership in a single transaction?
   // See how this is done at .find:
   // https://github.com/findonflow/find/blob/main/transactions/createProfile.cdc
   public async setupMembershipCollection() {
-    const transactionId = await fcl.mutate({
+    return this.sendTransaction({
       cadence: transactions.setupMembershipCollection,
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 50,
     });
-    return { transactionId };
   }
 
   public async setupMembershipDefinitionCollection() {
-    const transactionId = await fcl.mutate({
+    return this.sendTransaction({
       cadence: transactions.setupMembershipDefinitionCollection,
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 50,
     });
-    return { transactionId };
   }
 
-  public async sendClaimMembershipTransaction(
+  public async claimMembership(
     options: ClaimMembershipOptions
-  ): Promise<{ transactionId: string }> {
-    const transactionId = await fcl.mutate({
+  ): Promise<unknown> {
+    return this.sendTransaction({
       cadence: transactions.claimMembership,
       args: (arg: any, t: any) => [
         arg(options.adminAddress, t.Address),
@@ -98,19 +87,14 @@ export class FlowService {
         arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
         arg(options.fungibleTokenStoragePath, t.String),
       ],
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 100,
     });
-    return { transactionId };
   }
 
-  public async sendDefineMembershipTransaction(
+  public async createMembership(
     definition: Omit<MembershipDefinition, "id">
-  ): Promise<{ transactionId: string }> {
-    const transactionId = await fcl.mutate({
-      cadence: transactions.defineMembership,
+  ): Promise<unknown> {
+    return this.sendTransaction({
+      cadence: transactions.createMembership,
       args: (arg: any, t: any) => [
         arg(definition.name, t.String),
         arg(definition.description, t.String),
@@ -121,12 +105,17 @@ export class FlowService {
         arg(definition.requirement.contractName, t.String),
         arg(definition.requirement.contractAddress, t.Address),
       ],
-      proposer: fcl.currentUser,
-      payer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 100,
     });
-    return { transactionId };
+  }
+
+  public async getFlowBalance(address: string): Promise<number> {
+    return fcl
+      .send([
+        fcl.script(scripts.getFlowTokenBalance),
+        fcl.args([fcl.arg(address, type.Address)]),
+      ])
+      .then(fcl.decode)
+      .then(Number);
   }
 
   public async getMembershipsByAccount(
@@ -151,8 +140,30 @@ export class FlowService {
       .then(fcl.decode);
   }
 
-  public async waitForSealedStatus(transactionId: string) {
-    return fcl.tx(transactionId).onceSealed();
+  private async sendTransaction(
+    options: Record<string, unknown>
+  ): Promise<TransactionResult> {
+    const transactionId = await fcl.mutate({
+      proposer: fcl.currentUser,
+      payer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 100,
+      ...options,
+    });
+    try {
+      await fcl.tx(transactionId).onceSealed();
+      return {
+        transactionId,
+        error: null,
+      };
+    } catch (rawError) {
+      return {
+        transactionId,
+        error: {
+          raw: String(rawError),
+        },
+      };
+    }
   }
 
   private getFlowTokenAddress(env: AppEnvironment) {

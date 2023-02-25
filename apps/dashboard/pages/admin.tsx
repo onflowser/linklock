@@ -34,7 +34,7 @@ export default function AdminDashboard() {
       .setupMembershipDefinitionCollection()
       .then(() => {
         flowService
-          .sendDefineMembershipTransaction({
+          .createMembership({
             name,
             description,
             thumbnail,
@@ -46,7 +46,8 @@ export default function AdminDashboard() {
               contractName: requirementContractName,
             },
           })
-          .then(() => {
+          .then((res) => {
+            console.log(res);
             refetchMembershipDefinitions();
           })
           .catch((e) => {

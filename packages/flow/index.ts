@@ -1,7 +1,7 @@
 // @ts-ignore missing Cadence type declarations
 import claimMembership from "./cadence/transactions/claimMembership.cdc";
 // @ts-ignore missing Cadence type declarations
-import defineMembership from "./cadence/transactions/defineMembership.cdc";
+import createMembership from "./cadence/transactions/createMembership.cdc";
 // @ts-ignore missing Cadence type declarations
 import setupMembershipCollection from "./cadence/transactions/setupMembershipCollection.cdc";
 // @ts-ignore missing Cadence type declarations
@@ -15,7 +15,7 @@ import getMembershipsByAccount from "./cadence/scripts/getMembershipsByAccount.c
 
 export type CadenceTransactions = {
   claimMembership: string;
-  defineMembership: string;
+  createMembership: string;
   setupMembershipCollection: string;
   setupMembershipDefinitionCollection: string;
 };
@@ -55,7 +55,7 @@ export type MembershipDefinition = {
 
 export const transactions: CadenceTransactions = {
   claimMembership,
-  defineMembership,
+  createMembership,
   setupMembershipCollection,
   setupMembershipDefinitionCollection,
 };

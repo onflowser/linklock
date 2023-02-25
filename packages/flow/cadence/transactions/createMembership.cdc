@@ -28,8 +28,6 @@ transaction(
     pre {}
 
     execute {
-        // TODO: rename defineMembership to createMembership
-        // TODO: Rename getMembershipNFTs to getMemberships
         let membershipDefinition <- MembershipDefinition.create(
             name: name,
             description: description,

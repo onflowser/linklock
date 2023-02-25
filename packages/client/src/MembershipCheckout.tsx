@@ -58,7 +58,7 @@ export function MembershipCheckout({
       .setupMembershipCollection()
       .then(() => {
         flowService
-          .sendClaimMembershipTransaction({
+          .claimMembership({
             adminAddress: adminAddress,
             membershipDefinitionId,
             paymentAmount: membershipDefinition!.requirement.price,
