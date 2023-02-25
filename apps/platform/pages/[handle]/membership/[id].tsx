@@ -1,20 +1,20 @@
-import LoginLayout from "../../components/layouts/LoginLayout";
-import { PrimaryButton } from "../../components/PrimaryButton";
-import { Input } from "../../components/inputs/Input";
+import LoginLayout from "../../../components/layouts/LoginLayout";
+import { PrimaryButton } from "../../../components/PrimaryButton";
+import { Input } from "../../../components/inputs/Input";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import MetaTags from "../../components/MetaTags";
-import { RichTextEditor } from "../../components/inputs/RichTextEditor";
+import MetaTags from "../../../components/MetaTags";
+import { RichTextEditor } from "../../../components/inputs/RichTextEditor";
 import {
   useFlow,
   useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
-import { Avatar } from "../../components/Avatar";
+import { Avatar } from "../../../components/Avatar";
 
 export default function MembershipSettings() {
   const { currentUser } = useFlow();
   const { query } = useRouter();
-  const { membershipId } = query;
+  const { id: membershipId } = query;
   const { data: membershipDefinitions } = useGetMembershipDefinitionsByAdmin(
     currentUser?.address
   );
