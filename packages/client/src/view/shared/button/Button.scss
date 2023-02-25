@@ -1,0 +1,14 @@
+@use '../../../styles/colors';
+@use '../../../styles/typography';
+
+.button {
+  color: colors.$colorWhite500;
+  background-color: colors.$colorMain500;
+  font-size: typography.$fontSizeL;
+  font-weight: typography.$fontWeightBold;
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  padding: 13px;
+  cursor: pointer;
+}

@@ -1,0 +1,17 @@
+@use '../styles/variables';
+
+@mixin verticalLayout ($gap: variables.$baseGap) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap
+}
+
+@mixin horizontalLayout ($gap: variables.$baseGap) {
+  display: flex;
+  flex-direction: row;
+  gap: $gap
+}
+
+@mixin paddedBox($padding: variables.$doubleGap) {
+  padding: 0 $padding;
+}

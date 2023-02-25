@@ -1,0 +1,7 @@
+@use '../../../styles/layout';
+@use '../../../styles/variables';
+
+.header {
+  @include layout.horizontalLayout();
+  @include layout.paddedBox();
+}

@@ -1,0 +1,51 @@
+@use '../styles/layout';
+@use '../styles/typography';
+@use '../styles/colors';
+@use '../styles/variables';
+
+.membership-box-wrapper {
+  height: 333px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include layout.verticalLayout();
+  @include layout.paddedBox();
+
+  &:after {
+    content: "";
+    background-image: url("./assets/bg-1.jpg");
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+  }
+
+  .inner-wrapper {
+    z-index: 1;
+    width: 100%;
+    @include layout.paddedBox();
+  }
+}
+
+.wallet-wrapper {
+  @include layout.paddedBox();
+  @include layout.horizontalLayout();
+  justify-content: space-between;
+
+  font-size: typography.$fontSizeS;
+  color: colors.$colorBlack200;
+  border-bottom: 1px solid colors.$colorBlack100;
+  padding-bottom: variables.$baseGap;
+}
+
+.button-wrapper {
+  @include layout.paddedBox();
+  @include layout.horizontalLayout();
+  justify-content: center;
+  padding-bottom: variables.$doubleGap;
+  padding-top: variables.$baseGap;
+}
