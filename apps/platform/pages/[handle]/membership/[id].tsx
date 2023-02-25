@@ -2,41 +2,54 @@ import LoginLayout from "../../../components/layouts/LoginLayout";
 import { PrimaryButton } from "../../../components/PrimaryButton";
 import { Input } from "../../../components/inputs/Input";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import MetaTags from "../../../components/MetaTags";
-import { RichTextEditor } from "../../../components/inputs/RichTextEditor";
 import {
+  FlowService,
   useFlow,
   useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
-import { Avatar } from "../../../components/Avatar";
+import { useFormik } from "formik";
+import { MembershipDefinition } from "@membership/flow/index";
+import { useEffect } from "react";
 
 export default function MembershipSettings() {
+  const flowService = FlowService.create();
   const { currentUser } = useFlow();
-  const { query } = useRouter();
-  const { id: membershipId } = query;
+  const router = useRouter();
+  const { id: membershipId } = router.query;
   const { data: membershipDefinitions } = useGetMembershipDefinitionsByAdmin(
     currentUser?.address
   );
   const membershipDefinition = membershipDefinitions?.find(
     (definition) => definition.id === membershipId
   );
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [handle, setHandle] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
-  const [websiteUrl, setWebsiteUrl] = useState("");
+  const { values, setValues, handleChange, setFieldValue, submitForm } =
+    useFormik<Omit<MembershipDefinition, "id">>({
+      initialValues: {
+        name: "",
+        description: "",
+        thumbnail: "",
+        // TODO: Enable metadata editing
+        expirationInterval: "",
+        maxSupply: "",
+        requirement: {
+          price: "",
+          contractAddress: "0xf3fcd2c1a78f5eee",
+          contractName: "FlowRequirement",
+        },
+      },
+      onSubmit: (values) => {
+        flowService
+          .createMembership(values)
+          .then(() => router.replace(`/${currentUser?.address}`));
+      },
+    });
 
-  async function onSubmit() {
-    // TODO: Adapt
-  }
-
-  function onFormatWebsiteUrl() {
-    if (websiteUrl && !websiteUrl.startsWith("http")) {
-      setWebsiteUrl(`https://${websiteUrl}`);
+  useEffect(() => {
+    if (membershipDefinition) {
+      setValues(membershipDefinition);
     }
-  }
+  }, [setValues, membershipDefinition]);
 
   return (
     <>
@@ -44,54 +57,50 @@ export default function MembershipSettings() {
       <div className="profile-settings">
         <h3>Membership settings</h3>
 
-        {/* TODO: add profile photo functionality */}
-        <Avatar imageUrl={membershipDefinition?.thumbnail} />
+        {/* TODO: Add option to upload profile photo? */}
 
         <div className="profile-fields">
-          {/* Hide the input if user is not signed in. */}
-          {currentUser?.address && (
-            <Input
-              label="Address"
-              placeholder="Address"
-              value={currentUser.address}
-              disabled
-            />
-          )}
-          {/* // TODO: Adapt */}
-          <Input
-            label="Handle"
-            placeholder="flowtea.me/your-handle"
-            value={handle}
-            disabled={false}
-            onInput={(e) => setHandle(e.currentTarget.value)}
-          />
           <Input
             label="Name"
-            placeholder="Name"
-            value={name}
-            onInput={(e) => setName(e.currentTarget.value)}
+            name="name"
+            value={values.name}
+            disabled={false}
+            onChange={handleChange}
           />
           <Input
-            label="Email"
-            placeholder="Email"
-            type="email"
-            value={email}
-            onInput={(e) => setEmail(e.currentTarget.value)}
+            label="Description"
+            name="description"
+            value={values.description}
+            onChange={handleChange}
           />
           <Input
-            label="Website"
-            placeholder="Your website URL"
-            type="url"
-            value={websiteUrl}
-            onInput={(e) => setWebsiteUrl(e.currentTarget.value)}
-            onBlur={onFormatWebsiteUrl}
+            label="Thumbnail URL"
+            name="thumbnail"
+            value={values.thumbnail}
+            onChange={handleChange}
           />
-          <RichTextEditor
-            label="About"
-            preview="edit"
-            placeholder="Hello! I just created Buy me a Flow tea profile..."
-            value={description}
-            onChange={(md) => setDescription(md || "")}
+          <Input
+            label="Expiration (in days)"
+            name="expiration"
+            value={millisecondsToDays(values.expirationInterval)}
+            onChange={(e) =>
+              setFieldValue(
+                "expirationInterval",
+                daysToMilliseconds(e.target.value)
+              )
+            }
+          />
+          <Input
+            label="Supply"
+            name="maxSupply"
+            value={values.maxSupply}
+            onChange={handleChange}
+          />
+          <Input
+            label="Price (FLOW)"
+            name="requirement.price"
+            value={values.requirement.price}
+            onChange={handleChange}
           />
         </div>
 
@@ -101,14 +110,23 @@ export default function MembershipSettings() {
             width: "100%",
             maxWidth: "unset",
           }}
-          isLoading={isSubmitting}
-          onClick={onSubmit}
+          onClick={submitForm}
         >
           Save
         </PrimaryButton>
       </div>
     </>
   );
+}
+
+const millisecondsInDay = 24 * 60 * 60 * 1000;
+
+function millisecondsToDays(milliseconds: string) {
+  return +milliseconds / millisecondsInDay;
+}
+
+function daysToMilliseconds(days: string) {
+  return +days * millisecondsInDay;
 }
 
 MembershipSettings.Layout = LoginLayout;

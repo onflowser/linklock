@@ -18,10 +18,10 @@ export default function AdminDashboard() {
   const [thumbnail, setThumbnail] = useState(
     "https://media.tenor.com/MjdXh21SR6wAAAAC/screaming-cat.gif"
   );
-  const [maxSupply, setMaxSupply] = useState<number>(1);
+  const [maxSupply, setMaxSupply] = useState<string>("1");
   const [expirationIntervalInDays, setExpirationIntervalInDays] =
-    useState<number>(1);
-  const [requirementPrice, setRequirementPrice] = useState<number>(1);
+    useState<string>("1");
+  const [requirementPrice, setRequirementPrice] = useState<string>("1");
   const [requirementContractAddress, setRequirementContractAddress] =
     useState<string>("0xf3fcd2c1a78f5eee");
   const [requirementContractName, setRequirementContractName] =
@@ -29,7 +29,7 @@ export default function AdminDashboard() {
 
   function onSubmit() {
     const expirationIntervalInMilliseconds =
-      expirationIntervalInDays * 24 * 60 * 60 * 1000;
+      +expirationIntervalInDays * 24 * 60 * 60 * 1000;
     flowService
       .setupMembershipDefinitionCollection()
       .then(() => {
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
         <input
           type="number"
           value={expirationIntervalInDays}
-          onChange={(e) => setExpirationIntervalInDays(e.target.valueAsNumber)}
+          onChange={(e) => setExpirationIntervalInDays(e.target.value)}
         />
       </label>
       <br />
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
         <input
           type="number"
           value={maxSupply}
-          onChange={(e) => setMaxSupply(e.target.valueAsNumber)}
+          onChange={(e) => setMaxSupply(e.target.value)}
         />
       </label>
       <br />
@@ -108,7 +108,7 @@ export default function AdminDashboard() {
         <input
           type="number"
           value={requirementPrice}
-          onChange={(e) => setRequirementPrice(e.target.valueAsNumber)}
+          onChange={(e) => setRequirementPrice(e.target.value)}
         />
       </label>
       <br />
