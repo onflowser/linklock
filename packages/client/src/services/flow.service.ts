@@ -10,17 +10,14 @@ export type FclCurrentUser = { addr: string };
 
 export type ClaimMembershipOptions = {
   adminAddress: string;
+  membershipDefinitionId: number;
   paymentAmount: string;
   fungibleTokenStoragePath: string;
 };
 
-export type DefineMembershipOptions = {
-  name: string;
-  description: string;
-  thumbnail: string;
-  expirationInterval: number;
-  maxSupply: number;
-  flowPrice: number;
+export type GetMembershipDefinitionOptions = {
+  adminAddress: string;
+  membershipDefinitionId: number;
 };
 
 export class FlowService {
@@ -91,6 +88,7 @@ export class FlowService {
       cadence: transactions.claimMembership,
       args: (arg: any, t: any) => [
         arg(options.adminAddress, t.Address),
+        arg(Number(options.membershipDefinitionId), t.UInt64),
         arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
         arg(options.fungibleTokenStoragePath, t.String),
       ],
@@ -103,17 +101,19 @@ export class FlowService {
   }
 
   public async sendDefineMembershipTransaction(
-    options: DefineMembershipOptions
+    definition: MembershipDefinition
   ): Promise<{ transactionId: string }> {
     const transactionId = await fcl.mutate({
       cadence: transactions.defineMembership,
       args: (arg: any, t: any) => [
-        arg(options.name, t.String),
-        arg(options.description, t.String),
-        arg(options.thumbnail, t.String),
-        arg(Number(options.expirationInterval).toFixed(1), t.UFix64),
-        arg(Number(options.maxSupply), t.UInt64),
-        arg(Number(options.flowPrice).toFixed(1), t.UFix64),
+        arg(definition.name, t.String),
+        arg(definition.description, t.String),
+        arg(definition.thumbnail, t.String),
+        arg(Number(definition.expirationInterval).toFixed(1), t.UFix64),
+        arg(Number(definition.maxSupply), t.UInt64),
+        arg(Number(definition.requirement.price).toFixed(1), t.UFix64),
+        arg(definition.requirement.contractName, t.String),
+        arg(definition.requirement.contractAddress, t.Address),
       ],
       proposer: fcl.currentUser,
       payer: fcl.currentUser,
@@ -133,12 +133,13 @@ export class FlowService {
   }
 
   public async getMembershipDefinition(
-    address: string
+    options: GetMembershipDefinitionOptions
   ): Promise<MembershipDefinition> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipDefinition),
-        fcl.args([fcl.arg(address, type.Address)]),
+        fcl.args([fcl.arg(options.adminAddress, type.Address)]),
+        fcl.args([fcl.arg(options.membershipDefinitionId, type.UInt64)]),
       ])
       .then(fcl.decode);
   }

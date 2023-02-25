@@ -213,12 +213,10 @@ pub contract Membership: NonFungibleToken {
     // TODO: Pass definition NFT as argument instead?
     pub fun claimMembership(
         adminAddress: Address,
+        membershipDefinitionId: UInt64,
         claimerAddress: Address,
         claimerVault: @FungibleToken.Vault
     ): @NFT {
-        // For now just use example membership claim directly
-        // Later we will retrieve the membership definition from `adminAccount` storage
-        // and call `claimRequirement` on membership claim contracts
         let adminAccount = getAccount(adminAddress)
 
         let definitionCollection = adminAccount.getCapability(MembershipDefinition.CollectionPublicPath)
@@ -226,7 +224,9 @@ pub contract Membership: NonFungibleToken {
             ?? panic("Could not borrow reference to membership definition collection")
 
         // TODO: Change hardcoded value
-        let definition = definitionCollection.borrowMembershipDefinitionNFT(id: 0)!
+        let definition = definitionCollection
+            .borrowMembershipDefinitionNFT(id: membershipDefinitionId)
+            ?? panic("Could not borrow reference to membership definition NFT")
 
         let requirementAddress = getAccount(definition.requirement.contractAddress)
 

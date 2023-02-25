@@ -14,7 +14,11 @@ export default function AdminDashboard() {
   const [maxSupply, setMaxSupply] = useState<number>(1);
   const [expirationIntervalInDays, setExpirationIntervalInDays] =
     useState<number>(1);
-  const [flowPrice, setFlowPrice] = useState<number>(1);
+  const [requirementPrice, setRequirementPrice] = useState<number>(1);
+  const [requirementContractAddress, setRequirementContractAddress] =
+    useState<string>("0xf3fcd2c1a78f5eee");
+  const [requirementContractName, setRequirementContractName] =
+    useState<string>("FlowRequirement");
 
   function onSubmit() {
     const expirationIntervalInMilliseconds =
@@ -24,9 +28,13 @@ export default function AdminDashboard() {
         name,
         description,
         thumbnail,
-        expirationInterval: expirationIntervalInMilliseconds,
+        expirationInterval: String(expirationIntervalInMilliseconds),
         maxSupply,
-        flowPrice,
+        requirement: {
+          price: String(requirementPrice),
+          contractAddress: requirementContractAddress,
+          contractName: requirementContractName,
+        },
       })
       .then(() => {
         alert("Success");
@@ -41,17 +49,12 @@ export default function AdminDashboard() {
       <h3>Create membership</h3>
       <label>
         Name
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <input value={name} onChange={(e) => setName(e.target.value)} />
       </label>
       <br />
       <label>
         Description
         <input
-          placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -60,7 +63,6 @@ export default function AdminDashboard() {
       <label>
         Thumbnail
         <input
-          placeholder="Thumbnail"
           value={thumbnail}
           onChange={(e) => setThumbnail(e.target.value)}
         />
@@ -69,7 +71,6 @@ export default function AdminDashboard() {
       <label>
         Expiration (in days)
         <input
-          placeholder="Expiration in days"
           type="number"
           value={expirationIntervalInDays}
           onChange={(e) => setExpirationIntervalInDays(e.target.valueAsNumber)}
@@ -79,7 +80,6 @@ export default function AdminDashboard() {
       <label>
         Max supply
         <input
-          placeholder="Max supply"
           type="number"
           value={maxSupply}
           onChange={(e) => setMaxSupply(e.target.valueAsNumber)}
@@ -87,12 +87,29 @@ export default function AdminDashboard() {
       </label>
       <br />
       <label>
-        Flow price
+        Requirement price
         <input
-          placeholder="Flow price"
           type="number"
-          value={flowPrice}
-          onChange={(e) => setFlowPrice(e.target.valueAsNumber)}
+          value={requirementPrice}
+          onChange={(e) => setRequirementPrice(e.target.valueAsNumber)}
+        />
+      </label>
+      <br />
+      <label>
+        Requirement contract address
+        <input
+          disabled
+          value={requirementContractAddress}
+          onChange={(e) => setRequirementContractAddress(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Requirement contract name
+        <input
+          disabled
+          value={requirementContractName}
+          onChange={(e) => setRequirementContractName(e.target.value)}
         />
       </label>
       <br />

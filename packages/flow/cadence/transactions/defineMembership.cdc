@@ -1,4 +1,4 @@
-import Membership from 0xf3fcd2c1a78f5eee
+import MembershipDefinition from 0xf3fcd2c1a78f5eee
 
 transaction(
     name: String,
@@ -6,7 +6,9 @@ transaction(
     thumbnail: String,
     expirationInterval: UFix64,
     maxSupply: UInt64,
-    flowPrice: UFix64,
+    requirementPrice: UFix64,
+    requirementContractName: String,
+    requirementContractAddress: Address,
 ) {
     let signer: AuthAccount
 
@@ -17,25 +19,25 @@ transaction(
     pre {}
 
     execute {
-        self.signer.save<@Membership.MembershipDefinition>(
-            <-Membership.defineMembership(
+        // TODO: Handle case when collection is already in storage
+        self.signer.save<@MembershipDefinition.NFT>(
+            <-MembershipDefinition.create(
                 name: name,
                 description: description,
                 thumbnail: thumbnail,
                 expirationInterval: expirationInterval,
                 maxSupply: maxSupply,
-                requirement: Membership.RequirementDefinition(
-                    price: flowPrice,
-                    // TODO: Accept these via params
-                    contractName: "FlowRequirement",
-                    contractAddress: 0xf3fcd2c1a78f5eee
+                requirement: MembershipDefinition.RequirementDefinition(
+                    price: requirementPrice,
+                    contractName: requirementContractName,
+                    contractAddress: requirementContractAddress
                 )
             ),
-            to: Membership.DefinitionStoragePath
+            to: MembershipDefinition.CollectionStoragePath
         )
-        self.signer.link<&Membership.MembershipDefinition>(
-            Membership.DefinitionPublicPath,
-            target: Membership.DefinitionStoragePath
+        self.signer.link<&MembershipDefinition.NFT>(
+            MembershipDefinition.CollectionPublicPath,
+            target: MembershipDefinition.CollectionStoragePath
         )
     }
 

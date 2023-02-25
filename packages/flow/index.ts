@@ -42,6 +42,9 @@ export type MembershipRequirement = {
 
 export type MembershipDefinition = {
   name: string;
+  description: string;
+  thumbnail: string;
+  maxSupply: number;
   expirationInterval: string;
   requirement: MembershipRequirement;
 };

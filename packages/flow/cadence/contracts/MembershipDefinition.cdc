@@ -201,7 +201,7 @@ pub contract MembershipDefinition: NonFungibleToken {
         return <- create Collection()
     }
 
-    pub fun defineMembership(
+    pub fun create(
         name: String,
         description: String,
         thumbnail: String,

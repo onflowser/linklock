@@ -37,20 +37,20 @@ export type FindLink = {
   url: string;
   title: string;
   type: string;
-}
+};
 
 export type FindWalletProfile = {
   name: string;
   balance: number;
   accept: string;
   tags: string[];
-}
+};
 
 export type FindFriendStatus = {
   follower: string;
   following: String;
   tags: string[];
-}
+};
 
 // https://github.com/findonflow/find/blob/main/contracts/Profile.cdc
 export type FindUserProfile = {
@@ -64,10 +64,10 @@ export type FindUserProfile = {
   avatar: string;
   links: FindLink[];
   wallets: FindWalletProfile[];
-  following: FindFriendStatus[]
-  followers: FindFriendStatus[]
+  following: FindFriendStatus[];
+  followers: FindFriendStatus[];
   allowStoringFollowers: boolean;
-}
+};
 
 // https://github.com/flowns-org/flow-name-service-contracts/blob/main/cadence/contracts/Domains.cdc
 export type FlownsDomainDetail = {
@@ -83,12 +83,12 @@ export type FlownsDomainDetail = {
   expiredAt: string;
   // Timestamp of the creation date.
   createdAt: string;
-}
+};
 
 export type FlowNameRawInfo = {
   flowns: FlownsDomainDetail | null;
-  find: FindUserProfile| null;
-}
+  find: FindUserProfile | null;
+};
 
 export type FlowAbstractNameInfo = {
   address: string;
@@ -98,23 +98,20 @@ export type FlowAbstractNameInfo = {
   name?: string;
   description?: string;
   avatar?: string;
-  tags?: string[]
-}
+  tags?: string[];
+};
 
 export class DomainsService {
-
   constructor() {
     this.init({
       findAddress: "0x097bafa4e0b48eef",
-      flownsAddress: "0x233eb012d34b0070"
+      flownsAddress: "0x233eb012d34b0070",
     });
   }
 
-  private init(props: {
-    flownsAddress: string;
-    findAddress: string;
-  }) {
-    fcl.config()
+  private init(props: { flownsAddress: string; findAddress: string }) {
+    fcl
+      .config()
       .put("0xFlownsAddress", props.flownsAddress)
       .put("0xFindAddress", props.findAddress);
   }
@@ -132,8 +129,8 @@ export class DomainsService {
     }
 
     // TODO: What are the possible link types?
-    const twitterLink = find?.links.find(link => link.type === "twitter");
-    const websiteLink = find?.links.find(link => link.type === "globe");
+    const twitterLink = find?.links.find((link) => link.type === "twitter");
+    const websiteLink = find?.links.find((link) => link.type === "globe");
 
     return {
       address: find?.address ?? flowns?.owner!,
@@ -144,36 +141,33 @@ export class DomainsService {
       twitterUrl: twitterLink?.url,
       websiteUrl: websiteLink?.url,
       tags: find?.tags,
-      description: find?.description
-    }
+      description: find?.description,
+    };
   }
 
   public async lookupRawInfosByName(name: string): Promise<FlowNameRawInfo> {
     const [flownsResponse, findResponse] = await Promise.allSettled([
       this.lookupDomainByFlownsName(name),
-      this.lookupProfileByFindName(name)
+      this.lookupProfileByFindName(name),
     ]);
 
     return {
-      flowns: flownsResponse.status === "fulfilled"
-        ? flownsResponse.value
-        : null,
-      find: findResponse.status === "fulfilled"
-        ? findResponse.value
-        : null
+      flowns:
+        flownsResponse.status === "fulfilled" ? flownsResponse.value : null,
+      find: findResponse.status === "fulfilled" ? findResponse.value : null,
     };
   }
 
   private lookupDomainByFlownsName(name: string): Promise<FlownsDomainDetail> {
-    const isFlownsName = name.endsWith(".fn")
+    const isFlownsName = name.endsWith(".fn");
     if (!isFlownsName) {
-      return Promise.reject("Not a valid .fn name")
+      return Promise.reject("Not a valid .fn name");
     }
     const nameHash = this.flownsNameHash(name);
     return fcl
       .send([
         fcl.script(lookupDomainByFlownsNameHashSource),
-        fcl.args([fcl.arg(nameHash, type.String)])
+        fcl.args([fcl.arg(nameHash, type.String)]),
       ])
       .then(fcl.decode);
   }
@@ -181,12 +175,12 @@ export class DomainsService {
   private lookupProfileByFindName(name: string): Promise<FindUserProfile> {
     const isFindName = name.endsWith(".find");
     if (!isFindName) {
-      return Promise.reject("Not a valid .find name")
+      return Promise.reject("Not a valid .find name");
     }
     return fcl
       .send([
         fcl.script(lookupProfileByFindNameSource),
-        fcl.args([fcl.arg(name, type.String)])
+        fcl.args([fcl.arg(name, type.String)]),
       ])
       .then(fcl.decode);
   }

@@ -28,7 +28,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
   return (
     <Container>
       <MembershipCheckout
-        communityAddress={address}
+        adminAddress={address}
         isOpenModal={openMembershipCheckout}
         onCloseModal={() => setOpenMembershipCheckout(false)}
       />

@@ -9,7 +9,8 @@ import {
 import { FlowService } from "./services/flow.service";
 
 export type MembershipCheckoutProps = {
-  communityAddress: string;
+  adminAddress: string;
+  membershipDefinitionId: number;
   isOpenModal: boolean;
   onCloseModal: () => void;
 };
@@ -23,14 +24,15 @@ enum CheckoutStep {
 const flowService = FlowService.create();
 
 export function MembershipCheckout({
-  communityAddress,
+  adminAddress,
+  membershipDefinitionId,
   isOpenModal,
   onCloseModal,
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
   const { data: flowBalance } = useFlowBalance(currentUser?.address);
   const { data: membershipDefinition, error: membershipDefinitionError } =
-    useGetMembershipDefinition(communityAddress);
+    useGetMembershipDefinition(adminAddress);
   // TODO: Handle transaction errors
   const {
     data: ownedMemberships,
@@ -38,7 +40,7 @@ export function MembershipCheckout({
     mutate: refetchMemberships,
   } = useGetMemberships(currentUser?.address);
   const ownedTargetMembership = ownedMemberships?.find(
-    (membership) => membership.adminAddress === communityAddress
+    (membership) => membership.adminAddress === adminAddress
   );
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
@@ -54,7 +56,8 @@ export function MembershipCheckout({
       .then(() => {
         flowService
           .sendClaimMembershipTransaction({
-            adminAddress: communityAddress,
+            adminAddress: adminAddress,
+            membershipDefinitionId,
             paymentAmount: membershipDefinition!.requirement.price,
             // TODO: Dynamically retrieve fungible token type or storage path
             fungibleTokenStoragePath: "flowTokenVault",
