@@ -139,12 +139,6 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #fff;
   }
 
-  .dark-background-profile {
-    background-color: var(--main-dark-color);
-    height: 200px;
-  }
-
-
   /* =============================================== mobile */
 
   @media (max-width: 450px) {

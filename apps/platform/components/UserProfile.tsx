@@ -3,48 +3,50 @@ import { PrimaryButton } from "./PrimaryButton";
 import { useState } from "react";
 import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
-import { MembershipCheckout, useGetMembershipDefinition } from "@membership/client";
+import {
+  MembershipCheckout,
+  useGetMembershipDefinition,
+} from "@membership/client";
 import { formatWebsiteUrl } from "../common/utils";
+import { SizedBox } from "@membership/client/src/core/SizedBox";
+import { Avatar } from "./Avatar";
+import { ExternalLink } from "./ExternalLink";
 
 export type UserProfileProps = {
   address: string;
-  nameInfo: FlowAbstractNameInfo|undefined;
-}
+  nameInfo: FlowAbstractNameInfo | undefined;
+};
 
-export default function UserProfile({
-  nameInfo,
-  address
-}: UserProfileProps) {
+export default function UserProfile({ nameInfo, address }: UserProfileProps) {
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
-  const {data: membershipDefinition} = useGetMembershipDefinition(address);
+  const { data: membershipDefinition } = useGetMembershipDefinition(address);
 
   async function onSubmit() {
-    setOpenMembershipCheckout(true)
+    setOpenMembershipCheckout(true);
   }
 
   return (
     <Container>
+      <MembershipCheckout
+        communityAddress={address}
+        isOpenModal={openMembershipCheckout}
+        onCloseModal={() => setOpenMembershipCheckout(false)}
+      />
 
-      <MembershipCheckout communityAddress={address} isOpenModal={openMembershipCheckout} onCloseModal={() => setOpenMembershipCheckout(false)} />
+      <SizedBox backgroundColor="var(--main-dark-color)" height={200} />
 
-      <div className="dark-background-profile" />
-
-      <div className="profile-photo-main-wrapper">
-        <img style={{borderRadius: '50%'}} src={nameInfo?.avatar ?? "/images/profile-photo-main.svg"} alt="" />
-        <h3 className="profile-name">{nameInfo?.name ?? "Unknown"}</h3>
-        <a
-          target="_blank"
-          href={`https://flowscan.org/account/${address}`}
-          rel="noreferrer"
-        >
+      <ProfileWrapper>
+        <Avatar imageUrl={nameInfo?.avatar} />
+        <ProfileName>{nameInfo?.name ?? "Unknown"}</ProfileName>
+        <ExternalLink href={`https://flowscan.org/account/${address}`}>
           {address}
-        </a>
+        </ExternalLink>
         {nameInfo?.websiteUrl && (
-          <a target="_blank" href={nameInfo.websiteUrl} rel="noreferrer">
+          <ExternalLink href={nameInfo.websiteUrl}>
             {formatWebsiteUrl(nameInfo.websiteUrl)}
-          </a>
+          </ExternalLink>
         )}
-      </div>
+      </ProfileWrapper>
 
       <DetailsCard>
         <LeftDetails>
@@ -67,9 +69,7 @@ export default function UserProfile({
               </PrimaryButton>
             </div>
           ) : (
-            <div>
-              No membership found
-            </div>
+            <div>No membership found</div>
           )}
         </RightDetails>
       </DetailsCard>
@@ -79,45 +79,19 @@ export default function UserProfile({
 
 const Container = styled.div`
   margin-bottom: 100px;
-  
-  .profile-photo-main-wrapper h3 {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
+`;
 
-  .profile-photo-main-wrapper a {
-    display: block;
-  }
+const ProfileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -100px;
+  margin-bottom: 50px;
+`;
 
-  .bio-profile {
-    padding: 50px 30px 50px 30px;
-    margin-bottom: 50px;
-  }
-
-  .bio-profile h5 {
-    margin-top: 0;
-  }
-
-  .bio-profile p {
-    margin: 0;
-  }
-
-  .bio-link {
-    color: var(--secondary-color);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .profile-photo-main-wrapper {
-    text-align: center;
-    margin: -80px auto 60px;
-  }
-
-  .profile-photo-main-wrapper img {
-    max-width: 150px;
-    width: 100%;
-    margin-bottom: 20px;
-  }
+const ProfileName = styled.h3`
+  margin-top: 10px;
+  margin-bottom: 5px;
 `;
 
 const Shadow = styled.div`
@@ -127,7 +101,7 @@ const Shadow = styled.div`
   box-shadow: 20px 20px 40px #d1d1d164, -20px -20px 60px #ffffff;
 `;
 
-const DetailsCard =  styled(Shadow)`
+const DetailsCard = styled(Shadow)`
   display: flex;
   max-width: 800px;
   margin: auto;
