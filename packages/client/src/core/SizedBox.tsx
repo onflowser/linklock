@@ -1,6 +1,7 @@
 export type SizedBoxProps = {
   width?: number;
   height?: number;
+  backgroundColor?: string;
 };
 
 export function SizedBox(props: SizedBoxProps) {
