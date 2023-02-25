@@ -16,7 +16,10 @@ export type ClaimMembershipOptions = {
 
 export type DefineMembershipOptions = {
   name: string;
+  description: string;
+  thumbnail: string;
   expirationInterval: number;
+  maxSupply: number;
   flowPrice: number;
 };
 
@@ -106,7 +109,10 @@ export class FlowService {
       cadence: transactions.defineMembership,
       args: (arg: any, t: any) => [
         arg(options.name, t.String),
+        arg(options.description, t.String),
+        arg(options.thumbnail, t.String),
         arg(Number(options.expirationInterval).toFixed(1), t.UFix64),
+        arg(Number(options.maxSupply), t.UInt64),
         arg(Number(options.flowPrice).toFixed(1), t.UFix64),
       ],
       proposer: fcl.currentUser,
