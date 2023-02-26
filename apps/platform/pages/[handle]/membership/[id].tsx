@@ -11,6 +11,7 @@ import {
 import { useFormik } from "formik";
 import { MembershipDefinition } from "@membership/flow/index";
 import { useEffect } from "react";
+import { daysToSeconds, secondsToDays } from "@membership/client";
 
 export default function MembershipSettings() {
   const flowService = FlowService.create();
@@ -82,12 +83,9 @@ export default function MembershipSettings() {
           <Input
             label="Expiration (in days)"
             name="expiration"
-            value={millisecondsToDays(values.expirationInterval)}
+            value={secondsToDays(+values.expirationInterval)}
             onChange={(e) =>
-              setFieldValue(
-                "expirationInterval",
-                daysToMilliseconds(e.target.value)
-              )
+              setFieldValue("expirationInterval", daysToSeconds(+e.target.value))
             }
           />
           <Input
@@ -117,16 +115,6 @@ export default function MembershipSettings() {
       </div>
     </>
   );
-}
-
-const millisecondsInDay = 24 * 60 * 60 * 1000;
-
-function millisecondsToDays(milliseconds: string) {
-  return +milliseconds / millisecondsInDay;
-}
-
-function daysToMilliseconds(days: string) {
-  return +days * millisecondsInDay;
 }
 
 MembershipSettings.Layout = LoginLayout;

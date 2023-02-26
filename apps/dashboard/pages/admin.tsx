@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  daysToSeconds,
   FlowService,
   useFlow,
   useGetMembershipDefinitionsByAdmin,
@@ -28,8 +29,6 @@ export default function AdminDashboard() {
     useState<string>("FlowRequirement");
 
   function onSubmit() {
-    const expirationIntervalInMilliseconds =
-      +expirationIntervalInDays * 24 * 60 * 60 * 1000;
     flowService
       .setupMembershipDefinitionCollection()
       .then(() => {
@@ -38,7 +37,9 @@ export default function AdminDashboard() {
             name,
             description,
             thumbnail,
-            expirationInterval: String(expirationIntervalInMilliseconds),
+            expirationInterval: String(
+              daysToSeconds(+expirationIntervalInDays)
+            ),
             maxSupply,
             requirement: {
               price: String(requirementPrice),

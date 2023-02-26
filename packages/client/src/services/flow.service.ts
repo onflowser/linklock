@@ -15,6 +15,12 @@ export type ClaimMembershipOptions = {
   fungibleTokenStoragePath: string;
 };
 
+export type RedeemMembershipOptions = {
+  membershipId: number;
+  paymentAmount: string;
+  fungibleTokenStoragePath: string;
+};
+
 export type TransactionError = {
   raw: string;
 };
@@ -84,6 +90,19 @@ export class FlowService {
       args: (arg: any, t: any) => [
         arg(options.adminAddress, t.Address),
         arg(Number(options.membershipDefinitionId), t.UInt64),
+        arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
+        arg(options.fungibleTokenStoragePath, t.String),
+      ],
+    });
+  }
+
+  public async redeemMembership(
+    options: RedeemMembershipOptions
+  ): Promise<unknown> {
+    return this.sendTransaction({
+      cadence: transactions.redeemMembership,
+      args: (arg: any, t: any) => [
+        arg(Number(options.membershipId), t.UInt64),
         arg(Number(options.paymentAmount).toFixed(1), t.UFix64),
         arg(options.fungibleTokenStoragePath, t.String),
       ],
