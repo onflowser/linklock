@@ -20,6 +20,9 @@ pub contract Membership: NonFungibleToken {
     /// The event that is emitted when an NFT is deposited to a Collection
     pub event Deposit(id: UInt64, to: Address?)
 
+    pub event Claim(adminAddress: Address, membershipDefinitionId: UInt64, member: Address)
+    pub event Redeem(adminAddress: Address, membershipDefinitionId: UInt64, member: Address)
+
     /// Membership Storage and Public Paths
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
@@ -44,6 +47,7 @@ pub contract Membership: NonFungibleToken {
         access(self) let metadata: {String: AnyStruct}
 
         /// Membership definition info
+        // TODO: We shouldn't store admin address, since original admin can transfer the membership definition to another account
         pub let adminAddress: Address
         pub let membershipDefinitionId: UInt64
 
@@ -280,6 +284,12 @@ pub contract Membership: NonFungibleToken {
 
         membership.redeem(membershipDefinition: membershipDefinition)
 
+        emit Redeem(
+            adminAddress: membership.adminAddress,
+            membershipDefinitionId: membershipDefinition.id,
+            member: claimerAddress
+        )
+
         return <- membership
     }
 
@@ -326,6 +336,12 @@ pub contract Membership: NonFungibleToken {
 
         self.totalMembershipSupplyPerDefinition[membershipDefinition.id] = currentSupplyForDefinition + UInt64(1)
         self.totalSupply = self.totalSupply + UInt64(1)
+
+        emit Claim(
+            adminAddress: adminAddress,
+            membershipDefinitionId: membershipDefinitionId,
+            member: claimerAddress
+        )
 
         // TODO: Should we deposit NFT here instead of returning?
         // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
