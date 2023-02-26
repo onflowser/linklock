@@ -46,7 +46,7 @@ export function StepTwoRequirement({
           </div>
           <div className={"line-2"}>
             <span>{formatFlowCoins(membershipPrice)} FLOW</span>
-            <span>= {flowPrice.usd} USD</span>
+            <span>= {(+flowPrice?.usd * +membershipPrice)} USD</span>
           </div>
           <div className={"line-3"}>
             <span>Wallet: {currentUser?.address}</span>
