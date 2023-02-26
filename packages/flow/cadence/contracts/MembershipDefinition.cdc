@@ -42,7 +42,7 @@ pub contract MembershipDefinition: NonFungibleToken {
         pub let thumbnail: String
         access(self) let metadata: {String: AnyStruct}
 
-        // Expiration interval in milliseconds
+        /// Expiration interval in seconds
         pub var expirationInterval: UFix64
         pub var maxSupply: UInt64
         pub var requirement: RequirementDefinition
@@ -209,6 +209,11 @@ pub contract MembershipDefinition: NonFungibleToken {
         maxSupply: UInt64,
         requirement: RequirementDefinition
     ): @NFT {
+        pre {
+            maxSupply > 0: "Max supply must be greater than 0"
+            expirationInterval > 0.0: "Expiration interval must be greater than 0"
+            name.length > 0: "Membership name must be set"
+        }
         let definition <- create NFT(
             id: self.totalSupply,
             name: name,

@@ -46,6 +46,7 @@ pub contract Membership: NonFungibleToken {
         access(self) let metadata: {String: AnyStruct}
 
         pub var adminAddress: Address
+        /// Membership expiration UNIX timestamp.
         pub var validUntilTimestamp: UFix64
 
         init(
