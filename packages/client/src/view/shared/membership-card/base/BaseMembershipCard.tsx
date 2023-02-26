@@ -21,6 +21,7 @@ export function BaseMembershipCard({
   footer,
   status = MembershipStatus.UNKNOWN,
 }: MembershipBoxProps) {
+  const maxDescriptionLength = 150;
   return (
     // TODO: use classnames library for concatenating classes
     <div className={"membership-box-container" + " " + className}>
@@ -31,7 +32,12 @@ export function BaseMembershipCard({
         <img src={thumbnailImageUrl || DefaultThumb.src} alt={name} />
         <div>
           <span>{name}</span>
-          <span>{description}</span>
+          {/* TODO: Implement more responsive solution for clipping text */}
+          <span>
+            {description.length > maxDescriptionLength
+              ? description.slice(0, maxDescriptionLength) + "..."
+              : description}
+          </span>
           {/* TODO: Should we display a link here? */}
           {/*<a href="packages/client/src/view/shared/membership-card/base-membership-card#somewhere">*/}
           {/*  view contract*/}

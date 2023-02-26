@@ -32,6 +32,7 @@ export function Navigation() {
           {isLoggedIn ? (
             <>
               <UnstyledButton
+                title="Go to your profile"
                 onClick={() => router.push(`/${currentUser?.address}`)}
               >
                 <Avatar size={50} imageUrl={domainInfo?.avatar} />

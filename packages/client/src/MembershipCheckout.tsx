@@ -53,8 +53,11 @@ export function MembershipCheckout({
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
-    // TODO: In case membership is valid, we should probably redirect to last (CLAIMED) step
-    setCheckoutStep(CheckoutStep.PREVIEW);
+    if (ownedTargetMembership) {
+      setCheckoutStep(CheckoutStep.CLAIMED);
+    } else {
+      setCheckoutStep(CheckoutStep.PREVIEW);
+    }
   }, [isOpenModal]);
 
   function onClaimRequirement() {
@@ -95,7 +98,6 @@ export function MembershipCheckout({
       case CheckoutStep.PREVIEW:
         return (
           <StepOnePreview
-            ownedTargetMembership={ownedTargetMembership}
             membershipDefinition={membershipDefinition}
             onCompleteStep={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}
           />

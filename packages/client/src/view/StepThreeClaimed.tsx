@@ -17,7 +17,7 @@ export function StepThreeClaimed({
   return (
     <div className="step-container">
       <Header></Header>
-      <Stepper step={3} stepTitle={"Your membership-card"}></Stepper>
+      <Stepper step={3} stepTitle={"Your membership"}></Stepper>
 
       <div className="wrapper">
         <MembershipCard membership={membership} />
