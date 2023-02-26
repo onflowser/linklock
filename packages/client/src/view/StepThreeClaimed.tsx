@@ -37,8 +37,8 @@ export function StepThreeClaimed({
 function getButtonTitle(membershipStatus: MembershipStatus) {
   switch (membershipStatus) {
     case MembershipStatus.EXPIRED:
-      return "Redeem";
+      return "REDEEM";
     case MembershipStatus.UNKNOWN:
-      return "Done";
+      return "DONE";
   }
 }

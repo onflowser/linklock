@@ -1,0 +1,9 @@
+@use "../../../../styles/colors";
+@use "../../../../styles/reset";
+@use "../../../../styles/typography";
+
+.bottom span {
+  @include reset.reset();
+  color: colors.$colorBlack300;
+  font-size: typography.$fontSizeM;
+}

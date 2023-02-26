@@ -23,9 +23,10 @@
       align-items: end;
 
       span:first-child {
-        font-size: typography.$fontSizeL;
-        font-weight: typography.$fontWeightNormal;
+        font-size: typography.$fontSizeXL;
+        font-weight: typography.$fontWeightBolder;
         line-height: typography.$lineSpacingS;
+        color: colors.$colorBlack500;
       }
 
       span:last-child {

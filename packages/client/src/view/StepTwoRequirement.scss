@@ -33,7 +33,7 @@
     .line-3 {
       @include layout.horizontalLayout(variables.$smallGap);
       font-size: typography.$fontSizeS;
-      color: colors.$colorBlack500;
+      color: colors.$colorBlack200;
     }
 
     .line-2 {
@@ -42,10 +42,11 @@
 
       & > span:first-child {
         font-weight: typography.$fontWeightBold;
-        font-size: typography.$fontSizeXL;
+        font-size: typography.$fontSizeXXL;
       }
 
       & > span:last-child {
+        color: colors.$colorBlack200;
         font-size: typography.$fontSizeS;
       }
     }

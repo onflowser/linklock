@@ -70,8 +70,8 @@ export function StepOnePreview({
 function getButtonTitle(membershipStatus: MembershipStatus) {
   switch (membershipStatus) {
     case MembershipStatus.EXPIRED:
-      return "Redeem";
+      return "REDEEM";
     case MembershipStatus.UNKNOWN:
-      return "Next";
+      return "NEXT";
   }
 }

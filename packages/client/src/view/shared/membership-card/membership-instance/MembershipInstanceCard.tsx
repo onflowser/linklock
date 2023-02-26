@@ -3,6 +3,7 @@ import { MembershipInstance } from "@membership/flow/index";
 import { getMembershipStatus, unixTimestampToDate } from "../../../../utils";
 import { StopWatch } from "../../icons/StopWatch";
 import { SizedBox } from "../../SizedBox";
+import './MembershipInstanceCard.scss';
 
 export type MembershipInstanceCardProps = {
   membership: MembershipInstance;
