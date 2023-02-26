@@ -19,8 +19,6 @@ export function StepThreeClaimed({
       <Header></Header>
       <Stepper step={3} stepTitle={"Your membership-card"}></Stepper>
 
-      {/* TODO: Reuse membership-card box for this UI? */}
-
       <div className="wrapper">
         <MembershipCard membership={membership} />
 
