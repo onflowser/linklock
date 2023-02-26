@@ -40,6 +40,11 @@
   color: colors.$colorBlack200;
   border-bottom: 1px solid colors.$colorBlack100;
   padding-bottom: variables.$baseGap;
+
+  a {
+    color: colors.$colorMain500;
+    text-decoration: none;
+  }
 }
 
 .button-wrapper {

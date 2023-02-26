@@ -6,6 +6,11 @@ export default function ClaimMembership() {
   const [membershipDefinitionId, setMembershipDefinitionId] =
     useState<number>();
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const closeModal = () => {
+      setIsOpenModal(false);
+  }
+
   return (
     <div>
       <h3>Claim membership</h3>
@@ -30,7 +35,8 @@ export default function ClaimMembership() {
       {adminAddress && membershipDefinitionId !== undefined && (
         <MembershipCheckout
           isOpenModal={isOpenModal}
-          onCloseModal={() => setIsOpenModal(false)}
+          onCloseModal={closeModal}
+          closeModalCb={closeModal}
           membershipDefinitionId={membershipDefinitionId}
           adminAddress={adminAddress}
         />
