@@ -6,5 +6,5 @@ export * from "./services/flow.service";
 export * from "./hooks/cache";
 export * from "./utils";
 export * from "./view/shared/membership-card/membership-definition/MembershipDefinitionCard";
-export * from "./view/shared/membership-card/MembershipCard";
+export * from "./view/shared/membership-card/membership-instance/MembershipInstanceCard";
 export * from "./view/shared/UnstyledButton";

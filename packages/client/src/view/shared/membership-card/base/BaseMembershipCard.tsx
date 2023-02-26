@@ -3,6 +3,7 @@ import { MembershipStatus } from "../../../../utils";
 // @ts-ignore missing type declarations
 import DefaultThumb from "../../../assets/default-thumbnail.png";
 import { ReactNode } from "react";
+import { SizedBox } from "../../SizedBox";
 
 export interface MembershipBoxProps {
   name: string;
@@ -21,7 +22,6 @@ export function BaseMembershipCard({
   footer,
   status = MembershipStatus.UNKNOWN,
 }: MembershipBoxProps) {
-  const maxDescriptionLength = 150;
   return (
     // TODO: use classnames library for concatenating classes
     <div className={"membership-box-container" + " " + className}>
@@ -31,13 +31,9 @@ export function BaseMembershipCard({
       <div className={"top"}>
         <img src={thumbnailImageUrl || DefaultThumb.src} alt={name} />
         <div>
-          <span>{name}</span>
+          <span className="title">{name}</span>
           {/* TODO: Implement more responsive solution for clipping text */}
-          <span>
-            {description.length > maxDescriptionLength
-              ? description.slice(0, maxDescriptionLength) + "..."
-              : description}
-          </span>
+          <span className="description">{description}</span>
           {/* TODO: Should we display a link here? */}
           {/*<a href="packages/client/src/view/shared/membership-card/base-membership-card#somewhere">*/}
           {/*  view contract*/}
@@ -45,7 +41,12 @@ export function BaseMembershipCard({
           {/*</a>*/}
         </div>
       </div>
-      {footer}
+      {footer && (
+        <div>
+          <SizedBox height={20} />
+          {footer}
+        </div>
+      )}
     </div>
   );
 }

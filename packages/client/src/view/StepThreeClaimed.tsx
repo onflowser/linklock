@@ -2,12 +2,12 @@ import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepThreeClaimed.scss";
-import { MembershipNFT } from "@membership/flow/index";
-import { MembershipCard } from "./shared/membership-card/MembershipCard";
+import { MembershipInstance } from "@membership/flow/index";
+import { MembershipInstanceCard } from "./shared/membership-card/membership-instance/MembershipInstanceCard";
 
 export interface StepThreeClaimedProps {
   onCompleteStep: () => void;
-  membership: MembershipNFT;
+  membership: MembershipInstance;
 }
 
 export function StepThreeClaimed({
@@ -20,7 +20,7 @@ export function StepThreeClaimed({
       <Stepper step={3} stepTitle={"Your membership"}></Stepper>
 
       <div className="wrapper">
-        <MembershipCard membership={membership} />
+        <MembershipInstanceCard membership={membership} />
 
         <Button onClick={onCompleteStep}>DONE</Button>
       </div>

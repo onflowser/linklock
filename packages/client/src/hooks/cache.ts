@@ -23,11 +23,12 @@ export function useGetMembershipDefinitionsByAdmin(
   );
 }
 
-export function useGetMemberships(address: string | undefined) {
+export function useGetMembershipInstances(address: string | undefined) {
   const flowService = FlowService.create();
   return useSWR(
     () => (address ? `membership/${address}` : null),
-    () => (address ? flowService.getMembershipsByAccount(address) : undefined)
+    () =>
+      address ? flowService.getMembershipInstancesByAccount(address) : undefined
   );
 }
 

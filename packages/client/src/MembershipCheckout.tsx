@@ -2,7 +2,7 @@ import { CenterModal } from "./view/shared/Modal";
 import { useEffect, useState } from "react";
 import { useFlow } from "./providers/flow.provider";
 import {
-  useGetMemberships,
+  useGetMembershipInstances,
   useGetMembershipDefinitionsByAdmin,
 } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
@@ -40,7 +40,7 @@ export function MembershipCheckout({
     data: ownedMemberships,
     error: membershipError,
     mutate: refetchMemberships,
-  } = useGetMemberships(currentUser?.address);
+  } = useGetMembershipInstances(currentUser?.address);
   const membershipDefinition = membershipDefinitions?.find(
     (definition) => definition.id === String(membershipDefinitionId)
   );

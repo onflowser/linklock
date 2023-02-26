@@ -29,8 +29,8 @@ export function MembershipDefinitionCard({
       footer={
         <div className={"bottom"}>
           <span>
-            <StopWatch></StopWatch>
-            membership duration:{" "}
+            <StopWatch />
+            Membership duration:{" "}
             {prettyMilliseconds(+expirationInterval * 1000)}
           </span>
           <div>

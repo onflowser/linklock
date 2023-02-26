@@ -1,8 +1,8 @@
-import { useGetMemberships, useFlow } from "@membership/client";
+import { useGetMembershipInstances, useFlow } from "@membership/client";
 
 export default function Index() {
   const { currentUser } = useFlow();
-  const { data: memberships } = useGetMemberships(currentUser?.address);
+  const { data: memberships } = useGetMembershipInstances(currentUser?.address);
   return (
     <div>
       <h3>My memberships</h3>

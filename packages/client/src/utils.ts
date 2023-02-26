@@ -1,4 +1,4 @@
-import { MembershipNFT } from "@membership/flow/index";
+import { MembershipInstance } from "@membership/flow/index";
 
 export type AppEnvironment = "production" | "staging" | "development";
 
@@ -22,6 +22,10 @@ export function daysToSeconds(days: number) {
   return days * secondsInDay;
 }
 
+export function unixTimestampToDate(timestamp: number): Date {
+  return new Date(timestamp * 1000)
+}
+
 export enum MembershipStatus {
   UNKNOWN = "unknown",
   VALID = "valid",
@@ -29,7 +33,7 @@ export enum MembershipStatus {
 }
 
 export const getMembershipStatus = (
-  membership: MembershipNFT | undefined
+  membership: MembershipInstance | undefined
 ): MembershipStatus => {
   if (membership === undefined) {
     return MembershipStatus.UNKNOWN;
