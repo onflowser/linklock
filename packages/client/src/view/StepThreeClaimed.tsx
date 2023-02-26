@@ -1,11 +1,9 @@
-import { ExternalLink } from "./shared/icons/ExternalLink";
 import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepThreeClaimed.scss";
 import { MembershipNFT } from "@membership/flow/index";
-// @ts-ignore
-import DefaultThumb from "./assets/default-thumbnail.png";
+import { MembershipCard } from "./shared/membership-card/MembershipCard";
 
 export interface StepThreeClaimedProps {
   onCompleteStep: () => void;
@@ -22,27 +20,9 @@ export function StepThreeClaimed({
       <Stepper step={3} stepTitle={"Your membership-card"}></Stepper>
 
       {/* TODO: Reuse membership-card box for this UI? */}
+
       <div className="wrapper">
-        <div className={"inner-wrapper"}>
-          <div className={"membership-name"}>
-            <div>
-              <img
-                src={membership.thumbnail || DefaultThumb.src}
-                alt={membership.name}
-                width={70}
-                height={70}
-              />
-            </div>
-            <div>
-              <span>{membership.name}</span>
-              <p>{membership.description}</p>
-              {/*<a href="#somewhere">*/}
-              {/*  view NFT*/}
-              {/*  <ExternalLink></ExternalLink>*/}
-              {/*</a>*/}
-            </div>
-          </div>
-        </div>
+        <MembershipCard membership={membership} />
 
         <Button onClick={onCompleteStep}>DONE</Button>
       </div>

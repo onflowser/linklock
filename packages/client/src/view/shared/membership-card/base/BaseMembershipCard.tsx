@@ -1,53 +1,45 @@
 import "./BaseMembershipCard.scss";
-import { ExternalLink } from "../../icons/ExternalLink";
-import { StopWatch } from "../../icons/StopWatch";
 import { MembershipStatus } from "../../../../utils";
+// @ts-ignore missing type declarations
+import DefaultThumb from "../../../assets/default-thumbnail.png";
+import { ReactNode } from "react";
 
 export interface MembershipBoxProps {
   name: string;
-  membershipName: string;
-  thumb: string;
-  duration: string | any;
-  coins: number | string;
-  usd: number | string;
+  className?: string;
+  description: string;
+  thumbnailImageUrl: string;
+  footer?: ReactNode;
   status?: MembershipStatus;
 }
 
 export function BaseMembershipCard({
   name,
-  membershipName,
-  thumb,
-  duration,
-  coins,
-  usd,
+  description,
+  thumbnailImageUrl,
+  className,
+  footer,
   status = MembershipStatus.UNKNOWN,
 }: MembershipBoxProps) {
   return (
-    <div className={"membership-box-container"}>
+    // TODO: use classnames library for concatenating classes
+    <div className={"membership-box-container" + " " + className}>
       {status !== MembershipStatus.UNKNOWN && (
         <span className={`badge ${status}`}>{status}</span>
       )}
       <div className={"top"}>
-        <img src={thumb} alt={name} />
+        <img src={thumbnailImageUrl || DefaultThumb.src} alt={name} />
         <div>
           <span>{name}</span>
-          <span>{membershipName}</span>
-          <a href="packages/client/src/view/shared/membership-card/base-membership-card#somewhere">
-            view contract
-            <ExternalLink></ExternalLink>
-          </a>
+          <span>{description}</span>
+          {/* TODO: Should we display a link here? */}
+          {/*<a href="packages/client/src/view/shared/membership-card/base-membership-card#somewhere">*/}
+          {/*  view contract*/}
+          {/*  <ExternalLink></ExternalLink>*/}
+          {/*</a>*/}
         </div>
       </div>
-      <div className={"bottom"}>
-        <span>
-          <StopWatch></StopWatch>
-          membership duration: {duration}
-        </span>
-        <div>
-          <span>{coins}</span>
-          <span>={usd}</span>
-        </div>
-      </div>
+      {footer}
     </div>
   );
 }

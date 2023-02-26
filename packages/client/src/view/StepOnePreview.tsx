@@ -2,7 +2,7 @@ import { Stepper } from "./shared/stepper/Stepper";
 import "./steps.scss";
 import "./StepOnePreview.scss";
 import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
-import { MembershipDefinitionCard } from "./shared/membership-card/MembershipDefinitionCard";
+import { MembershipDefinitionCard } from "./shared/membership-card/membership-definition/MembershipDefinitionCard";
 
 import {
   getMembershipStatus,

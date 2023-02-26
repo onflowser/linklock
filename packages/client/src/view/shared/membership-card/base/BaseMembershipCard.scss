@@ -81,32 +81,4 @@
     }
   }
 
-  .bottom {
-    @include layout.horizontalLayout(variables.$baseGap);
-    align-items: end;
-    justify-content: space-between;
-
-    & > span {
-      color: colors.$colorBlack500;
-      font-size: typography.$fontSizeS;
-      @include layout.horizontalLayout(5px);
-      align-items: center;
-    }
-
-    & > div {
-      @include layout.verticalLayout(0);
-      align-items: end;
-
-      span:first-child {
-        font-size: typography.$fontSizeL;
-        font-weight: typography.$fontWeightNormal;
-        line-height: typography.$lineSpacingS;
-      }
-
-      span:last-child {
-        color: colors.$colorBlack500;
-        font-size: typography.$fontSizeS;
-      }
-    }
-  }
 }

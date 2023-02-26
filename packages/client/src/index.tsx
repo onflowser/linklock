@@ -5,6 +5,6 @@ export { useFlow } from "./providers/flow.provider";
 export * from "./services/flow.service";
 export * from "./hooks/cache";
 export * from "./utils";
-export * from "./view/shared/membership-card/MembershipDefinitionCard";
+export * from "./view/shared/membership-card/membership-definition/MembershipDefinitionCard";
 export * from "./view/shared/membership-card/MembershipCard";
 export * from "./view/shared/UnstyledButton";
