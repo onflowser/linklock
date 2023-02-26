@@ -58,7 +58,7 @@ export default function MembershipSettings() {
     <>
       <MetaTags title="Profile settings" />
       <div className="profile-settings">
-        <h3>Membership settings</h3>
+        <h1>New membership settings</h1>
 
         {/* TODO: Add option to upload profile photo? */}
 

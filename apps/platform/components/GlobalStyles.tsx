@@ -44,6 +44,7 @@ export const GlobalStyle = createGlobalStyle`
 
     /* =============================================== COLORS */
     --light-violet-color:#e8e5fc;
+    --light-background-color: #f6f6f6;
     --dark-violet-color: #9e94f7;
     --secondary-color: #fe6f6f;
     --placeholder-text-color: #91959d;
@@ -55,7 +56,7 @@ export const GlobalStyle = createGlobalStyle`
 
 
   html, body {
-    background-color: #f6f6f6;
+    background-color: var(--light-background-color);
     font-family: 'Poppins', sans-serif;
     line-height: 1.8em;
     color: var(--main-dark-color);

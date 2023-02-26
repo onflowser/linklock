@@ -46,7 +46,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
       <SizedBox backgroundColor="var(--main-dark-color)" height={200} />
 
       <ProfileWrapper>
-        <Avatar imageUrl={nameInfo?.avatar} />
+        <Avatar address={address} imageUrl={nameInfo?.avatar} />
         <ProfileName>{nameInfo?.name ?? "Unknown"}</ProfileName>
         <ExternalLink href={`https://flowscan.org/account/${address}`}>
           {address}
