@@ -5,11 +5,11 @@ import {
   useGetMembershipInstances,
   useGetMembershipDefinitionsByAdmin,
 } from "./hooks/cache";
-import { FlowService } from "./services/flow.service";
 import "./styles/reset.scss";
 import { StepOnePreview } from "./view/StepOnePreview";
 import { StepTwoRequirement } from "./view/StepTwoRequirement";
 import { StepThreeClaimed } from "./view/StepThreeClaimed";
+import { CheckoutStep } from "./utils";
 
 export type MembershipCheckoutProps = {
   adminAddress: string;
@@ -17,14 +17,6 @@ export type MembershipCheckoutProps = {
   isOpenModal: boolean;
   onCloseModal: () => void;
 };
-
-enum CheckoutStep {
-  PREVIEW,
-  REQUIREMENT,
-  CLAIMED,
-}
-
-const flowService = FlowService.create();
 
 export function MembershipCheckout({
   adminAddress,
@@ -37,53 +29,28 @@ export function MembershipCheckout({
     useGetMembershipDefinitionsByAdmin(adminAddress);
   // TODO: Handle errors
   const {
-    data: ownedMemberships,
-    error: membershipError,
-    mutate: refetchMemberships,
+    data: ownedMembershipInstances,
+    error: membershipInstancesError,
+    mutate: refetchMembershipInstances,
   } = useGetMembershipInstances(currentUser?.address);
   const membershipDefinition = membershipDefinitions?.find(
     (definition) => definition.id === String(membershipDefinitionId)
   );
-  const ownedTargetMembership = ownedMemberships?.find(
+  const membershipInstance = ownedMembershipInstances?.find(
     (membership) =>
       membership.adminAddress === adminAddress &&
       membershipDefinition &&
-      membership.id === membershipDefinition!.id
+      membership.id === membershipDefinition.id
   );
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
-    if (ownedTargetMembership) {
+    if (membershipInstance) {
       setCheckoutStep(CheckoutStep.CLAIMED);
     } else {
       setCheckoutStep(CheckoutStep.PREVIEW);
     }
-  }, [isOpenModal]);
-
-  function onClaimRequirement() {
-    flowService
-      .setupMembershipCollection()
-      .then(() => {
-        flowService
-          .claimMembership({
-            adminAddress: adminAddress,
-            membershipDefinitionId,
-            paymentAmount: membershipDefinition!.requirement.price,
-            // TODO: Dynamically retrieve fungible token type or storage path
-            fungibleTokenStoragePath: "flowTokenVault",
-          })
-          .then(() => {
-            refetchMemberships();
-            setCheckoutStep(CheckoutStep.CLAIMED);
-          })
-          .catch(console.error);
-      })
-      .catch(console.error);
-  }
-
-  function onDone() {
-    onCloseModal();
-  }
+  }, [isOpenModal, membershipInstance]);
 
   function renderStep() {
     if (membershipDefinitionError) {
@@ -98,6 +65,7 @@ export function MembershipCheckout({
       case CheckoutStep.PREVIEW:
         return (
           <StepOnePreview
+            membershipInstance={membershipInstance}
             membershipDefinition={membershipDefinition}
             onCompleteStep={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}
           />
@@ -105,15 +73,18 @@ export function MembershipCheckout({
       case CheckoutStep.REQUIREMENT:
         return (
           <StepTwoRequirement
+            adminAddress={adminAddress}
+            membershipInstance={membershipInstance}
             membershipDefinition={membershipDefinition}
-            onCompleteStep={onClaimRequirement}
+            onCompleteStep={() => setCheckoutStep(CheckoutStep.CLAIMED)}
           />
         );
       case CheckoutStep.CLAIMED:
-        return ownedTargetMembership ? (
+        return membershipInstance ? (
           <StepThreeClaimed
-            onCompleteStep={onDone}
-            membership={ownedTargetMembership}
+            onMoveToStep={setCheckoutStep}
+            onCloseModal={() => onCloseModal()}
+            membershipInstance={membershipInstance}
           />
         ) : (
           "Loading..."

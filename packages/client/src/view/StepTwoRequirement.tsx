@@ -2,21 +2,36 @@ import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepTwoRequirement.scss";
-import { MembershipDefinition } from "@membership/flow/index";
-import { useFlowBalance } from "../hooks/cache";
+import {
+  MembershipDefinition,
+  MembershipInstance,
+} from "@membership/flow/index";
+import { useFlowBalance, useGetMembershipInstances } from "../hooks/cache";
 import { useFlow } from "../providers/flow.provider";
 import { formatFlowCoins, useFlowPrice } from "../hooks/coin-price";
+import { getMembershipStatus, MembershipStatus } from "../utils";
+import { FlowService, TransactionResult } from "../services/flow.service";
+import toast from "react-hot-toast";
 
 export interface StepTwoRequirementProps {
   onCompleteStep: () => void;
+  adminAddress: string;
   membershipDefinition: MembershipDefinition;
+  membershipInstance: MembershipInstance | undefined;
 }
 
 export function StepTwoRequirement({
   onCompleteStep,
+  adminAddress,
   membershipDefinition,
+  membershipInstance,
 }: StepTwoRequirementProps) {
+  const flowService = FlowService.create();
   const { currentUser } = useFlow();
+  const { mutate: refetchMembershipInstances } = useGetMembershipInstances(
+    currentUser?.address
+  );
+  const membershipStatus = getMembershipStatus(membershipInstance);
   const { data: flowBalance } = useFlowBalance(currentUser?.address);
   const membershipPrice: string = membershipDefinition.requirement.price;
   const hasSufficientBalance =
@@ -25,6 +40,55 @@ export function StepTwoRequirement({
     flowBalance >= Number(membershipPrice);
 
   const { data: flowPrice } = useFlowPrice();
+
+  async function onSubmit() {
+    // TODO: Dynamically retrieve fungible token type or storage path
+    const fungibleTokenStoragePath = "flowTokenVault";
+
+    await toast.promise(flowService.setupMembershipCollection(), {
+      loading: "Setting up membership NFT collection",
+      success: "Your account is ready!",
+      error: (result: TransactionResult) =>
+        `Failed to setup membership NFT collection: ${result.error?.message}`,
+    });
+
+    if (membershipStatus === MembershipStatus.UNKNOWN) {
+      await toast.promise(
+        flowService.claimMembership({
+          adminAddress: adminAddress,
+          membershipDefinitionId: membershipDefinition.id,
+          paymentAmount: membershipDefinition!.requirement.price,
+          fungibleTokenStoragePath,
+        }),
+        {
+          loading: "Claiming membership",
+          success: "Membership claimed",
+          error: (result: TransactionResult) =>
+            `Failed to claim membership: ${result.error?.message}`,
+        }
+      );
+    }
+
+    if (membershipStatus === MembershipStatus.EXPIRED) {
+      await toast.promise(
+        flowService.redeemMembership({
+          membershipId: membershipInstance!.id,
+          paymentAmount: membershipDefinition!.requirement.price,
+          fungibleTokenStoragePath,
+        }),
+        {
+          loading: "Redeeming membership",
+          success: "Membership redeemed",
+          error: (result: TransactionResult) =>
+            `Failed to redeem membership: ${result.error?.message}`,
+        }
+      );
+    }
+
+    await refetchMembershipInstances();
+
+    onCompleteStep();
+  }
 
   return (
     <div className="step-container">
@@ -59,8 +123,17 @@ export function StepTwoRequirement({
 
       {/* NAVIGATION CONTENT */}
       <div className={"button-wrapper"}>
-        <Button onClick={onCompleteStep}>BUY</Button>
+        <Button onClick={onSubmit}>{getButtonTitle(membershipStatus)}</Button>
       </div>
     </div>
   );
+}
+
+function getButtonTitle(membershipStatus: MembershipStatus) {
+  switch (membershipStatus) {
+    case MembershipStatus.EXPIRED:
+      return "REDEEM";
+    case MembershipStatus.UNKNOWN:
+      return "PURCHASE";
+  }
 }

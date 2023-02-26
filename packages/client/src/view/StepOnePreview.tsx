@@ -18,16 +18,16 @@ import { Header } from "./shared/header/Header";
 export interface StepOnePreviewProps {
   onCompleteStep: () => void;
   membershipDefinition: MembershipDefinition;
-  ownedTargetMembership?: MembershipInstance;
+  membershipInstance: MembershipInstance | undefined;
 }
 
 export function StepOnePreview({
   onCompleteStep,
   membershipDefinition,
-  ownedTargetMembership,
+  membershipInstance,
 }: StepOnePreviewProps) {
   const { currentUser, logout } = useFlow();
-  const membershipStatus = getMembershipStatus(ownedTargetMembership);
+  const membershipStatus = getMembershipStatus(membershipInstance);
 
   return (
     <div className="step-container">
@@ -40,7 +40,6 @@ export function StepOnePreview({
       <div className={"membership-box-wrapper"}>
         <div className={"inner-wrapper"}>
           <MembershipDefinitionCard
-            ownedTargetMembership={ownedTargetMembership}
             membershipDefinition={membershipDefinition}
           />
         </div>
