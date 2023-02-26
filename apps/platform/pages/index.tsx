@@ -499,7 +499,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <MetaTags title="FlowTea ☕️" />
+      <MetaTags title="Supportify️" />
       <LandingSection>
         <CenterTitleBox>
           <MainHeading>Let your supporters become your active members.</MainHeading>
