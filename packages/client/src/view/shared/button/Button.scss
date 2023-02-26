@@ -11,4 +11,9 @@
   width: 100%;
   padding: 13px;
   cursor: pointer;
+
+  &[disabled] {
+    background-color: colors.$colorBlack200;
+    cursor: default;
+  }
 }

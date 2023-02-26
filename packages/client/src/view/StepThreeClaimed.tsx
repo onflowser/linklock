@@ -4,6 +4,8 @@ import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepThreeClaimed.scss";
 import { MembershipNFT } from "@membership/flow/index";
+// @ts-ignore
+import DefaultThumb from './assets/default-thumbnail.png';
 
 export interface StepThreeClaimedProps {
   onCompleteStep: () => void;
@@ -24,15 +26,15 @@ export function StepThreeClaimed({
         <div className={"inner-wrapper"}>
           <div className={"membership-name"}>
             <div>
-              <img src={membership.thumbnail} alt={membership.name} />
+              <img src={membership.thumbnail || DefaultThumb.src} alt={membership.name} width={70} height={70}/>
             </div>
             <div>
               <span>{membership.name}</span>
               <p>{membership.description}</p>
-              <a href="#somewhere">
-                view NFT
-                <ExternalLink></ExternalLink>
-              </a>
+              {/*<a href="#somewhere">*/}
+              {/*  view NFT*/}
+              {/*  <ExternalLink></ExternalLink>*/}
+              {/*</a>*/}
             </div>
           </div>
         </div>
