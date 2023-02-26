@@ -67,6 +67,13 @@ pub contract Membership: NonFungibleToken {
             self.adminAddress = adminAddress
         }
 
+        access(contract) fun redeem(membershipDefinition: &MembershipDefinition.NFT) {
+            let currentTimestamp = getCurrentBlock().timestamp
+            let redeemedExpirationTimestamp = currentTimestamp + membershipDefinition.expirationInterval
+
+            self.validUntilTimestamp = redeemedExpirationTimestamp
+        }
+
          pub fun isValid(): Bool {
              let currentTimestamp = getCurrentBlock().timestamp
              return self.validUntilTimestamp < currentTimestamp
@@ -209,16 +216,102 @@ pub contract Membership: NonFungibleToken {
         return <- create Collection()
     }
 
-    // TODO: Add renew/redeem membership-card function
-    // TODO: Add membership-card specific events (e.g. renew)
-    // TODO: Pass definition NFT as argument instead?
+    /// Extends the given membership by the specified duration.
+    pub fun redeemMembership(
+        membership: @NFT,
+        adminAddress: Address,
+        membershipDefinitionId: UInt64,
+        claimerAddress: Address,
+        claimerVault: @FungibleToken.Vault
+    ): @NFT {
+        let membershipDefinition = self.getMembershipDefinition(
+            adminAddress: adminAddress,
+            membershipDefinitionId: membershipDefinitionId,
+        )
+        self.executeClaimRequirement(
+            membershipDefinition: membershipDefinition,
+            adminAddress: adminAddress,
+            claimerAddress: claimerAddress,
+            claimerVault: <- claimerVault
+        )
+
+        membership.redeem(membershipDefinition: membershipDefinition)
+
+        return <- membership
+    }
+
+    // TODO: Emit membership specific events (e.g. renew)
     pub fun claimMembership(
         adminAddress: Address,
         membershipDefinitionId: UInt64,
         claimerAddress: Address,
         claimerVault: @FungibleToken.Vault
     ): @NFT {
-         let membershipDefinitionCollection = getAccount(adminAddress)
+        let membershipDefinition = self.getMembershipDefinition(
+            adminAddress: adminAddress,
+            membershipDefinitionId: membershipDefinitionId,
+        )
+        self.executeClaimRequirement(
+           membershipDefinition: membershipDefinition,
+           adminAddress: adminAddress,
+           claimerAddress: claimerAddress,
+           claimerVault: <- claimerVault
+        )
+
+        if (self.totalMembershipSupplyPerDefinition[membershipDefinition.id] == nil) {
+            // Initialize membership-card supply
+            self.totalMembershipSupplyPerDefinition[membershipDefinition.id] = 0
+        }
+
+        var currentSupplyForDefinition = self.totalMembershipSupplyPerDefinition[membershipDefinition.id]!
+
+        if (currentSupplyForDefinition >= membershipDefinition.maxSupply) {
+            panic("Max membership supply reached")
+        }
+
+        let currentTimestamp = getCurrentBlock().timestamp
+        let membership <- create NFT(
+            id: self.totalSupply,
+            name: membershipDefinition.name,
+            description: "",
+            thumbnail: "",
+            metadata: {},
+            validUntilTimestamp: currentTimestamp + membershipDefinition.expirationInterval,
+            adminAddress: adminAddress
+        )
+
+        self.totalMembershipSupplyPerDefinition[membershipDefinition.id] = currentSupplyForDefinition + UInt64(1)
+        self.totalSupply = self.totalSupply + UInt64(1)
+
+        // TODO: Should we deposit NFT here instead of returning?
+        // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
+        return <- membership
+    }
+
+    access(contract) fun executeClaimRequirement(
+        membershipDefinition: &MembershipDefinition.NFT,
+        adminAddress: Address,
+        claimerAddress: Address,
+        claimerVault: @FungibleToken.Vault
+    ) {
+        let requirementAccount = getAccount(membershipDefinition.requirement.contractAddress)
+
+        let requirementContract = requirementAccount.contracts.borrow<&MembershipRequirement>(
+            name: membershipDefinition.requirement.contractName
+        )!
+        requirementContract.claimRequirement(
+            claimerAddress: claimerAddress,
+            adminAddress: adminAddress,
+            expectedPrice: membershipDefinition.requirement.price,
+            claimerVault: <- claimerVault
+        )
+    }
+
+    access(contract) fun getMembershipDefinition(
+        adminAddress: Address,
+        membershipDefinitionId: UInt64,
+    ): &MembershipDefinition.NFT {
+        let membershipDefinitionCollection = getAccount(adminAddress)
              .getCapability(MembershipDefinition.CollectionPublicPath)
              .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
              ?? panic("Could not borrow reference to membership definition collection")
@@ -227,46 +320,7 @@ pub contract Membership: NonFungibleToken {
             .borrowMembershipDefinitionNFT(id: membershipDefinitionId)
             ?? panic("Could not borrow reference to membership definition NFT")
 
-        let requirementAddress = getAccount(definition.requirement.contractAddress)
-
-        let requirementContract = requirementAddress.contracts.borrow<&MembershipRequirement>(
-            name: definition.requirement.contractName
-        )!
-        requirementContract.claimRequirement(
-            claimerAddress: claimerAddress,
-            adminAddress: adminAddress,
-            expectedPrice: definition.requirement.price,
-            claimerVault: <- claimerVault
-        )
-
-        if (self.totalMembershipSupplyPerDefinition[definition.id] == nil) {
-            // Initialize membership-card supply
-            self.totalMembershipSupplyPerDefinition[definition.id] = 0
-        }
-
-        var currentSupplyForDefinition = self.totalMembershipSupplyPerDefinition[definition.id]!
-
-        if (currentSupplyForDefinition >= definition.maxSupply) {
-            panic("Max membership supply reached")
-        }
-
-        let currentTimestamp = getCurrentBlock().timestamp
-        let membership <- create NFT(
-            id: self.totalSupply,
-            name: definition.name,
-            description: "",
-            thumbnail: "",
-            metadata: {},
-            validUntilTimestamp: currentTimestamp + definition.expirationInterval,
-            adminAddress: adminAddress
-        )
-
-        self.totalMembershipSupplyPerDefinition[definition.id] = currentSupplyForDefinition + UInt64(1)
-        self.totalSupply = self.totalSupply + UInt64(1)
-
-        // TODO: Should we deposit NFT here instead of returning?
-        // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
-        return <- membership
+        return definition
     }
 
     init() {
