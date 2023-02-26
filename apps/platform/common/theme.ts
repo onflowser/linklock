@@ -9,6 +9,7 @@ export const colors = {
   lightViolet: "#E8E5FC",
   darkViolet: "#9E94F7",
   yellow: "#feff78",
+  green: "#9CE781",
 };
 
 export const theme = {
@@ -20,7 +21,7 @@ export const theme = {
     xl: "25px",
   },
   colors: {
-    primary: colors.orange,
+    primary: colors.green,
     secondary: colors.mainDark,
     ...colors,
   },

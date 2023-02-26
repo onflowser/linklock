@@ -52,6 +52,7 @@ export const GlobalStyle = createGlobalStyle`
     --dark-blue-color: #294269;
     --active-field-color: #faea95;
     --error-color: #e04f5f;
+    --green-color: #9CE781;
   }
 
 
@@ -77,7 +78,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .profile-photo-small {
-    max-width: 35px;
+    max-width: 49px;
     width: 100%;
   }
 

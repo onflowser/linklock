@@ -9,14 +9,11 @@ import { useRouter } from "next/router";
 import RoundLink from "../components/RoundLink";
 
 // resources
-import blobImage from "../public/images/blob.svg";
-import teaCupImage from "../public/images/flow-tea-cup.png";
-import heartImage from "../public/images/heart.png";
-import clapHands from "../public/images/clap-hands.png";
-import freeIcon from "../public/images/free.png";
-import flowIcon from "../public/images/flow.png";
-import recurringPaymentIcon from "../public/images/recurring-payment.png";
-import teaImage from "../public/images/big-cup.svg";
+import colorfulLogo from "../public/images/logos/colorful_logo.svg";
+import clapHands from "../public/images/clap-hands.svg";
+import freeIcon from "../public/images/free.svg";
+import flowIcon from "../public/images/flow.svg";
+import membershipIcon from "../public/images/membership.svg";
 import MetaTags from "../components/MetaTags";
 
 // --LANDING--SECTION--
@@ -65,8 +62,6 @@ const BigInputInput = styled.input`
   padding: 0;
   flex-grow: 1;
 
-  //padding: 0 0.5rem;
-
   &::placeholder {
     font-size: 1.3rem;
     line-height: 2rem;
@@ -102,7 +97,7 @@ const BigInput = ({
 }) => {
   return (
     <BigNameInputWrapper>
-      <BigInputText>buymeaflowtea.com/</BigInputText>
+      <BigInputText>supportify.dev/</BigInputText>
       <BigInputInput
         type="text"
         placeholder={placeholder}
@@ -120,11 +115,17 @@ const BigInput = ({
 /* BIG INPUT */
 
 const Subtitle = styled.b`
-  font-size: 20px;
-  color: ${theme.colors.white};
+  font-size: 22px;
+  color: ${theme.colors.mainDark};
+  line-height: 35px;
   text-align: center;
   padding-bottom: 3rem;
   opacity: 0.9;
+  max-width: 85%;
+`;
+
+const Emphasised = styled.span`
+  color: ${theme.colors.darkViolet};
 `;
 
 const CenterTitleBox = styled.div`
@@ -146,9 +147,8 @@ const MainHeading = styled.h1`
   font-weight: 800;
   opacity: 0.9;
   text-align: center;
-  padding: 3rem;
   margin: 0;
-  color: ${theme.colors.white};
+  color: ${theme.colors.mainDark};
 
   @media only screen and (max-width: 1300px) {
     font-size: 3rem;
@@ -157,12 +157,12 @@ const MainHeading = styled.h1`
 `;
 const LandingSection = styled.div`
   background-color: #e5e5f7;
-  background-image: url("/images/landing-gradient.webp");
+  background-image: url("/images/background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 
-  height: calc(100vh - ${theme.layout.navbar_height});
+  height: calc(80vh - ${theme.layout.navbar_height});
   box-sizing: border-box;
   position: relative;
 
@@ -215,6 +215,46 @@ const Section = ({ color, children, bgcolor }: SectionPropType) => {
   );
 };
 
+const BgSectionInner = styled.div`
+  max-width: ${({theme}) => theme.layout.max_width};
+  padding: 3rem ${({theme}) => theme.layout.mobile_padding};
+  padding-top: 0;
+
+  display: flex;
+  flex-direction: row;
+
+  @media only screen and (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const BgSectionContainer = styled.div`
+  background-color: #e5e5f7;
+  background-image: url("/images/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  height: calc(65vh - ${theme.layout.navbar_height});
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+type BgSectionPropType = {
+  children?: JSX.Element | JSX.Element[];
+};
+const BgSection = ({  children }: BgSectionPropType) => {
+  return (
+      <BgSectionContainer>
+        <BgSectionInner>{children}</BgSectionInner>
+      </BgSectionContainer>
+  );
+};
+
 const Column = styled.div`
   flex: 1;
   height: 100%;
@@ -242,6 +282,7 @@ const SmallRedText = styled.div`
   font-weight: 900;
   font-size: 1.5rem;
   line-height: 35px;
+  margin-bottom: 2rem;
 
   color: ${(props) => props.theme.colors.primary};
 `;
@@ -251,6 +292,7 @@ const BigHeading = styled.h1`
   font-size: 4rem;
   line-height: 84px;
   margin: 0;
+  opacity: 0.9;
 
   @media only screen and (max-width: 500px) {
     line-height: 5rem;
@@ -259,59 +301,26 @@ const BigHeading = styled.h1`
 
 const BoldNormal = styled.div`
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: 2.4rem;
   font-weight: bold;
   padding-bottom: 2rem;
   padding-top: 3rem;
+  opacity: 0.9;
 `;
 const NormalText = styled.div`
   font-size: 1.5rem;
   font-weight: normal;
-  line-height: 2rem;
+  line-height: 2.2rem;
   padding-bottom: 2rem;
+  opacity: 0.9;
 `;
 const BlobImageWrapper = styled.div`
-  height: 100%;
+  height: 110%;
   max-width: 35rem;
   aspect-ratio: 382.823/409.499;
   position: relative;
+  margin-top: -50px;
 `;
-const TeaCupsWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 3rem;
-
-  @media only screen and (max-width: 1200px) {
-    position: initial;
-    margin: 3rem 0;
-  }
-`;
-const TeaCupRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-const TeaCup = styled.div`
-  position: relative;
-  width: 5rem;
-  height: 5rem;
-  margin-right: 0.7rem;
-`;
-const HeartImage = styled.div`
-  position: relative;
-  width: 5rem;
-  height: 5rem;
-  margin-right: 0.7rem;
-  transform: scale(0.75);
-`;
-// --Hey--You--Section--
 
 // --Benefits--
 const SmallSquare = styled.div`
@@ -342,9 +351,9 @@ const BenefitTitle = styled.div`
 `;
 const BenefitText = styled.div`
   font-size: 1rem;
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   font-weight: normal;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   color: white;
 `;
 const BenefitBody = styled.div`
@@ -354,14 +363,10 @@ const BenefitContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding-bottom: 1.5rem;
+  padding-bottom: 3rem;
 
   @media only screen and (max-width: 1200px) {
     padding-bottom: 2.5rem;
-  }
-
-  &:first-child {
-    padding-top: 3rem;
   }
 `;
 const BenefitRightColumn = styled(Column)`
@@ -377,6 +382,7 @@ const BenefitRightColumn = styled(Column)`
 const BenefitLeftColumn = styled(Column)`
   flex: 1.1;
   padding-right: 10rem;
+  padding-top: 3rem;
 
   @media only screen and (max-width: 1200px) {
     padding-right: 0;
@@ -405,15 +411,28 @@ const BenefitCard = ({ icon, title, body }: BenefitProps) => (
 const StepCard = styled.div`
   display: flex;
   flex-direction: row;
-  background: ${(props) => props.theme.colors.darkViolet};
-  padding: 1rem 1rem 1rem 0;
+  padding: 2rem 1rem;
   align-items: center;
   border-radius: 0.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 9px 12px 1px rgba(0, 0, 0, 0.14),
-    0 3px 16px 2px rgba(0, 0, 0, 0.12), 0 5px 6px -3px rgba(0, 0, 0, 0.2);
-  width: 18rem;
+  position: relative;
+
+  width: 20rem;
   z-index: 2;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: -15px 10px 20px #635E907E;
+    border-radius: 0.5rem;
+    opacity: 0.15;
+    z-index: -1;
+
+  }
 `;
 const StepNum = styled.div`
   font-size: 2.5rem;
@@ -430,6 +449,7 @@ const StepText = styled.div`
   flex-grow: 1;
   font-weight: bold;
   color: white;
+  font-size: 20px;
 `;
 const Step = ({ num, text }: any) => {
   return (
@@ -445,31 +465,23 @@ const StepsWrapper = styled.div`
   width: 100%;
 `;
 const Steps = styled.div`
-  z-index: 2;
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
-const TeaImage = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-`;
-const TeaImageWrapper = styled.div`
-  position: absolute;
-  height: 25rem;
-  width: 18.02rem;
-  bottom: -2.2rem;
-  right: 0;
-`;
+
 const HWorkLeftColumn = styled(Column)`
   flex: 1;
-  padding-right: 10rem;
-  box-sizing: border-box;
+  margin-top: 5rem;
   @media only screen and (max-width: 1200px) {
     padding-right: 0;
   }
 `;
 const HWorkRightColumn = styled(Column)`
   flex: 1;
+  display: flex;
+  max-width: 28rem;
+  
   @media only screen and (max-width: 1200px) {
     padding-top: 3rem;
     width: 30rem;
@@ -487,94 +499,66 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <MetaTags title="FlowTea ☕️" />
+      <MetaTags title="Supportify️" />
       <LandingSection>
         <CenterTitleBox>
-          <MainHeading>Let your appreciators buy you a Flow tea.</MainHeading>
+          <MainHeading>Let your supporters become your active members.</MainHeading>
           <Subtitle>
-            Start getting founds for your project(s) in FLOW crypto currency.
-            Create your profile and share it to your appreciators. It is easy,
-            free and quick!
+            Start getting founds for your work in FLOW crypto currency. <br/>Connect your <Emphasised>find.xyz</Emphasised> profile and define your membership. <br/>It is easy, free and quick!
           </Subtitle>
           <BigInput
             value={handle}
             onChange={setHandle}
-            placeholder={".find, .fn name or address"}
-            linkTitle="Go"
+            placeholder={"your find.xzy name"}
+            linkTitle="Create your page"
             linkHref=""
             onClick={goToAddress}
           />
         </CenterTitleBox>
       </LandingSection>
       <Section
-        bgcolor={theme.colors.lightViolet}
+        bgcolor={theme.colors.white}
         color={theme.colors.secondary}
       >
         <Column>
-          <SmallRedText>WHAT IS FlowTea?</SmallRedText>
+          <SmallRedText>WHAT IS Supportify?</SmallRedText>
           <BigHeading>HEY YOU!</BigHeading>
           <BoldNormal>
-            You have built something really awesome or designed something really
-            beautiful!
+            You have built something really awesome or designed something really beautiful!
           </BoldNormal>
           <NormalText>
-            Wouldn’t be nice if everyone, who appreciate your work, would buy
-            you a tea? Now they can! They are not your <s>customers</s>, they
-            are your appreciators 💜
+            You can now let your supporters to become active participants in your work by offering them a monthly membership. You give them access to exclusive content or community 💚
           </NormalText>
         </Column>
         <HeyYouBlobColumn>
           <BlobImageWrapper>
-            <Image alt="" src={blobImage} fill sizes="100vw" />
-            <TeaCupsWrapper>
-              <div>
-                {[...Array(5)].map((_, i) => (
-                  <TeaCupRow key={`_tea_cup_row_${i}`}>
-                    {[...Array(4)].map((__, j) =>
-                      i == 4 - j ? (
-                        <HeartImage key={`_heart_${i}${j}`}>
-                          <Image alt="" src={heartImage} fill sizes="100vw" />
-                        </HeartImage>
-                      ) : (
-                        <TeaCup key={`_tea_cup_${i}${j}`}>
-                          <Image alt="" src={teaCupImage} fill sizes="100vw" />
-                        </TeaCup>
-                      )
-                    )}
-                  </TeaCupRow>
-                ))}
-              </div>
-            </TeaCupsWrapper>
+            <Image alt="" src={colorfulLogo} fill sizes="100vw" />
           </BlobImageWrapper>
         </HeyYouBlobColumn>
       </Section>
       <Section bgcolor={theme.colors.secondary} color={theme.colors.white}>
         <BenefitLeftColumn>
-          <SmallRedText>BUY ME A FLOW TEA.</SmallRedText>
+          <SmallRedText>Supportify.</SmallRedText>
           <BigHeading style={{ color: "white" }}>AMAZING BENEFITS</BigHeading>
           <SmallSquare color={theme.colors.primary} />
           <NormalText style={{ color: "white" }}>
-            You are working hard, and you have a passion for what you do.
-            Wouldn’t it be nice to get some appreciation and even Flow tokens
-            for your project? FlowTea was designed for amazing people who are
-            building awesome projects and for awesome people, who appreciate
-            amazing projects.
+            You are working hard, and you have a passion for what you do. Wouldn’t it be nice to get some appreciation and even Flow tokens for your project? Supportify was designed for amazing people who are building awesome projects and for awesome people, who appreciate amazing projects.
           </NormalText>
         </BenefitLeftColumn>
         <ColumnCenterWrapper style={{ flex: 0.9 }}>
           <BenefitRightColumn>
             <BenefitCard
               icon={clapHands}
-              title={"Get paid from your appreciators"}
+              title={"Get paid from your supporters"}
               body={
-                "Share your link or widget with your community and your appreciators can support you directly!"
+                "Share your link to your profile and get paid directly on your wallet."
               }
             />
             <BenefitCard
               icon={freeIcon}
               title={"It is FREE!"}
               body={
-                "There is no membership-card you would have to pay! There is only 5% fee on the transaction, you know, for our tea."
+                "There is no membership you would have to pay! There is only 5% fee on the transaction."
               }
             />
             <BenefitCard
@@ -585,46 +569,39 @@ const Home: NextPage = () => {
               }
             />
             <BenefitCard
-              icon={recurringPaymentIcon}
-              title={"Recurring Payments"}
+              icon={membershipIcon}
+              title={"Membership"}
               body={
-                "Your appreciators can support you or your project monthly! With the Recurring Payment possibility, the same amount of Flow tokens can be transferred each month!"
+                "Your supporters become your active members in the moment they purchase your membership and you can offer them your exclusive content. You decide the price and the duration of the membership."
               }
             />
           </BenefitRightColumn>
         </ColumnCenterWrapper>
       </Section>
-      <Section color={theme.colors.white} bgcolor={theme.colors.darkViolet}>
+      <BgSection>
         <HWorkLeftColumn>
-          <SmallRedText style={{ color: theme.colors.white }}>
+          <SmallRedText style={{ color: theme.colors.darkViolet }}>
             4 SIMPLE STEPS.
           </SmallRedText>
-          <BigHeading style={{ color: theme.colors.darkBlue }}>
-            HOW DOES IT WORK?
+          <BigHeading style={{ color: theme.colors.darkViolet }}>
+            HOW DOES <br/>IT WORK?
           </BigHeading>
-          <SmallSquare color={theme.colors.darkBlue} />
+          <SmallSquare color={theme.colors.darkViolet} />
           <NormalText>
-            It could not be easier! Create your profile, add your FLOW address
-            and share your link or the widget. When you will get the support
-            from your appreciator, the amount will be send on your FLOW address.
+            It could not be easier! Connect your .find profile and define the membership you would like to offer to your supporters. They will be awarded with a NFT, which will be added in their wallet.
           </NormalText>
         </HWorkLeftColumn>
         <HWorkRightColumn>
           <StepsWrapper>
             <Steps>
-              <Step num={1} text={"Create your page"} />
-              <Step num={2} text={"Connect your wallet"} />
+              <Step num={1} text={"Connect .find"} />
+              <Step num={2} text={"Define Membership"} />
               <Step num={3} text={"Share your link"} />
-              <Step num={4} text={"Get your FLOW tokens"} />
+              <Step num={4} text={"Offer Membership"} />
             </Steps>
-            <TeaImageWrapper>
-              <TeaImage>
-                <Image alt="" src={teaImage} fill sizes="100vw" />
-              </TeaImage>
-            </TeaImageWrapper>
           </StepsWrapper>
         </HWorkRightColumn>
-      </Section>
+      </BgSection>
     </>
   );
 };

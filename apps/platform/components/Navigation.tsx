@@ -24,7 +24,7 @@ export function Navigation() {
         <Link href="/">
           <img
             style={{ height: "100%" }}
-            src="/images/logos/logo-horizontal.svg"
+            src="/images/logos/logo.svg"
             alt=""
           />
         </Link>
@@ -37,7 +37,7 @@ export function Navigation() {
               >
                 <Avatar size={50} address={currentUser?.address} imageUrl={domainInfo?.avatar} />
               </UnstyledButton>
-              <PrimaryButton isLoading={isLoggingOut} onClick={() => logout()}>
+              <PrimaryButton isLoading={isLoggingOut} onClick={() => logout()} color={'green'}>
                 Logout
               </PrimaryButton>
             </>
@@ -84,4 +84,5 @@ const NavigationRightButtons = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: end;
+  gap: 10px;
 `;

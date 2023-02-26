@@ -7,19 +7,32 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 // TODO: merge PrimaryLink & PrimaryButton into a single button component
-export function PrimaryButton({ isLoading, children, ...props }: Props) {
+export function PrimaryButton({ isLoading, children, color, ...props }: Props) {
+  // if (color === 'green') {
+  //   props['background-color'] = var(--main-dark-color);
+  // }
+
+    let StyledButton = Container;
+  if (color === 'green') {
+
+      StyledButton = styled(Container)`
+        background-color: var(--green-color);
+      `;
+  }
+
   return (
-    <Container {...props}>
+    <StyledButton {...props}>
       {/* TODO: replace with a proper loader animation */}
       {isLoading ? "Loading..." : children}
-    </Container>
+    </StyledButton>
   );
 }
 
 const Container = styled.button`
   background-color: var(--main-dark-color);
   max-width: 250px;
-  padding: 1.2rem 1.8rem;
+  max-height: 49px;
+  padding: 1.2rem 37px;
   border-radius: 33px;
   display: flex;
   align-items: center;
