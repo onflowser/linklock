@@ -8,8 +8,6 @@ pub contract Membership: NonFungibleToken {
 
     /// Total supply of all membrship NFTs
     pub var totalSupply: UInt64
-    /// Total supply of MembershipDefinition NFTs
-    pub var totalDefinitionSupply: UInt64
     /// Total supply of membership NFT per each membership definition ID
     pub var totalMembershipSupplyPerDefinition: {UInt64: UInt64}
 
@@ -90,8 +88,11 @@ pub contract Membership: NonFungibleToken {
         ///         developers to know which parameter to pass to the resolveView() method.
         ///
         pub fun getViews(): [Type] {
-            // TODO: Implement metadata views
-            return []
+            return [
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.Serial>(),
+                Type<MetadataViews.NFTCollectionData>()
+            ]
         }
 
         /// Function that resolves a metadata view for this token.
@@ -100,12 +101,51 @@ pub contract Membership: NonFungibleToken {
         /// @return A structure representing the requested view.
         ///
         pub fun resolveView(_ view: Type): AnyStruct? {
-            // TODO: Implement metadata view resolution
+             switch view {
+                 case Type<MetadataViews.Display>():
+                     return MetadataViews.Display(
+                         name: self.name,
+                         description: self.description,
+                         thumbnail: MetadataViews.HTTPFile(
+                             url: self.thumbnail
+                         )
+                     )
+                 case Type<MetadataViews.Editions>():
+                     // TODO: Each membership definition represents an edition
+                     return nil
+                 case Type<MetadataViews.Serial>():
+                     return MetadataViews.Serial(
+                         self.id
+                     )
+                 case Type<MetadataViews.ExternalURL>():
+                     // TODO: Implement link to membership protocol website
+                     return nil
+                 case Type<MetadataViews.NFTCollectionData>():
+                     return MetadataViews.NFTCollectionData(
+                         storagePath: Membership.CollectionStoragePath,
+                         publicPath: Membership.CollectionPublicPath,
+                         // TODO: Do we need to implement private path?
+                         providerPath: /private/membership,
+                         publicCollection: Type<&Membership.Collection{Membership.MembershipCollectionPublic}>(),
+                         publicLinkedType: Type<&Membership.Collection{Membership.MembershipCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
+                         providerLinkedType: Type<&Membership.Collection{Membership.MembershipCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
+                         createEmptyCollectionFunction: (fun (): @NonFungibleToken.Collection {
+                             return <-Membership.createEmptyCollection()
+                         })
+                     )
+                 case Type<MetadataViews.NFTCollectionDisplay>():
+                     // TODO: Implement
+                     return nil
+                 case Type<MetadataViews.Traits>():
+                     // TODO: We could support traits that would represent different access permision?
+                     return nil
+
+             }
             return nil
         }
     }
 
-    pub resource interface MembershipNFTCollectionPublic {
+    pub resource interface MembershipCollectionPublic {
         pub fun deposit(token: @NonFungibleToken.NFT)
         pub fun getIDs(): [UInt64]
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
@@ -121,7 +161,7 @@ pub contract Membership: NonFungibleToken {
     /// In order to be able to manage NFTs any account will need to create
     /// an empty collection first
     ///
-    pub resource Collection: MembershipNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
+    pub resource Collection: MembershipCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
@@ -317,7 +357,7 @@ pub contract Membership: NonFungibleToken {
     ): &MembershipDefinition.NFT {
         let membershipDefinitionCollection = getAccount(adminAddress)
              .getCapability(MembershipDefinition.CollectionPublicPath)
-             .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
+             .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionCollectionPublic}>()
              ?? panic("Could not borrow reference to membership definition collection")
 
         let definition = membershipDefinitionCollection
@@ -330,7 +370,6 @@ pub contract Membership: NonFungibleToken {
     init() {
         // Initialize the total supply
         self.totalSupply = 0
-        self.totalDefinitionSupply = 0
         self.totalMembershipSupplyPerDefinition = {}
 
         // Set the named paths
