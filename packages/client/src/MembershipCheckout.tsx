@@ -16,7 +16,6 @@ export type MembershipCheckoutProps = {
     membershipDefinitionId: number;
     isOpenModal: boolean;
     onCloseModal: () => void;
-    closeModalCb: () => void;
 };
 
 enum CheckoutStep {
@@ -32,7 +31,6 @@ export function MembershipCheckout({
                                        membershipDefinitionId,
                                        isOpenModal,
                                        onCloseModal,
-                                       closeModalCb
                                    }: MembershipCheckoutProps) {
     const {currentUser} = useFlow();
     const {data: membershipDefinitions, error: membershipDefinitionError} =
@@ -79,7 +77,7 @@ export function MembershipCheckout({
     }
 
     function onDone() {
-        closeModalCb();
+        onCloseModal();
     }
 
     function renderStep() {
