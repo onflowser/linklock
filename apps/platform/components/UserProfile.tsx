@@ -12,9 +12,11 @@ import { formatWebsiteUrl } from "../common/utils";
 import { SizedBox } from "@membership/client/src/view/shared/SizedBox";
 import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
-import { Carousel } from "react-responsive-carousel";
 import { useRouter } from "next/router";
 import { MembershipDefinitionCard, UnstyledButton } from "@membership/client";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export type UserProfileProps = {
   address: string;
@@ -67,7 +69,8 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
             </div>
           </LeftDetails>
         )}
-        <RightDetails>
+        {/* TODO: Fix this to work without specifying width */}
+        <RightDetails style={{ width: nameInfo?.description ? "50%" : "100%" }}>
           {currentUser && (
             <CreateMembershipButton
               title="Create new membership"
@@ -84,13 +87,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
               <p>This user has no membership programs.</p>
             </div>
           )}
-          <Carousel
-            showArrows={false}
-            showStatus={false}
-            onChange={console.log}
-            onClickItem={console.log}
-            onClickThumb={console.log}
-          >
+          <Slider dots>
             {membershipDefinitions?.map((definition) => (
               <>
                 {/* TODO: Add edit membership definition logic */}
@@ -110,7 +107,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
                 </PrimaryButton>
               </>
             ))}
-          </Carousel>
+          </Slider>
         </RightDetails>
       </DetailsCard>
     </Container>
@@ -143,7 +140,6 @@ const Shadow = styled.div`
 const DetailsCard = styled(Shadow)`
   padding: 50px;
   display: flex;
-  height: 500px;
   margin: auto;
   position: relative;
   &:before {
@@ -188,6 +184,4 @@ const LeftDetails = styled.div`
 const RightDetails = styled.div`
   flex: 1;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
 `;

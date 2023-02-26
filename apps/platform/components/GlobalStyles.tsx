@@ -81,26 +81,6 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
   }
 
-  .sign-up, .log-in {
-    padding: 0px 30px 0px 30px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 70px;
-    max-width: 450px;
-  }
-
-  .log-in-text a {
-    color: var(--secondary-color);
-    text-decoration: none;
-  }
-
-  .log-in-text {
-    margin-top: 20px;
-    font-size: 14px;
-  }
-
   .profile-settings {
     margin: 0 auto;
     text-align: center;
