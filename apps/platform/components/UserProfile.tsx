@@ -13,6 +13,8 @@ import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useRouter } from "next/router";
+import { MembershipDefinitionCard, UnstyledButton } from "@membership/client";
 
 export type UserProfileProps = {
   address: string;
@@ -20,6 +22,7 @@ export type UserProfileProps = {
 };
 
 export default function UserProfile({ nameInfo, address }: UserProfileProps) {
+  const router = useRouter();
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
   const [selectedMembershipId, setSelectedMembershipId] = useState<number>();
   const { data: membershipDefinitions } =
@@ -72,8 +75,10 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
             onClickThumb={console.log}
           >
             {membershipDefinitions?.map((definition) => (
-              <div style={{ height: 200, marginLeft: 20, marginRight: 20 }}>
-                <span>{definition.name}</span>
+              <div style={{ height: 300, marginLeft: 20, marginRight: 20 }}>
+                {/* TODO: Add edit membership definition logic */}
+                <MembershipDefinitionCard membershipDefinition={definition} />
+                <SizedBox height={40} />
                 <PrimaryButton
                   isLoading={false}
                   onClick={() => {
@@ -87,6 +92,12 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
               </div>
             ))}
           </Carousel>
+          {/* TODO: Add styling */}
+          <UnstyledButton
+            onClick={() => router.push(`/${address}/membership/new`)}
+          >
+            Add membership
+          </UnstyledButton>
         </RightDetails>
       </DetailsCard>
     </Container>
@@ -148,4 +159,6 @@ const LeftDetails = styled.div`
 const RightDetails = styled.div`
   flex: 1;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
 `;

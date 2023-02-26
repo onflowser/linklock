@@ -40,9 +40,9 @@ export default function MembershipSettings() {
         },
       },
       onSubmit: (values) => {
-        flowService
-          .createMembership(values)
-          .then(() => router.replace(`/${currentUser?.address}`));
+        flowService.setupMembershipDefinitionCollection().then(() => {
+          flowService.createMembership(values).then(() => router.back());
+        });
       },
     });
 
@@ -85,7 +85,10 @@ export default function MembershipSettings() {
             name="expiration"
             value={secondsToDays(+values.expirationInterval)}
             onChange={(e) =>
-              setFieldValue("expirationInterval", daysToSeconds(+e.target.value))
+              setFieldValue(
+                "expirationInterval",
+                daysToSeconds(+e.target.value)
+              )
             }
           />
           <Input

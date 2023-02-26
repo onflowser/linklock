@@ -2,6 +2,7 @@ import { IoMdClose } from "react-icons/io";
 import ReactModal from "react-modal";
 import { UnstyledButton } from "./UnstyledButton";
 import { colors } from "../../theme";
+import styled from "@emotion/styled";
 
 export type CenterModalProps = ReactModal.Props & {
   title?: string;
@@ -52,11 +53,17 @@ export function CenterModal({
       }}
     >
       <div>
-        <UnstyledButton onClick={reactModalProps.onRequestClose}>
+        <CloseButton onClick={reactModalProps.onRequestClose}>
           <IoMdClose size={20} />
-        </UnstyledButton>
+        </CloseButton>
         {children}
       </div>
     </ReactModal>
   );
 }
+
+const CloseButton = styled(UnstyledButton)`
+  position: absolute;
+  top: 40px;
+  right: 20px;
+`;
