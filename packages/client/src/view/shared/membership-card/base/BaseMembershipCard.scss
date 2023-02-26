@@ -2,8 +2,10 @@
 @use "../../../../styles/layout";
 @use "../../../../styles/variables";
 @use "../../../../styles/typography";
+@use "../../../../styles/reset";
 
 .membership-box-container {
+  @include reset.reset();
   .badge {
     color: colors.$colorWhite500;
     font-size: typography.$fontSizeS;

@@ -1,8 +1,10 @@
 @use "../styles/layout";
 @use "../styles/variables";
+@use "../styles/reset";
 
 .step-container {
   @include layout.verticalLayout();
+  @include reset.reset();
 
   .header {
     margin-bottom: variables.$baseGap;

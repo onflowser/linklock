@@ -6,7 +6,7 @@ import {
   useGetMembershipDefinitionsByAdmin,
 } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
-import "./index.scss";
+import "./styles/reset.scss";
 import { StepOnePreview } from "./view/StepOnePreview";
 import { StepTwoRequirement } from "./view/StepTwoRequirement";
 import { StepThreeClaimed } from "./view/StepThreeClaimed";

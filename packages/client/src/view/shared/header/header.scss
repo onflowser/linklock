@@ -1,7 +1,15 @@
+@use "../../../styles/reset";
 @use "../../../styles/layout";
 @use "../../../styles/variables";
+@use "../../../styles/typography";
 
 .header {
+  @include reset.reset();
   @include layout.horizontalLayout();
   @include layout.paddedBox();
+
+  #logoText {
+    font-size: 18px;
+    font-weight: typography.$fontWeightBold;
+  }
 }

@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap");
+@import "./variables";
+@import "./typography";
+
+@mixin reset() {
+  * {
+    font-family: $fontFamilyPoppins;
+    font-style: normal;
+    font-weight: $fontWeightNormal;
+    letter-spacing: 0;
+    line-height: $lineSpacingL;
+  }
+}

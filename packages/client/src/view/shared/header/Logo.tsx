@@ -15,7 +15,7 @@ export function Logo() {
         fontFamily="Poppins-Black, Poppins"
         fontWeight="900"
       >
-        <tspan x="-50.499" y="0">
+        <tspan x="-50.499" y="0" id={'logoText'}>
           SQUADLAB
         </tspan>
       </text>

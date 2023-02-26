@@ -2,8 +2,10 @@
 @use "../../../../styles/layout";
 @use "../../../../styles/variables";
 @use "../../../../styles/typography";
+@use "../../../../styles/reset";
 
 .membership-definition-card {
+  @include reset.reset();
   .bottom {
     @include layout.horizontalLayout(variables.$baseGap);
     align-items: end;
