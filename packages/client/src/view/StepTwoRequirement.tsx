@@ -8,7 +8,7 @@ import {
 } from "@membership/flow/index";
 import { useFlowBalance, useGetMembershipInstances } from "../hooks/cache";
 import { useFlow } from "../providers/flow.provider";
-import { formatFlowCoins, useFlowPrice } from "../hooks/coin-price";
+import { formatFlowCoins, useFlowToUsd } from "../hooks/coin-price";
 import { getMembershipStatus, MembershipStatus } from "../utils";
 import { FlowService, TransactionResult } from "../services/flow.service";
 import toast from "react-hot-toast";
@@ -39,7 +39,7 @@ export function StepTwoRequirement({
     membershipDefinition &&
     flowBalance >= Number(membershipPrice);
 
-  const { data: flowPrice } = useFlowPrice();
+  const usdPrice = useFlowToUsd(+membershipPrice);
 
   async function onSubmit() {
     // TODO: Dynamically retrieve fungible token type or storage path
@@ -112,7 +112,7 @@ export function StepTwoRequirement({
           </div>
           <div className={"line-2"}>
             <span>{formatFlowCoins(membershipPrice)} FLOW</span>
-            <span>= {+flowPrice?.usd * +membershipPrice} USD</span>
+            <span>{usdPrice ? `~${usdPrice} USD` : "-"}</span>
           </div>
           <div className={"line-3"}>
             <span>Wallet: {currentUser?.address}</span>

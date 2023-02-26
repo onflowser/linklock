@@ -8,8 +8,8 @@ export default function ClaimMembership() {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const closeModal = () => {
-      setIsOpenModal(false);
-  }
+    setIsOpenModal(false);
+  };
 
   return (
     <div>
@@ -36,7 +36,6 @@ export default function ClaimMembership() {
         <MembershipCheckout
           isOpenModal={isOpenModal}
           onCloseModal={closeModal}
-          closeModalCb={closeModal}
           membershipDefinitionId={membershipDefinitionId}
           adminAddress={adminAddress}
         />
