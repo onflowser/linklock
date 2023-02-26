@@ -38,7 +38,7 @@ function getButtonTitle(membershipStatus: MembershipStatus) {
   switch (membershipStatus) {
     case MembershipStatus.EXPIRED:
       return "REDEEM";
-    case MembershipStatus.UNKNOWN:
+    case MembershipStatus.VALID:
       return "DONE";
   }
 }

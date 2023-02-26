@@ -216,8 +216,8 @@ const Section = ({ color, children, bgcolor }: SectionPropType) => {
 };
 
 const BgSectionInner = styled.div`
-  max-width: ${({theme}) => theme.layout.max_width};
-  padding: 3rem ${({theme}) => theme.layout.mobile_padding};
+  max-width: ${({ theme }) => theme.layout.max_width};
+  padding: 3rem ${({ theme }) => theme.layout.mobile_padding};
   padding-top: 0;
 
   display: flex;
@@ -247,11 +247,11 @@ const BgSectionContainer = styled.div`
 type BgSectionPropType = {
   children?: JSX.Element | JSX.Element[];
 };
-const BgSection = ({  children }: BgSectionPropType) => {
+const BgSection = ({ children }: BgSectionPropType) => {
   return (
-      <BgSectionContainer>
-        <BgSectionInner>{children}</BgSectionInner>
-      </BgSectionContainer>
+    <BgSectionContainer>
+      <BgSectionInner>{children}</BgSectionInner>
+    </BgSectionContainer>
   );
 };
 
@@ -420,18 +420,17 @@ const StepCard = styled.div`
   width: 20rem;
   z-index: 2;
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     background-color: white;
-    box-shadow: -15px 10px 20px #635E907E;
+    box-shadow: -15px 10px 20px #635e907e;
     border-radius: 0.5rem;
     opacity: 0.15;
     z-index: -1;
-
   }
 `;
 const StepNum = styled.div`
@@ -481,7 +480,7 @@ const HWorkRightColumn = styled(Column)`
   flex: 1;
   display: flex;
   max-width: 28rem;
-  
+
   @media only screen and (max-width: 1200px) {
     padding-top: 3rem;
     width: 30rem;
@@ -502,9 +501,14 @@ const Home: NextPage = () => {
       <MetaTags title="Supportify️" />
       <LandingSection>
         <CenterTitleBox>
-          <MainHeading>Let your supporters become your active members.</MainHeading>
+          <MainHeading>
+            Let your supporters become your active members.
+          </MainHeading>
           <Subtitle>
-            Start getting founds for your work in FLOW crypto currency. <br/>Connect your <Emphasised>find.xyz</Emphasised> profile and define your membership. <br/>It is easy, free and quick!
+            Start getting founds for your work in FLOW crypto currency. <br />
+            Connect your <Emphasised>find.xyz</Emphasised> profile and define
+            your membership. <br />
+            It is easy, free and quick!
           </Subtitle>
           <BigInput
             value={handle}
@@ -516,18 +520,18 @@ const Home: NextPage = () => {
           />
         </CenterTitleBox>
       </LandingSection>
-      <Section
-        bgcolor={theme.colors.white}
-        color={theme.colors.secondary}
-      >
+      <Section bgcolor={theme.colors.white} color={theme.colors.secondary}>
         <Column>
           <SmallRedText>WHAT IS Supportify?</SmallRedText>
           <BigHeading>HEY YOU!</BigHeading>
           <BoldNormal>
-            You have built something really awesome or designed something really beautiful!
+            You have built something really awesome or designed something really
+            beautiful!
           </BoldNormal>
           <NormalText>
-            You can now let your supporters to become active participants in your work by offering them a monthly membership. You give them access to exclusive content or community 💚
+            You can now let your supporters to become active participants in
+            your work by offering them a monthly membership. You give them
+            access to exclusive content or community 💚
           </NormalText>
         </Column>
         <HeyYouBlobColumn>
@@ -542,7 +546,11 @@ const Home: NextPage = () => {
           <BigHeading style={{ color: "white" }}>AMAZING BENEFITS</BigHeading>
           <SmallSquare color={theme.colors.primary} />
           <NormalText style={{ color: "white" }}>
-            You are working hard, and you have a passion for what you do. Wouldn’t it be nice to get some appreciation and even Flow tokens for your project? Supportify was designed for amazing people who are building awesome projects and for awesome people, who appreciate amazing projects.
+            You are working hard, and you have a passion for what you do.
+            Wouldn’t it be nice to get some appreciation and even Flow tokens
+            for your project? Supportify was designed for amazing people who are
+            building awesome projects and for awesome people, who appreciate
+            amazing projects.
           </NormalText>
         </BenefitLeftColumn>
         <ColumnCenterWrapper style={{ flex: 0.9 }}>
@@ -584,11 +592,14 @@ const Home: NextPage = () => {
             4 SIMPLE STEPS.
           </SmallRedText>
           <BigHeading style={{ color: theme.colors.darkViolet }}>
-            HOW DOES <br/>IT WORK?
+            HOW DOES <br />
+            IT WORK?
           </BigHeading>
           <SmallSquare color={theme.colors.darkViolet} />
           <NormalText>
-            It could not be easier! Connect your .find profile and define the membership you would like to offer to your supporters. They will be awarded with a NFT, which will be added in their wallet.
+            It could not be easier! Connect your .find profile and define the
+            membership you would like to offer to your supporters. They will be
+            awarded with a NFT, which will be added in their wallet.
           </NormalText>
         </HWorkLeftColumn>
         <HWorkRightColumn>
