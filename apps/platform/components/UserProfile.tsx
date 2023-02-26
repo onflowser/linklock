@@ -56,15 +56,15 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
         )}
       </ProfileWrapper>
 
-      <DetailsCard>
-        <LeftDetails>
-          {nameInfo?.description && (
+      <DetailsCard style={{ maxWidth: nameInfo?.description ? 1000 : 500 }}>
+        {nameInfo?.description && (
+          <LeftDetails>
             <div>
               <h4>About</h4>
               <MarkdownPreview source={nameInfo.description} />
             </div>
-          )}
-        </LeftDetails>
+          </LeftDetails>
+        )}
         <RightDetails>
           <Carousel
             showArrows={false}
@@ -73,10 +73,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
             onClickItem={console.log}
             onClickThumb={console.log}
           >
-            {[
-              ...(membershipDefinitions ?? []),
-              ...(membershipDefinitions ?? []),
-            ]?.map((definition) => (
+            {membershipDefinitions?.map((definition) => (
               <>
                 {/* TODO: Add edit membership definition logic */}
                 <CustomMembershipDefinitionCard
@@ -128,7 +125,6 @@ const Shadow = styled.div`
 const DetailsCard = styled(Shadow)`
   padding: 50px;
   display: flex;
-  max-width: 1000px;
   height: 500px;
   margin: auto;
   position: relative;
