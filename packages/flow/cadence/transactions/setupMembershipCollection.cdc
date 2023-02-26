@@ -22,7 +22,7 @@ transaction {
 
         // create a public capability for the collection
         signer.link<&{
-            Membership.MembershipNFTCollectionPublic,
+            Membership.MembershipCollectionPublic,
             NonFungibleToken.CollectionPublic,
             MetadataViews.ResolverCollection
         }>(

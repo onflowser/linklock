@@ -6,7 +6,7 @@ pub fun main(adminAddress: Address): [&MembershipDefinition.NFT] {
 
     let membershipDefinitionCollection = getAccount(adminAddress)
         .getCapability(MembershipDefinition.CollectionPublicPath)
-        .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionNFTCollectionPublic}>()
+        .borrow<&AnyResource{MembershipDefinition.MembershipDefinitionCollectionPublic}>()
 
     if (membershipDefinitionCollection == nil) {
         return []

@@ -73,7 +73,10 @@ pub contract MembershipDefinition: NonFungibleToken {
         ///         developers to know which parameter to pass to the resolveView() method.
         ///
         pub fun getViews(): [Type] {
-            return []
+            return [
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.Serial>()
+            ]
         }
 
         /// Function that resolves a metadata view for this token.
@@ -82,11 +85,38 @@ pub contract MembershipDefinition: NonFungibleToken {
         /// @return A structure representing the requested view.
         ///
         pub fun resolveView(_ view: Type): AnyStruct? {
+             switch view {
+                 case Type<MetadataViews.Display>():
+                     return MetadataViews.Display(
+                         name: self.name,
+                         description: self.description,
+                         thumbnail: MetadataViews.HTTPFile(
+                             url: self.thumbnail
+                         )
+                     )
+                 case Type<MetadataViews.Serial>():
+                     return MetadataViews.Serial(
+                         self.id
+                     )
+                 case Type<MetadataViews.NFTCollectionData>():
+                     return MetadataViews.NFTCollectionData(
+                         storagePath: MembershipDefinition.CollectionStoragePath,
+                         publicPath: MembershipDefinition.CollectionPublicPath,
+                         // TODO: Do we need to implement private path?
+                         providerPath: /private/membership,
+                         publicCollection: Type<&MembershipDefinition.Collection{MembershipDefinition.MembershipDefinitionCollectionPublic}>(),
+                         publicLinkedType: Type<&MembershipDefinition.Collection{MembershipDefinition.MembershipDefinitionCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
+                         providerLinkedType: Type<&MembershipDefinition.Collection{MembershipDefinition.MembershipDefinitionCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
+                         createEmptyCollectionFunction: (fun (): @NonFungibleToken.Collection {
+                             return <-MembershipDefinition.createEmptyCollection()
+                         })
+                     )
+             }
             return nil
         }
     }
 
-    pub resource interface MembershipDefinitionNFTCollectionPublic {
+    pub resource interface MembershipDefinitionCollectionPublic {
         pub fun deposit(token: @NonFungibleToken.NFT)
         pub fun getIDs(): [UInt64]
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
@@ -102,7 +132,7 @@ pub contract MembershipDefinition: NonFungibleToken {
     /// In order to be able to manage NFTs any account will need to create
     /// an empty collection first
     ///
-    pub resource Collection: MembershipDefinitionNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
+    pub resource Collection: MembershipDefinitionCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}

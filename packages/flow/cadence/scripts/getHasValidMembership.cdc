@@ -6,7 +6,7 @@ pub fun main(memberAddress: Address, membershipId: UInt64): Bool {
 
     let membershipCollection = getAccount(memberAddress)
         .getCapability(Membership.CollectionPublicPath)
-        .borrow<&AnyResource{Membership.MembershipNFTCollectionPublic}>()
+        .borrow<&AnyResource{Membership.MembershipCollectionPublic}>()
 
     if (membershipCollection == nil) {
         return false
