@@ -1,7 +1,7 @@
 import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
 import { BaseMembershipCard, MembershipStatus } from "./base/BaseMembershipCard";
 // @ts-ignore
-import HumanizeDuration from 'react-humanize-duration';
+import prettyMilliseconds from 'pretty-ms';
 import { useFlowPrice, formatFlowCoins } from '../../../hooks/coin-price';
 
 
@@ -35,8 +35,8 @@ export function MembershipDefinitionCard({
       name={name}
       thumb={thumbnail}
       membershipName={description}
-      duration={<HumanizeDuration duration={expirationInterval}/>}
-      usd={`${flowPrice.usd} USD`}
+      duration={prettyMilliseconds(+expirationInterval * 1000)}
+      usd={`${(+flowPrice?.usd * +requirement.price)} USD`}
       status={getMembershipStatus(ownedTargetMembership)}
     />
   );

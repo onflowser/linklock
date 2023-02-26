@@ -20,5 +20,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@7.20.3"
+  "packageManager": "npm@7.20.3",
+  "dependencies": {
+    "pretty-ms": "^8.0.0"
+  }
 }
