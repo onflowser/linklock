@@ -45,7 +45,10 @@ pub contract Membership: NonFungibleToken {
         pub let thumbnail: String
         access(self) let metadata: {String: AnyStruct}
 
-        pub var adminAddress: Address
+        /// Membership definition info
+        pub let adminAddress: Address
+        pub let membershipDefinitionId: UInt64
+
         /// Membership expiration UNIX timestamp.
         pub var validUntilTimestamp: UFix64
 
@@ -57,6 +60,7 @@ pub contract Membership: NonFungibleToken {
             metadata: {String: AnyStruct},
             validUntilTimestamp: UFix64,
             adminAddress: Address,
+            membershipDefinitionId: UInt64
         ) {
             self.id = id
             self.name = name
@@ -65,6 +69,7 @@ pub contract Membership: NonFungibleToken {
             self.metadata = metadata
             self.validUntilTimestamp = validUntilTimestamp
             self.adminAddress = adminAddress
+            self.membershipDefinitionId = membershipDefinitionId
         }
 
         access(contract) fun redeem(membershipDefinition: &MembershipDefinition.NFT) {
@@ -219,18 +224,16 @@ pub contract Membership: NonFungibleToken {
     /// Extends the given membership by the specified duration.
     pub fun redeemMembership(
         membership: @NFT,
-        adminAddress: Address,
-        membershipDefinitionId: UInt64,
         claimerAddress: Address,
         claimerVault: @FungibleToken.Vault
     ): @NFT {
         let membershipDefinition = self.getMembershipDefinition(
-            adminAddress: adminAddress,
-            membershipDefinitionId: membershipDefinitionId,
+            adminAddress: membership.adminAddress,
+            membershipDefinitionId: membership.membershipDefinitionId,
         )
         self.executeClaimRequirement(
             membershipDefinition: membershipDefinition,
-            adminAddress: adminAddress,
+            adminAddress: membership.adminAddress,
             claimerAddress: claimerAddress,
             claimerVault: <- claimerVault
         )
@@ -277,7 +280,8 @@ pub contract Membership: NonFungibleToken {
             thumbnail: "",
             metadata: {},
             validUntilTimestamp: currentTimestamp + membershipDefinition.expirationInterval,
-            adminAddress: adminAddress
+            adminAddress: adminAddress,
+            membershipDefinitionId: membershipDefinitionId
         )
 
         self.totalMembershipSupplyPerDefinition[membershipDefinition.id] = currentSupplyForDefinition + UInt64(1)

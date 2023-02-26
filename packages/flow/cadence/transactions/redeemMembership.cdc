@@ -4,9 +4,6 @@ import NonFungibleToken from 0xf8d6e0586b0a20c7
 
 transaction(
     membershipId: UInt64,
-    // TODO: This info should be stored on the membership NFT
-    adminAddress: Address,
-    membershipDefinitionId: UInt64,
     paymentAmount: UFix64,
     fungibleTokenStoragePath: String
 ) {
@@ -41,8 +38,6 @@ transaction(
         let membership <- self.claimerCollectionRef.withdraw(withdrawID: membershipId)
         let renewedMembership <- Membership.redeemMembership(
             membership: <- membership
-            adminAddress: adminAddress,
-            membershipDefinitionId: membershipDefinitionId,
             claimerAddress: self.signer.address,
             claimerVault: <- self.claimerVault
         )

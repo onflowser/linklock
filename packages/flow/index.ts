@@ -33,6 +33,7 @@ export type MembershipNFT = {
   description: string;
   thumbnail: string;
   adminAddress: string;
+  membershipDefinitionId: string;
   metadata: Record<string, unknown>;
   // Membership expiration UNIX timestamp.
   validUntilTimestamp: string;
