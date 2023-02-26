@@ -26,6 +26,12 @@ export function unixTimestampToDate(timestamp: number): Date {
   return new Date(timestamp * 1000)
 }
 
+export enum CheckoutStep {
+  PREVIEW,
+  REQUIREMENT,
+  CLAIMED,
+}
+
 export enum MembershipStatus {
   UNKNOWN = "unknown",
   VALID = "valid",

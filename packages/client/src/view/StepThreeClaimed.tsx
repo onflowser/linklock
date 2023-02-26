@@ -4,26 +4,41 @@ import { Button } from "./shared/button/Button";
 import "./StepThreeClaimed.scss";
 import { MembershipInstance } from "@membership/flow/index";
 import { MembershipInstanceCard } from "./shared/membership-card/membership-instance/MembershipInstanceCard";
+import { CheckoutStep, getMembershipStatus, MembershipStatus } from "../utils";
 
 export interface StepThreeClaimedProps {
-  onCompleteStep: () => void;
-  membership: MembershipInstance;
+  onMoveToStep: (step: CheckoutStep) => void;
+  onCloseModal: () => void;
+  membershipInstance: MembershipInstance;
 }
 
 export function StepThreeClaimed({
-  onCompleteStep,
-  membership,
+  onMoveToStep,
+  membershipInstance,
 }: StepThreeClaimedProps) {
+  const membershipStatus = getMembershipStatus(membershipInstance);
+
   return (
     <div className="step-container">
       <Header></Header>
       <Stepper step={3} stepTitle={"Your membership"}></Stepper>
 
       <div className="wrapper">
-        <MembershipInstanceCard membership={membership} />
+        <MembershipInstanceCard membership={membershipInstance} />
 
-        <Button onClick={onCompleteStep}>DONE</Button>
+        <Button onClick={onMoveToStep}>
+          {getButtonTitle(membershipStatus)}
+        </Button>
       </div>
     </div>
   );
+}
+
+function getButtonTitle(membershipStatus: MembershipStatus) {
+  switch (membershipStatus) {
+    case MembershipStatus.EXPIRED:
+      return "Redeem";
+    case MembershipStatus.UNKNOWN:
+      return "Done";
+  }
 }

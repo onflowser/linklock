@@ -13,13 +13,13 @@ export type FclCurrentUser = { addr: string };
 
 export type ClaimMembershipOptions = {
   adminAddress: string;
-  membershipDefinitionId: number;
+  membershipDefinitionId: string;
   paymentAmount: string;
   fungibleTokenStoragePath: string;
 };
 
 export type RedeemMembershipOptions = {
-  membershipId: number;
+  membershipId: string;
   paymentAmount: string;
   fungibleTokenStoragePath: string;
 };

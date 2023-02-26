@@ -4,7 +4,7 @@
 @use "../styles/variables";
 
 .membership-box-wrapper {
-  height: 333px;
+  min-height: 300px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -25,6 +25,7 @@
   }
 
   .inner-wrapper {
+    margin: variables.$baseGap 0;
     z-index: 1;
     width: 100%;
     @include layout.paddedBox();
