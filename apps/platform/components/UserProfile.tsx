@@ -12,7 +12,6 @@ import { SizedBox } from "@membership/client/src/view/shared/SizedBox";
 import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRouter } from "next/router";
 import { MembershipDefinitionCard, UnstyledButton } from "@membership/client";
 
@@ -68,16 +67,21 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
         </LeftDetails>
         <RightDetails>
           <Carousel
-            showArrows={true}
+            showArrows={false}
             showStatus={false}
             onChange={console.log}
             onClickItem={console.log}
             onClickThumb={console.log}
           >
-            {membershipDefinitions?.map((definition) => (
-              <div style={{ height: 300, marginLeft: 20, marginRight: 20 }}>
+            {[
+              ...(membershipDefinitions ?? []),
+              ...(membershipDefinitions ?? []),
+            ]?.map((definition) => (
+              <>
                 {/* TODO: Add edit membership definition logic */}
-                <MembershipDefinitionCard membershipDefinition={definition} />
+                <CustomMembershipDefinitionCard
+                  membershipDefinition={definition}
+                />
                 <SizedBox height={40} />
                 <PrimaryButton
                   isLoading={false}
@@ -89,15 +93,9 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
                 >
                   Buy Membership
                 </PrimaryButton>
-              </div>
+              </>
             ))}
           </Carousel>
-          {/* TODO: Add styling */}
-          <UnstyledButton
-            onClick={() => router.push(`/${address}/membership/new`)}
-          >
-            Add membership
-          </UnstyledButton>
         </RightDetails>
       </DetailsCard>
     </Container>
@@ -123,12 +121,12 @@ const ProfileName = styled.h3`
 
 const Shadow = styled.div`
   border-radius: 20px;
-  padding: 15px 50px 15px 50px;
   background: #f6f6f6;
   box-shadow: 20px 20px 40px #d1d1d164, -20px -20px 60px #ffffff;
 `;
 
 const DetailsCard = styled(Shadow)`
+  padding: 50px;
   display: flex;
   max-width: 1000px;
   height: 500px;
@@ -149,6 +147,10 @@ const DetailsCard = styled(Shadow)`
     background-position: 50% 0;
     background-size: cover;
   }
+`;
+
+const CustomMembershipDefinitionCard = styled(MembershipDefinitionCard)`
+  min-height: 300px;
 `;
 
 const LeftDetails = styled.div`

@@ -9,6 +9,7 @@ import { SWRConfig } from "swr";
 import Head from "next/head";
 import { config } from "../common/config";
 import { MembershipProvider } from "@membership/client";
+import "../styles/carousel.css";
 
 function App({ Component, pageProps }: AppProps) {
   // @ts-ignore

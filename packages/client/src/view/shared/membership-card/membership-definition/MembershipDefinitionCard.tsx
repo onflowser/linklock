@@ -8,11 +8,13 @@ import { getMembershipStatus } from "../../../../utils";
 import { StopWatch } from "../../icons/StopWatch";
 
 export type MembershipDefinitionCardProps = {
+  className?: string;
   membershipDefinition: MembershipDefinition;
   ownedTargetMembership?: MembershipNFT;
 };
 
 export function MembershipDefinitionCard({
+  className,
   membershipDefinition,
   ownedTargetMembership,
 }: MembershipDefinitionCardProps) {
@@ -23,7 +25,7 @@ export function MembershipDefinitionCard({
 
   return (
     <BaseMembershipCard
-      className="membership-definition-card"
+      className={"membership-definition-card" + " " + className}
       name={name}
       thumbnailImageUrl={thumbnail}
       description={description}
