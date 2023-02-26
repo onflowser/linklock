@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Param } from '@nestjs/common';
+import { MembershipService } from './services/membership.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly eventService: MembershipService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get(':adminAddress')
+  getMemberships(@Param('adminAddress') adminAddress: string) {
+    return this.eventService.getMembersByAdmin(adminAddress);
   }
 }
