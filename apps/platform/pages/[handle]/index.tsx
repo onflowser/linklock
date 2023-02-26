@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const props: HandlePageProps = {
     address: nameInfo?.address ?? nameOrAddress,
     // Remove undefined variables to avoid Next.js error
-    nameInfo: JSON.parse(JSON.stringify(nameInfo)),
+    nameInfo: nameInfo ? JSON.parse(JSON.stringify(nameInfo)) : null,
   };
   return { props };
 };
