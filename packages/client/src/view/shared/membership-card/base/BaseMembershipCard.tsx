@@ -3,9 +3,9 @@ import { ExternalLink } from "../../icons/ExternalLink";
 import { StopWatch } from "../../icons/StopWatch";
 
 export enum MembershipStatus {
-  UNKNOWN = 'unknown',
-  VALID = 'valid',
-  EXPIRED = 'expired',
+  UNKNOWN = "unknown",
+  VALID = "valid",
+  EXPIRED = "expired",
 }
 
 export interface MembershipBoxProps {
@@ -15,7 +15,7 @@ export interface MembershipBoxProps {
   duration: string | any;
   coins: number | string;
   usd: number | string;
-  status?: MembershipStatus
+  status?: MembershipStatus;
 }
 
 export function BaseMembershipCard({
@@ -25,11 +25,13 @@ export function BaseMembershipCard({
   duration,
   coins,
   usd,
-  status = MembershipStatus.UNKNOWN
+  status = MembershipStatus.UNKNOWN,
 }: MembershipBoxProps) {
   return (
     <div className={"membership-box-container"}>
-      {status !== MembershipStatus.UNKNOWN && <span className={`badge ${status}`}>{status}</span>}
+      {status !== MembershipStatus.UNKNOWN && (
+        <span className={`badge ${status}`}>{status}</span>
+      )}
       <div className={"top"}>
         <img src={thumb} alt={name} />
         <div>

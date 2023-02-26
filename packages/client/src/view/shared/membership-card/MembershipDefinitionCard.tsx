@@ -1,9 +1,11 @@
 import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
-import { BaseMembershipCard, MembershipStatus } from "./base/BaseMembershipCard";
+import {
+  BaseMembershipCard,
+  MembershipStatus,
+} from "./base/BaseMembershipCard";
 // @ts-ignore
-import prettyMilliseconds from 'pretty-ms';
-import { useFlowPrice, formatFlowCoins } from '../../../hooks/coin-price';
-
+import prettyMilliseconds from "pretty-ms";
+import { useFlowPrice, formatFlowCoins } from "../../../hooks/coin-price";
 
 export type MembershipDefinitionCardProps = {
   membershipDefinition: MembershipDefinition;
@@ -12,22 +14,23 @@ export type MembershipDefinitionCardProps = {
 
 export function MembershipDefinitionCard({
   membershipDefinition,
-  ownedTargetMembership
+  ownedTargetMembership,
 }: MembershipDefinitionCardProps) {
   const { name, thumbnail, expirationInterval, requirement, description } =
     membershipDefinition;
 
-  const {data: flowPrice } = useFlowPrice();
+  const { data: flowPrice } = useFlowPrice();
 
-  const getMembershipStatus = (membership: MembershipNFT | undefined): MembershipStatus => {
+  const getMembershipStatus = (
+    membership: MembershipNFT | undefined
+  ): MembershipStatus => {
     if (membership === undefined) {
       return MembershipStatus.UNKNOWN;
     } else {
       // TODO: Implement
       return MembershipStatus.VALID;
     }
-  }
-
+  };
 
   return (
     <BaseMembershipCard
@@ -36,7 +39,7 @@ export function MembershipDefinitionCard({
       thumb={thumbnail}
       membershipName={description}
       duration={prettyMilliseconds(+expirationInterval * 1000)}
-      usd={`${(+flowPrice?.usd * +requirement.price)} USD`}
+      usd={`${+flowPrice?.usd * +requirement.price} USD`}
       status={getMembershipStatus(ownedTargetMembership)}
     />
   );
