@@ -1,5 +1,6 @@
 import { FlowService } from "../services/flow.service";
 import useSWR from "swr";
+import { DomainsService } from "@membership/domains";
 
 export function useFlowBalance(address: string | undefined) {
   const flowService = FlowService.create();
@@ -27,5 +28,13 @@ export function useGetMemberships(address: string | undefined) {
   return useSWR(
     () => (address ? `membership/${address}` : null),
     () => (address ? flowService.getMembershipsByAccount(address) : undefined)
+  );
+}
+
+export function useGetDomainNameInfo(domainName: string | undefined) {
+  const domainService = new DomainsService();
+  return useSWR(
+    () => (domainName ? `domain-name-info/${domainName}` : null),
+    () => (domainName ? domainService.getNameInfo(domainName) : undefined)
   );
 }

@@ -15,3 +15,5 @@ export function round(value: number, precision = 2) {
 export function formatWebsiteUrl(value: string) {
   return value.replace(/https?:\/\//, "");
 }
+
+export const handleQueryParamKey = "handle"

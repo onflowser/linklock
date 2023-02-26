@@ -3,11 +3,12 @@ import UserProfile, { UserProfileProps } from "../../components/UserProfile";
 import { GetServerSideProps } from "next";
 import { DomainsService } from "@membership/domains";
 import MetaTags from "../../components/MetaTags";
+import { handleQueryParamKey } from "../../common/utils";
 
 type HandlePageProps = UserProfileProps;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const nameOrAddress = context.query.handle as string;
+  const nameOrAddress = context.query[handleQueryParamKey] as string;
   const nameInfo = await new DomainsService().getNameInfo(nameOrAddress);
   const isAddress = nameOrAddress.startsWith("0x");
   if (!isAddress && !nameInfo) {

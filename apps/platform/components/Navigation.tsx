@@ -1,12 +1,22 @@
 import Link from "next/link";
-import { ProfileDropdown } from "./ProfileDropdown";
 import { PrimaryButton } from "./PrimaryButton";
 import styled from "styled-components";
 import { theme } from "../common/theme";
-import { useFlow } from "@membership/client";
+import {
+  UnstyledButton,
+  useFlow,
+  useGetDomainNameInfo,
+} from "@membership/client";
+import { Avatar } from "./Avatar";
+import { useRouter } from "next/router";
+import { handleQueryParamKey } from "../common/utils";
 
 export function Navigation() {
-  const { login, logout, isLoggingIn, isLoggingOut, isLoggedIn } = useFlow();
+  const router = useRouter();
+  const domainOrAddress = router.query[handleQueryParamKey] as string;
+  const { data: domainInfo } = useGetDomainNameInfo(domainOrAddress);
+  const { login, logout, isLoggingIn, isLoggingOut, isLoggedIn, currentUser } =
+    useFlow();
 
   return (
     <Container>
@@ -21,7 +31,11 @@ export function Navigation() {
         <NavigationRightButtons>
           {isLoggedIn ? (
             <>
-              <ProfileDropdown style={{ marginRight: 20 }} />
+              <UnstyledButton
+                onClick={() => router.push(`/${currentUser?.address}`)}
+              >
+                <Avatar size={50} imageUrl={domainInfo?.avatar} />
+              </UnstyledButton>
               <PrimaryButton isLoading={isLoggingOut} onClick={() => logout()}>
                 Logout
               </PrimaryButton>

@@ -1,4 +1,3 @@
-import LoginLayout from "../../../components/layouts/LoginLayout";
 import { PrimaryButton } from "../../../components/PrimaryButton";
 import { Input } from "../../../components/inputs/Input";
 import { useRouter } from "next/router";
@@ -119,5 +118,3 @@ export default function MembershipSettings() {
     </>
   );
 }
-
-MembershipSettings.Layout = LoginLayout;
