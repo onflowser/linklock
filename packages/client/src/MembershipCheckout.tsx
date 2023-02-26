@@ -53,13 +53,9 @@ export function MembershipCheckout({
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
-    if (
-      ownedTargetMembership &&
-      ownedTargetMembership.id === membershipDefinition!.id
-    ) {
-      setCheckoutStep(CheckoutStep.CLAIMED);
-    }
-  }, [ownedMemberships]);
+    // TODO: In case membership is valid, we should probably redirect to last (CLAIMED) step
+    setCheckoutStep(CheckoutStep.PREVIEW);
+  }, [isOpenModal]);
 
   function onClaimRequirement() {
     flowService

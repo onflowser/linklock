@@ -1,3 +1,5 @@
+import { MembershipNFT } from "@membership/flow/index";
+
 export type AppEnvironment = "production" | "staging" | "development";
 
 export type AppConfig = {
@@ -19,3 +21,26 @@ export function secondsToDays(seconds: number) {
 export function daysToSeconds(days: number) {
   return days * secondsInDay;
 }
+
+export enum MembershipStatus {
+  UNKNOWN = "unknown",
+  VALID = "valid",
+  EXPIRED = "expired",
+}
+
+export const getMembershipStatus = (
+  membership: MembershipNFT | undefined
+): MembershipStatus => {
+  if (membership === undefined) {
+    return MembershipStatus.UNKNOWN;
+  }
+
+  const currentUnixTimestamp = Date.now() / 10000;
+  const isValid = +membership.validUntilTimestamp > currentUnixTimestamp;
+
+  if (isValid) {
+    return MembershipStatus.VALID;
+  } else {
+    return MembershipStatus.EXPIRED;
+  }
+};

@@ -1,12 +1,16 @@
-import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import "./steps.scss";
 import "./StepOnePreview.scss";
-import { Button } from "./shared/button/Button";
 import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
 import { MembershipDefinitionCard } from "./shared/membership-card/MembershipDefinitionCard";
 
-import { useFlow } from "@membership/client";
+import {
+  getMembershipStatus,
+  MembershipStatus,
+  useFlow,
+} from "@membership/client";
+import { Button } from "./shared/button/Button";
+import { Header } from "./shared/header/Header";
 
 export interface StepOnePreviewProps {
   onCompleteStep: () => void;
@@ -20,26 +24,20 @@ export function StepOnePreview({
   ownedTargetMembership,
 }: StepOnePreviewProps) {
   const { currentUser, logout } = useFlow();
-  const isMembershipActive = (
-    membership: MembershipNFT | undefined
-  ): boolean => {
-    if (membership === undefined) {
-      return false;
-    } else {
-      // TODO: Implement - if expired return true
-      return true;
-    }
-  };
+  const membershipStatus = getMembershipStatus(ownedTargetMembership);
 
   return (
     <div className="step-container">
-      <Header></Header>
-      <Stepper step={1} stepTitle={"Membership Preview"}></Stepper>
+      <Header />
+      {membershipStatus !== MembershipStatus.VALID && (
+        <Stepper step={1} stepTitle={"Membership Preview"}></Stepper>
+      )}
 
       {/* MEMBERSHIP CONTENT */}
       <div className={"membership-box-wrapper"}>
         <div className={"inner-wrapper"}>
           <MembershipDefinitionCard
+            ownedTargetMembership={ownedTargetMembership}
             membershipDefinition={membershipDefinition}
           />
         </div>
@@ -48,7 +46,7 @@ export function StepOnePreview({
       {/* WALLET CONTENT */}
       {currentUser && (
         <div className={"wallet-wrapper"}>
-          <span>Wallet: {currentUser!.address}</span>
+          <span>Wallet: {currentUser.address ?? "-"}</span>
           <a href={"#"} onClick={logout}>
             Disconnect
           </a>
@@ -56,14 +54,22 @@ export function StepOnePreview({
       )}
 
       {/* NAVIGATION CONTENT */}
-      <div className={"button-wrapper"}>
-        <Button
-          onClick={onCompleteStep}
-          disabled={isMembershipActive(ownedTargetMembership)}
-        >
-          REDEEM
-        </Button>
-      </div>
+      {membershipStatus !== MembershipStatus.VALID && (
+        <div className={"button-wrapper"}>
+          <Button onClick={onCompleteStep}>
+            {getButtonTitle(membershipStatus)}
+          </Button>
+        </div>
+      )}
     </div>
   );
+}
+
+function getButtonTitle(membershipStatus: MembershipStatus) {
+  switch (membershipStatus) {
+    case MembershipStatus.EXPIRED:
+      return "Redeem";
+    case MembershipStatus.UNKNOWN:
+      return "Next";
+  }
 }

@@ -1,12 +1,7 @@
 import "./BaseMembershipCard.scss";
 import { ExternalLink } from "../../icons/ExternalLink";
 import { StopWatch } from "../../icons/StopWatch";
-
-export enum MembershipStatus {
-  UNKNOWN = "unknown",
-  VALID = "valid",
-  EXPIRED = "expired",
-}
+import { MembershipStatus } from "../../../../utils";
 
 export interface MembershipBoxProps {
   name: string;

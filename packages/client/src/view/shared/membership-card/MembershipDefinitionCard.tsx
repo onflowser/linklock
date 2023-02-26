@@ -1,11 +1,11 @@
 import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
 import {
   BaseMembershipCard,
-  MembershipStatus,
 } from "./base/BaseMembershipCard";
 // @ts-ignore
 import prettyMilliseconds from "pretty-ms";
 import { useFlowPrice, formatFlowCoins } from "../../../hooks/coin-price";
+import { getMembershipStatus } from "../../../utils";
 
 export type MembershipDefinitionCardProps = {
   membershipDefinition: MembershipDefinition;
@@ -20,17 +20,6 @@ export function MembershipDefinitionCard({
     membershipDefinition;
 
   const { data: flowPrice } = useFlowPrice();
-
-  const getMembershipStatus = (
-    membership: MembershipNFT | undefined
-  ): MembershipStatus => {
-    if (membership === undefined) {
-      return MembershipStatus.UNKNOWN;
-    } else {
-      // TODO: Implement
-      return MembershipStatus.VALID;
-    }
-  };
 
   return (
     <BaseMembershipCard
