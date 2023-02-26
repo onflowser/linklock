@@ -5,6 +5,7 @@ import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
 import {
   MembershipCheckout,
+  useFlow,
   useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
 import { formatWebsiteUrl } from "../common/utils";
@@ -22,6 +23,7 @@ export type UserProfileProps = {
 
 export default function UserProfile({ nameInfo, address }: UserProfileProps) {
   const router = useRouter();
+  const { currentUser } = useFlow();
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
   const [selectedMembershipId, setSelectedMembershipId] = useState<number>();
   const { data: membershipDefinitions } =
@@ -66,6 +68,22 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
           </LeftDetails>
         )}
         <RightDetails>
+          {currentUser && (
+            <CreateMembershipButton
+              title="Create new membership"
+              onClick={() =>
+                router.push(`/${currentUser.address}/membership/new`)
+              }
+            >
+              +
+            </CreateMembershipButton>
+          )}
+          {membershipDefinitions?.length === 0 && (
+            <div>
+              <b>No available memberships</b>
+              <p>This user has no membership programs.</p>
+            </div>
+          )}
           <Carousel
             showArrows={false}
             showStatus={false}
@@ -143,6 +161,19 @@ const DetailsCard = styled(Shadow)`
     background-position: 50% 0;
     background-size: cover;
   }
+`;
+
+const CreateMembershipButton = styled(UnstyledButton)`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--main-dark-color) !important;
 `;
 
 const CustomMembershipDefinitionCard = styled(MembershipDefinitionCard)`
