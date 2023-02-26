@@ -147,11 +147,18 @@ pub contract MembershipDefinition: NonFungibleToken {
         /// @return The NFT resource that has been taken out of the collection
         ///
         pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
-            let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
+            // TODO: Implement withdrawal support, remove adminAddress from Membership.NFT
+            // Disable withdrawals for now,
+            // because we assume that `adminAddress`,
+            // which used to specify membership along membershipDefinitionId,
+            // will not change.
+            panic("Membership definition withdrawal not supported yet")
 
-            emit Withdraw(id: token.id, from: self.owner?.address)
+            // let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
 
-            return <-token
+            // emit Withdraw(id: token.id, from: self.owner?.address)
+
+            // return <-token
         }
 
         /// Adds an NFT to the collections dictionary and adds the ID to the id array

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FlowScanner } from '@rayvin-flow/flow-scanner-lib';
 import { ConfigProvider } from '@rayvin-flow/flow-scanner-lib/lib/providers/config-provider';
-import { EventBroadcasterService } from './event-broadcaster.service';
+import { MembershipService } from './membership.service';
 import { LoggerInterface } from '@rayvin-flow/flow-scanner-lib/lib/providers/log-provider';
 import { MemorySettingsService } from '@rayvin-flow/flow-scanner-lib/lib/settings/memory-settings-service';
 import { wait } from '../utils';
@@ -13,11 +13,11 @@ export class ScannerService {
   private maxRetries = 100;
   private retries = 0;
 
-  constructor(private readonly eventService: EventBroadcasterService) {
-    const address = '0xf3fcd2c1a78f5eee';
+  constructor(private readonly eventService: MembershipService) {
+    const contractAddress = 'f3fcd2c1a78f5eee';
     this.init([
-      `A.${address}.Membership.Claim`,
-      `A.${address}.Membership.Redeem`,
+      `A.${contractAddress}.Membership.Claim`,
+      `A.${contractAddress}.Membership.Redeem`,
     ]);
     this.start();
   }
@@ -25,7 +25,7 @@ export class ScannerService {
   init(monitorEvents: string[]) {
     this.logger.debug('Listening for events: ', monitorEvents);
     const configProvider: ConfigProvider = () => ({
-      defaultStartBlockHeight: undefined, // Start at the latest block.
+      defaultStartBlockHeight: 0, // Start at the latest block.
       flowAccessNode: 'http://localhost:8080',
       maxFlowRequestsPerSecond: 10, // maximum number of requests to make to the Flow API per second
     });
