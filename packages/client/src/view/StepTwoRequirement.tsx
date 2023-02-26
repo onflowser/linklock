@@ -10,7 +10,8 @@ import { useFlowBalance, useGetMembershipInstances } from "../hooks/cache";
 import { useFlow } from "../providers/flow.provider";
 import { formatFlowCoins, useFlowPrice } from "../hooks/coin-price";
 import { getMembershipStatus, MembershipStatus } from "../utils";
-import { FlowService } from "../services/flow.service";
+import { FlowService, TransactionResult } from "../services/flow.service";
+import toast from "react-hot-toast";
 
 export interface StepTwoRequirementProps {
   onCompleteStep: () => void;
@@ -41,25 +42,47 @@ export function StepTwoRequirement({
   const { data: flowPrice } = useFlowPrice();
 
   async function onSubmit() {
-    await flowService.setupMembershipCollection();
+    // TODO: Dynamically retrieve fungible token type or storage path
+    const fungibleTokenStoragePath = "flowTokenVault";
+
+    await toast.promise(flowService.setupMembershipCollection(), {
+      loading: "Setting up membership NFT collection",
+      success: "Your account is ready!",
+      error: (result: TransactionResult) =>
+        `Failed to setup membership NFT collection: ${result.error?.message}`,
+    });
 
     if (membershipStatus === MembershipStatus.UNKNOWN) {
-      await flowService.claimMembership({
-        adminAddress: adminAddress,
-        membershipDefinitionId: membershipDefinition.id,
-        paymentAmount: membershipDefinition!.requirement.price,
-        // TODO: Dynamically retrieve fungible token type or storage path
-        fungibleTokenStoragePath: "flowTokenVault",
-      });
+      await toast.promise(
+        flowService.claimMembership({
+          adminAddress: adminAddress,
+          membershipDefinitionId: membershipDefinition.id,
+          paymentAmount: membershipDefinition!.requirement.price,
+          fungibleTokenStoragePath,
+        }),
+        {
+          loading: "Claiming membership",
+          success: "Membership claimed",
+          error: (result: TransactionResult) =>
+            `Failed to claim membership: ${result.error?.message}`,
+        }
+      );
     }
 
     if (membershipStatus === MembershipStatus.EXPIRED) {
-      await flowService.redeemMembership({
-        membershipId: membershipInstance!.id,
-        paymentAmount: membershipDefinition!.requirement.price,
-        // TODO: Dynamically retrieve fungible token type or storage path
-        fungibleTokenStoragePath: "flowTokenVault",
-      });
+      await toast.promise(
+        flowService.redeemMembership({
+          membershipId: membershipInstance!.id,
+          paymentAmount: membershipDefinition!.requirement.price,
+          fungibleTokenStoragePath,
+        }),
+        {
+          loading: "Redeeming membership",
+          success: "Membership redeemed",
+          error: (result: TransactionResult) =>
+            `Failed to redeem membership: ${result.error?.message}`,
+        }
+      );
     }
 
     await refetchMembershipInstances();

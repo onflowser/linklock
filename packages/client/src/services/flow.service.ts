@@ -25,6 +25,9 @@ export type RedeemMembershipOptions = {
 };
 
 export type TransactionError = {
+  // Human friendly error message.
+  message: string;
+  // Raw Cadence error stack trace.
   raw: string;
 };
 
@@ -179,13 +182,41 @@ export class FlowService {
         error: null,
       };
     } catch (rawError) {
-      return {
+      return Promise.reject({
         transactionId,
         error: {
+          message: this.getHumanFriendlyError(String(rawError)),
           raw: String(rawError),
         },
-      };
+      });
     }
+  }
+
+  // Extracts a human friendly error message from raw Cadence error stack trace.
+  private getHumanFriendlyError(rawCadenceError: string) {
+    // TODO: Improve this logic and extract it into helper library for reuse
+    // EXAMPLE RAW CADENCE ERROR:
+    // execution error code 1101: [Error Code: 1101] error caused by: 1 error occurred:
+    // 	* transaction execute failed: [Error Code: 1101] cadence runtime error: Execution failed:
+    //   --> 354b095525c8fbdb6bb5ee5d28d701ef7afb81ca770cff1c1874841e897db595:39:26
+    //    |
+    // 39 |         let membership <- Membership.claimMembership(
+    //    |                           ^
+    //
+    // error: panic: Max membership supply reached
+    //    --> f3fcd2c1a78f5eee.Membership:325:12
+    //     |
+    // 325 |             panic("Max membership supply reached")
+    //     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    const errorLines = rawCadenceError.split("\n");
+
+    const rawPanicError = errorLines.find((line) => line.includes("panic"));
+    const rawError = errorLines.find((line) => line.includes("error"));
+
+    const unFormattedMessage =
+      rawPanicError || rawError || "Smart contract threw an error";
+
+    return unFormattedMessage.replace(/error|panic|:/g, "");
   }
 
   private getFlowTokenAddress(env: AppEnvironment) {
