@@ -1,22 +1,19 @@
-import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
+import { MembershipDefinition } from "@membership/flow/index";
 import { BaseMembershipCard } from "../base/BaseMembershipCard";
 import "./MembershipDefinitionCard.scss";
 // @ts-ignore
 import prettyMilliseconds from "pretty-ms";
 import { useFlowPrice, formatFlowCoins } from "../../../../hooks/coin-price";
-import { getMembershipStatus } from "../../../../utils";
 import { StopWatch } from "../../icons/StopWatch";
 
 export type MembershipDefinitionCardProps = {
   className?: string;
   membershipDefinition: MembershipDefinition;
-  ownedTargetMembership?: MembershipNFT;
 };
 
 export function MembershipDefinitionCard({
   className,
   membershipDefinition,
-  ownedTargetMembership,
 }: MembershipDefinitionCardProps) {
   const { name, thumbnail, expirationInterval, requirement, description } =
     membershipDefinition;
@@ -29,13 +26,11 @@ export function MembershipDefinitionCard({
       name={name}
       thumbnailImageUrl={thumbnail}
       description={description}
-      duration={prettyMilliseconds(+expirationInterval * 1000)}
-      status={getMembershipStatus(ownedTargetMembership)}
       footer={
         <div className={"bottom"}>
           <span>
-            <StopWatch></StopWatch>
-            membership duration:{" "}
+            <StopWatch />
+            Membership duration:{" "}
             {prettyMilliseconds(+expirationInterval * 1000)}
           </span>
           <div>

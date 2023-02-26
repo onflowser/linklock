@@ -5,15 +5,18 @@ import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
 import {
   MembershipCheckout,
+  useFlow,
   useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
 import { formatWebsiteUrl } from "../common/utils";
 import { SizedBox } from "@membership/client/src/view/shared/SizedBox";
 import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
-import { Carousel } from "react-responsive-carousel";
 import { useRouter } from "next/router";
 import { MembershipDefinitionCard, UnstyledButton } from "@membership/client";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export type UserProfileProps = {
   address: string;
@@ -22,6 +25,7 @@ export type UserProfileProps = {
 
 export default function UserProfile({ nameInfo, address }: UserProfileProps) {
   const router = useRouter();
+  const { currentUser } = useFlow();
   const [openMembershipCheckout, setOpenMembershipCheckout] = useState(false);
   const [selectedMembershipId, setSelectedMembershipId] = useState<number>();
   const { data: membershipDefinitions } =
@@ -44,7 +48,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
       <SizedBox backgroundColor="var(--main-dark-color)" height={200} />
 
       <ProfileWrapper>
-        <Avatar imageUrl={nameInfo?.avatar} />
+        <Avatar address={address} imageUrl={nameInfo?.avatar} />
         <ProfileName>{nameInfo?.name ?? "Unknown"}</ProfileName>
         <ExternalLink href={`https://flowscan.org/account/${address}`}>
           {address}
@@ -65,14 +69,25 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
             </div>
           </LeftDetails>
         )}
-        <RightDetails>
-          <Carousel
-            showArrows={false}
-            showStatus={false}
-            onChange={console.log}
-            onClickItem={console.log}
-            onClickThumb={console.log}
-          >
+        {/* TODO: Fix this to work without specifying width */}
+        <RightDetails style={{ width: nameInfo?.description ? "50%" : "100%" }}>
+          {currentUser && (
+            <CreateMembershipButton
+              title="Create new membership"
+              onClick={() =>
+                router.push(`/${currentUser.address}/membership/new`)
+              }
+            >
+              +
+            </CreateMembershipButton>
+          )}
+          {membershipDefinitions?.length === 0 && (
+            <div>
+              <b>No available memberships</b>
+              <p>This user has no membership programs.</p>
+            </div>
+          )}
+          <Slider dots>
             {membershipDefinitions?.map((definition) => (
               <>
                 {/* TODO: Add edit membership definition logic */}
@@ -92,7 +107,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
                 </PrimaryButton>
               </>
             ))}
-          </Carousel>
+          </Slider>
         </RightDetails>
       </DetailsCard>
     </Container>
@@ -125,7 +140,6 @@ const Shadow = styled.div`
 const DetailsCard = styled(Shadow)`
   padding: 50px;
   display: flex;
-  height: 500px;
   margin: auto;
   position: relative;
   &:before {
@@ -145,6 +159,19 @@ const DetailsCard = styled(Shadow)`
   }
 `;
 
+const CreateMembershipButton = styled(UnstyledButton)`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--main-dark-color) !important;
+`;
+
 const CustomMembershipDefinitionCard = styled(MembershipDefinitionCard)`
   min-height: 300px;
 `;
@@ -157,6 +184,4 @@ const LeftDetails = styled.div`
 const RightDetails = styled.div`
   flex: 1;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
 `;

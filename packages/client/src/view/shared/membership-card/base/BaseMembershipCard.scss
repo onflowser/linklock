@@ -24,8 +24,6 @@
     }
   }
 
-  height: 175px;
-
   @include layout.verticalLayout(0);
   position: relative;
   padding: 30px;
@@ -60,17 +58,18 @@
       @include layout.verticalLayout(0);
       margin-top: -3px;
 
-      span:first-child {
+      .title {
         font-size: typography.$fontSizeXL;
         font-weight: typography.$fontWeightBolder;
         color: colors.$colorBlack500;
         text-align: left;
       }
 
-      span:last-child {
-        font-size: typography.$fontSizeL;
+      .description {
+        font-size: typography.$fontSizeM;
         font-weight: typography.$fontWeightNormal;
         color: colors.$colorBlack500;
+        line-height: typography.$lineSpacingM;
       }
 
       a {

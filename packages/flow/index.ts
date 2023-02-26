@@ -29,7 +29,7 @@ export type CadenceScripts = {
   getMembershipDefinitionsByAdmin: string;
 };
 
-export type MembershipNFT = {
+export type MembershipInstance = {
   uuid: string;
   id: string;
   name: string;

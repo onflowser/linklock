@@ -1,7 +1,10 @@
 import { Stepper } from "./shared/stepper/Stepper";
 import "./steps.scss";
 import "./StepOnePreview.scss";
-import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
+import {
+  MembershipDefinition,
+  MembershipInstance,
+} from "@membership/flow/index";
 import { MembershipDefinitionCard } from "./shared/membership-card/membership-definition/MembershipDefinitionCard";
 
 import {
@@ -15,7 +18,7 @@ import { Header } from "./shared/header/Header";
 export interface StepOnePreviewProps {
   onCompleteStep: () => void;
   membershipDefinition: MembershipDefinition;
-  ownedTargetMembership?: MembershipNFT;
+  ownedTargetMembership?: MembershipInstance;
 }
 
 export function StepOnePreview({

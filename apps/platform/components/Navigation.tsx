@@ -32,9 +32,10 @@ export function Navigation() {
           {isLoggedIn ? (
             <>
               <UnstyledButton
+                title="Go to your profile"
                 onClick={() => router.push(`/${currentUser?.address}`)}
               >
-                <Avatar size={50} imageUrl={domainInfo?.avatar} />
+                <Avatar size={50} address={currentUser?.address} imageUrl={domainInfo?.avatar} />
               </UnstyledButton>
               <PrimaryButton isLoading={isLoggingOut} onClick={() => logout()} color={'green'}>
                 Logout

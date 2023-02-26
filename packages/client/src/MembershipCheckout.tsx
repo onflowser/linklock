@@ -2,7 +2,7 @@ import { CenterModal } from "./view/shared/Modal";
 import { useEffect, useState } from "react";
 import { useFlow } from "./providers/flow.provider";
 import {
-  useGetMemberships,
+  useGetMembershipInstances,
   useGetMembershipDefinitionsByAdmin,
 } from "./hooks/cache";
 import { FlowService } from "./services/flow.service";
@@ -40,7 +40,7 @@ export function MembershipCheckout({
     data: ownedMemberships,
     error: membershipError,
     mutate: refetchMemberships,
-  } = useGetMemberships(currentUser?.address);
+  } = useGetMembershipInstances(currentUser?.address);
   const membershipDefinition = membershipDefinitions?.find(
     (definition) => definition.id === String(membershipDefinitionId)
   );
@@ -53,8 +53,11 @@ export function MembershipCheckout({
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
   useEffect(() => {
-    // TODO: In case membership is valid, we should probably redirect to last (CLAIMED) step
-    setCheckoutStep(CheckoutStep.PREVIEW);
+    if (ownedTargetMembership) {
+      setCheckoutStep(CheckoutStep.CLAIMED);
+    } else {
+      setCheckoutStep(CheckoutStep.PREVIEW);
+    }
   }, [isOpenModal]);
 
   function onClaimRequirement() {
@@ -95,7 +98,6 @@ export function MembershipCheckout({
       case CheckoutStep.PREVIEW:
         return (
           <StepOnePreview
-            ownedTargetMembership={ownedTargetMembership}
             membershipDefinition={membershipDefinition}
             onCompleteStep={() => setCheckoutStep(CheckoutStep.REQUIREMENT)}
           />

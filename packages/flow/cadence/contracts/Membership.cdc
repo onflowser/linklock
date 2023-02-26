@@ -59,7 +59,6 @@ pub contract Membership: NonFungibleToken {
             name: String,
             description: String,
             thumbnail: String,
-            metadata: {String: AnyStruct},
             validUntilTimestamp: UFix64,
             adminAddress: Address,
             membershipDefinitionId: UInt64
@@ -68,7 +67,7 @@ pub contract Membership: NonFungibleToken {
             self.name = name
             self.description = description
             self.thumbnail = thumbnail
-            self.metadata = metadata
+            self.metadata = {}
             self.validUntilTimestamp = validUntilTimestamp
             self.adminAddress = adminAddress
             self.membershipDefinitionId = membershipDefinitionId
@@ -109,7 +108,11 @@ pub contract Membership: NonFungibleToken {
                  case Type<MetadataViews.Display>():
                      return MetadataViews.Display(
                          name: self.name,
-                         description: self.description,
+                         // TODO: Nicer timestamp formatting
+                         description: self.description
+                            .concat(" | ")
+                            .concat("Valid until timestamp: ")
+                            .concat(self.validUntilTimestamp.toString()),
                          thumbnail: MetadataViews.HTTPFile(
                              url: self.thumbnail
                          )
@@ -325,10 +328,10 @@ pub contract Membership: NonFungibleToken {
         let currentTimestamp = getCurrentBlock().timestamp
         let membership <- create NFT(
             id: self.totalSupply,
+            // TODO: Provide custom/dynamic metadata?
             name: membershipDefinition.name,
-            description: "",
-            thumbnail: "",
-            metadata: {},
+            description: membershipDefinition.description,
+            thumbnail: membershipDefinition.thumbnail,
             validUntilTimestamp: currentTimestamp + membershipDefinition.expirationInterval,
             adminAddress: adminAddress,
             membershipDefinitionId: membershipDefinitionId

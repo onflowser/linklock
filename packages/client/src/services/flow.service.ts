@@ -4,7 +4,10 @@ import * as fcl from "@onflow/fcl";
 import * as type from "@onflow/types";
 import { AppEnvironment, getConfig } from "../utils";
 import { transactions, scripts } from "@membership/flow";
-import { MembershipDefinition, MembershipNFT } from "@membership/flow/index";
+import {
+  MembershipDefinition,
+  MembershipInstance,
+} from "@membership/flow/index";
 
 export type FclCurrentUser = { addr: string };
 
@@ -137,9 +140,9 @@ export class FlowService {
       .then(Number);
   }
 
-  public async getMembershipsByAccount(
+  public async getMembershipInstancesByAccount(
     address: string
-  ): Promise<MembershipNFT[]> {
+  ): Promise<MembershipInstance[]> {
     return fcl
       .send([
         fcl.script(scripts.getMembershipsByAccount),

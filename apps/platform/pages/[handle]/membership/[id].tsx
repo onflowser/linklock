@@ -15,6 +15,8 @@ import { daysToSeconds, secondsToDays } from "@membership/client";
 export default function MembershipSettings() {
   const flowService = FlowService.create();
   const { currentUser } = useFlow();
+  const { mutate: refetchMembershipDefinitions } =
+    useGetMembershipDefinitionsByAdmin(currentUser?.address);
   const router = useRouter();
   const { id: membershipId } = router.query;
   const { data: membershipDefinitions } = useGetMembershipDefinitionsByAdmin(
@@ -38,10 +40,11 @@ export default function MembershipSettings() {
           contractName: "FlowRequirement",
         },
       },
-      onSubmit: (values) => {
-        flowService.setupMembershipDefinitionCollection().then(() => {
-          flowService.createMembership(values).then(() => router.back());
-        });
+      onSubmit: async (values) => {
+        await flowService.setupMembershipDefinitionCollection();
+        await flowService.createMembership(values);
+        await refetchMembershipDefinitions();
+        await router.back();
       },
     });
 
@@ -55,7 +58,7 @@ export default function MembershipSettings() {
     <>
       <MetaTags title="Profile settings" />
       <div className="profile-settings">
-        <h3>Membership settings</h3>
+        <h1>New membership settings</h1>
 
         {/* TODO: Add option to upload profile photo? */}
 
