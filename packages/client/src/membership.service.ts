@@ -8,7 +8,7 @@ import {
   transactions,
   scripts,
 } from "@membership/protocol";
-import { FlowNetwork } from "./utils";
+import { FlowNetwork, getAccessNodeApi } from "./utils";
 
 export type FclCurrentUser = { addr: string };
 
@@ -54,6 +54,7 @@ export class MembershipService {
     const { network } = config;
     fcl.config({
       "flow.network": network,
+      "accessNode.api": getAccessNodeApi(network),
       "0xFungibleToken": this.getFungibleTokenAddress(network),
       "0xFlowToken": this.getFlowTokenAddress(network),
     });
@@ -70,7 +71,7 @@ export class MembershipService {
   ): Promise<boolean> {
     // TODO: Does this work?
     // Refer to: https://developers.flow.com/tools/fcl-js/reference/proving-authentication
-    return await fcl.verifyUserSignatures(
+    return await fcl.AppUtils.verifyUserSignatures(
       Buffer.from(message).toString("hex"),
       signatures
     );
