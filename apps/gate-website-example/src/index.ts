@@ -1,7 +1,6 @@
 import passport from "passport";
 import express from "express";
-import passportMembership from "@membership/passport";
-const MembershipStrategy = passportMembership.Strategy;
+import { MembershipStrategy } from "@membership/passport";
 
 const app = express();
 const port = 3004;
