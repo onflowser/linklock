@@ -6,7 +6,7 @@ const app = express();
 const port = 3004;
 
 app.use(require("cookie-parser")());
-app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(require("body-parser").json());
 app.use(
   require("express-session")({
     secret: "keyboard cat",
@@ -21,13 +21,11 @@ const exampleUser = {
   id: "0x1",
 };
 
-passport.use(
-  new MembershipStrategy(function (req, callback) {
-    const isValid = false;
-    // Do your custom user finding logic here, or set to false based on req object
-    callback(null, isValid ? exampleUser : false);
-  })
-);
+const membershipStrategy = new MembershipStrategy({
+  network: "local",
+});
+
+passport.use(membershipStrategy);
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -44,7 +42,7 @@ app.get("/", (req, res) => {
 
 app.post(
   "/login",
-  passport.authenticate("membership-strategy", { failureRedirect: "/login" }),
+  passport.authenticate(membershipStrategy.name, { failureRedirect: "/login" }),
   function (req, res) {
     res.redirect("/protected");
   }

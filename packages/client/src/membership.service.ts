@@ -25,6 +25,14 @@ export type RedeemMembershipOptions = {
   fungibleTokenStoragePath: string;
 };
 
+export type FlowSignature = {
+  addr: string;
+  f_type: string;
+  f_vsn: string;
+  keyId: number;
+  signature: string;
+};
+
 export type TransactionError = {
   // Human friendly error message.
   message: string;
@@ -50,16 +58,16 @@ export class MembershipService {
     });
   }
 
-  public authenticate(): Promise<FclCurrentUser> {
-    return fcl.authenticate();
-  }
-
-  public unAuthenticate(): Promise<void> {
-    return fcl.unauthenticate();
-  }
-
-  public subscribeCurrentUser(onChanged: (user: FclCurrentUser) => void) {
-    fcl.currentUser.subscribe(onChanged);
+  public async isValidSignature(
+    message: string,
+    signatures: [FlowSignature]
+  ): Promise<boolean> {
+    // TODO: Does this work?
+    // Refer to: https://developers.flow.com/tools/fcl-js/reference/proving-authentication
+    return await fcl.verifyUserSignatures(
+      Buffer.from(message).toString("hex"),
+      signatures
+    );
   }
 
   // TODO: Can we setup and claim membership in a single transaction?

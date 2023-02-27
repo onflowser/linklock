@@ -12,6 +12,7 @@
   "main": "src",
   "scripts": {},
   "dependencies": {
+    "@types/node": "^18.14.2",
     "passport-strategy": "^1.0.0"
   }
 }
