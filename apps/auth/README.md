@@ -14,3 +14,5 @@ This website handles authentication similar to the Oath flow.
     - `signature`
 - Backend authorizes the received message/signature and checks if user account holds a membership NFT
 - Authentication successful/failed
+
+http://localhost:3000/?adminAddress=0xf8d6e0586b0a20c7&membershipDefinitionId=0&callbackUrl=http://localhost:3004/callback

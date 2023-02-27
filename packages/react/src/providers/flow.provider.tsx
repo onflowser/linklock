@@ -23,13 +23,13 @@ export type FlowState = {
   isLoggedIn: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
+  getAccountOwnershipProof: () => any;
 };
 
 const FlowContext = React.createContext<FlowState>({} as FlowState);
 
-ServiceRegistry.create();
-
 export function FlowProvider(props: FlowProviderProps) {
+  const {membershipService} = ServiceRegistry.create();
   const [fclUser, setFclUser] = useState<FclCurrentUser | undefined>();
   // TODO: Implement these states
   const [isLoggingIn, setLoggingIn] = useState(false);
@@ -59,9 +59,16 @@ export function FlowProvider(props: FlowProviderProps) {
     await fcl.unauthenticate();
   }
 
+  async function getAccountOwnershipProof() {
+    const message = "Authenticate to membership protocol"
+    const signature = await membershipService.signMessage(message)
+    return {message, signature}
+  }
+
   return (
     <FlowContext.Provider
       value={{
+        getAccountOwnershipProof,
         login,
         logout,
         currentUser,

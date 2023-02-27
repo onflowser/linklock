@@ -1,6 +1,6 @@
-import { MembershipCheckout } from "@membership/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { SignatureRequest } from "@membership/react";
 
 export default function AuthenticationHandler() {
   const router = useRouter();
@@ -24,10 +24,11 @@ export default function AuthenticationHandler() {
   }
 
   return (
-    <MembershipCheckout
+    <SignatureRequest
       isOpenModal={isOpenModal}
       onCloseModal={closeModal}
       setIsOpenModal={setIsOpenModal}
+      callbackUrl={callbackUrl}
       membershipDefinitionId={+membershipDefinitionId}
       adminAddress={adminAddress}
     />

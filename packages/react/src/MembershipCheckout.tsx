@@ -103,11 +103,7 @@ export function MembershipCheckout({
   }
 
   return (
-    <CenterModal
-      isOpen={isOpenModal}
-      onRequestClose={onRequestClose}
-      maxWidth={"525px"}
-    >
+    <CenterModal isOpen={isOpenModal} onRequestClose={onRequestClose}>
       {renderStep()}
     </CenterModal>
   );
