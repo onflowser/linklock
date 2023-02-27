@@ -36,6 +36,7 @@ export default function ClaimMembership() {
         <MembershipCheckout
           isOpenModal={isOpenModal}
           onCloseModal={closeModal}
+          setIsOpenModal={setIsOpenModal}
           membershipDefinitionId={membershipDefinitionId}
           adminAddress={adminAddress}
         />

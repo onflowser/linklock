@@ -10,6 +10,7 @@ export type CenterModalProps = ReactModal.Props & {
   zIndex?: number;
   maxWidth?: number | string;
   maxHeight?: number | string;
+  setIsOpenModal?: () => void;
 };
 
 export function CenterModal({
@@ -19,6 +20,7 @@ export function CenterModal({
   zIndex = 10,
   maxWidth = "100%",
   maxHeight = "100%",
+  setIsOpenModal,
   ...reactModalProps
 }: CenterModalProps) {
   return (

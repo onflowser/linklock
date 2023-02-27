@@ -16,12 +16,14 @@ export type MembershipCheckoutProps = {
   membershipDefinitionId: number;
   isOpenModal: boolean;
   onCloseModal: () => void;
+  setIsOpenModal: (state: boolean) => void;
 };
 
 export function MembershipCheckout({
   adminAddress,
   membershipDefinitionId,
   isOpenModal,
+  setIsOpenModal,
   onCloseModal,
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
@@ -83,6 +85,7 @@ export function MembershipCheckout({
         return membershipInstance ? (
           <StepThreeClaimed
             onMoveToStep={setCheckoutStep}
+            setIsOpenModal={setIsOpenModal}
             onCloseModal={() => onCloseModal()}
             membershipInstance={membershipInstance}
           />

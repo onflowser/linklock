@@ -10,13 +10,22 @@ export interface StepThreeClaimedProps {
   onMoveToStep: (step: CheckoutStep) => void;
   onCloseModal: () => void;
   membershipInstance: MembershipInstance;
+  setIsOpenModal?: (state: boolean) => void;
 }
 
 export function StepThreeClaimed({
   onMoveToStep,
   membershipInstance,
+  setIsOpenModal
 }: StepThreeClaimedProps) {
   const membershipStatus = getMembershipStatus(membershipInstance);
+
+  const onLastStep = () => {
+    onMoveToStep(CheckoutStep.CLAIMED);
+    if (setIsOpenModal) {
+      setIsOpenModal(false);
+    }
+  }
 
   return (
     <div className="step-container">
@@ -26,7 +35,7 @@ export function StepThreeClaimed({
       <div className="wrapper">
         <MembershipInstanceCard membership={membershipInstance} />
 
-        <Button onClick={onMoveToStep}>
+        <Button onClick={onLastStep}>
           {getButtonTitle(membershipStatus)}
         </Button>
       </div>
