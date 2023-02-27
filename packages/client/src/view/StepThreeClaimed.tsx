@@ -2,7 +2,7 @@ import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepThreeClaimed.scss";
-import { MembershipInstance } from "@membership/flow/index";
+import { MembershipInstance } from "@membership/protocol";
 import { MembershipInstanceCard } from "./shared/membership-card/membership-instance/MembershipInstanceCard";
 import { CheckoutStep, getMembershipStatus, MembershipStatus } from "../utils";
 

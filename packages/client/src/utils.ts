@@ -1,4 +1,4 @@
-import { MembershipInstance } from "@membership/flow/index";
+import { MembershipInstance } from "@membership/protocol";
 
 export type AppEnvironment = "production" | "staging" | "development";
 
@@ -23,7 +23,7 @@ export function daysToSeconds(days: number) {
 }
 
 export function unixTimestampToDate(timestamp: number): Date {
-  return new Date(timestamp * 1000)
+  return new Date(timestamp * 1000);
 }
 
 export enum CheckoutStep {

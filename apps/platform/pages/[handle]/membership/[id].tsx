@@ -8,7 +8,7 @@ import {
   useGetMembershipDefinitionsByAdmin,
 } from "@membership/client";
 import { useFormik } from "formik";
-import { MembershipDefinition } from "@membership/flow/index";
+import { MembershipDefinition } from "@membership/protocol";
 import { useEffect } from "react";
 import { daysToSeconds, secondsToDays } from "@membership/client";
 

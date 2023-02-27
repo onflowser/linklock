@@ -347,7 +347,7 @@ pub contract Membership: NonFungibleToken {
         )
 
         // TODO: Should we deposit NFT here instead of returning?
-        // See: https://github.com/onflow/flow-nft/blob/master/contracts/ExampleNFT.cdc#L325
+        // See: https://github.com/onflow/protocol-nft/blob/master/contracts/ExampleNFT.cdc#L325
         return <- membership
     }
 

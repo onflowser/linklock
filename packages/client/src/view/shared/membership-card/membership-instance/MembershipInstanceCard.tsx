@@ -1,5 +1,5 @@
 import { BaseMembershipCard } from "../base/BaseMembershipCard";
-import { MembershipInstance } from "@membership/flow/index";
+import { MembershipInstance } from "@membership/protocol";
 import { getMembershipStatus, unixTimestampToDate } from "../../../../utils";
 import { StopWatch } from "../../icons/StopWatch";
 import { SizedBox } from "../../SizedBox";

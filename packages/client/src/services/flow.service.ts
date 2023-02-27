@@ -3,11 +3,12 @@ import * as fcl from "@onflow/fcl";
 // @ts-ignore missing fcl typescript declarations
 import * as type from "@onflow/types";
 import { AppEnvironment, getConfig } from "../utils";
-import { transactions, scripts } from "@membership/flow";
 import {
   MembershipDefinition,
   MembershipInstance,
-} from "@membership/flow/index";
+  transactions,
+  scripts,
+} from "@membership/protocol";
 
 export type FclCurrentUser = { addr: string };
 

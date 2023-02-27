@@ -1,9 +1,9 @@
-import { MembershipDefinition } from "@membership/flow/index";
+import { MembershipDefinition } from "@membership/protocol";
 import { BaseMembershipCard } from "../base/BaseMembershipCard";
 import "./MembershipDefinitionCard.scss";
 // @ts-ignore
 import prettyMilliseconds from "pretty-ms";
-import { useFlowPrice, formatFlowCoins, useFlowToUsd } from "../../../../hooks/coin-price";
+import { formatFlowCoins, useFlowToUsd } from "../../../../hooks/coin-price";
 import { StopWatch } from "../../icons/StopWatch";
 
 export type MembershipDefinitionCardProps = {

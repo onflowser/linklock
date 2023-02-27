@@ -4,7 +4,7 @@ import "./StepOnePreview.scss";
 import {
   MembershipDefinition,
   MembershipInstance,
-} from "@membership/flow/index";
+} from "@membership/protocol";
 import { MembershipDefinitionCard } from "./shared/membership-card/membership-definition/MembershipDefinitionCard";
 
 import {

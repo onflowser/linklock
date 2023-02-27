@@ -121,8 +121,22 @@ export class DomainsService {
     return flowns?.owner ?? find?.address;
   }
 
-  public async getNameInfo(name: string): Promise<FlowAbstractNameInfo|undefined> {
-    const {find, flowns} = await this.lookupRawInfosByName(name);
+  public async getNameInfo(
+    name: string
+  ): Promise<FlowAbstractNameInfo | undefined> {
+    // TODO: Remove mock data
+    // return {
+    //   address: "0xf8d6e0586b0a20c7",
+    //   domainName: "bjartek",
+    //   name: "bjartek",
+    //   avatar: "https://flovatar.com/api/image/95",
+    //   twitterUrl: "https://twitter.com/0xBjartek",
+    //   websiteUrl: "https://bjartek.org",
+    //   tags: ["find", "versus", "overflow", "flovatar-maxi", "neo-team-8"],
+    //   description:
+    //     "creator of .find, co-owner of versus. #SODA father. Co-author of metadata protocol flip. OnFlow Community Rep. Service-Account signer.",
+    // };
+    const { find, flowns } = await this.lookupRawInfosByName(name);
 
     if (!find && !flowns) {
       return undefined;

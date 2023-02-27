@@ -5,7 +5,7 @@ import "./StepTwoRequirement.scss";
 import {
   MembershipDefinition,
   MembershipInstance,
-} from "@membership/flow/index";
+} from "@membership/protocol";
 import { useFlowBalance, useGetMembershipInstances } from "../hooks/cache";
 import { useFlow } from "../providers/flow.provider";
 import { formatFlowCoins, useFlowToUsd } from "../hooks/coin-price";
