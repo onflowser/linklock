@@ -162,7 +162,8 @@ const LandingSection = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 
-  height: calc(80vh - ${theme.layout.navbar_height});
+  //height: calc(80vh - ${theme.layout.navbar_height});
+  height: 700px;
   box-sizing: border-box;
   position: relative;
 
@@ -172,7 +173,6 @@ const LandingSection = styled.div`
 `;
 
 // --LANDING--SECTION--
-
 interface SectionContainerProps {
   color: string | undefined;
   bgcolor: string | undefined;
@@ -236,7 +236,8 @@ const BgSectionContainer = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 
-  height: calc(65vh - ${theme.layout.navbar_height});
+  // height: calc(65vh - ${theme.layout.navbar_height});
+  height: 800px;
   box-sizing: border-box;
   position: relative;
 
