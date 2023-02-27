@@ -1,0 +1,17 @@
+{
+  "name": "@membership/passport",
+  "version": "0.0.0",
+  "description": "Membership protocol strategy for Passport.",
+  "keywords": [
+    "passport",
+    "auth",
+    "authn",
+    "authentication",
+    "memberships"
+  ],
+  "main": "src",
+  "scripts": {},
+  "dependencies": {
+    "passport-strategy": "^1.0.0"
+  }
+}
