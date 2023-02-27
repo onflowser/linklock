@@ -3,7 +3,7 @@ import { BaseMembershipCard } from "../base/BaseMembershipCard";
 import "./MembershipDefinitionCard.scss";
 // @ts-ignore
 import prettyMilliseconds from "pretty-ms";
-import { useFlowPrice, formatFlowCoins } from "../../../../hooks/coin-price";
+import { useFlowPrice, formatFlowCoins, useFlowToUsd } from "../../../../hooks/coin-price";
 import { StopWatch } from "../../icons/StopWatch";
 
 export type MembershipDefinitionCardProps = {
@@ -18,8 +18,7 @@ export function MembershipDefinitionCard({
   const { name, thumbnail, expirationInterval, requirement, description } =
     membershipDefinition;
 
-  const { data: flowPrice } = useFlowPrice();
-
+  const usdPrice = useFlowToUsd(+requirement.price);
   return (
     <BaseMembershipCard
       className={"membership-definition-card" + " " + className}
@@ -35,7 +34,7 @@ export function MembershipDefinitionCard({
           </span>
           <div>
             <span>{`${formatFlowCoins(requirement.price)} FLOW`}</span>
-            <span>~{`${+flowPrice?.usd * +requirement.price} USD`}</span>
+            <span>{usdPrice ? `~${usdPrice} USD` : "-"}</span>
           </div>
         </div>
       }
