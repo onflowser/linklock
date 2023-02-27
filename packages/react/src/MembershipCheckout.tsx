@@ -15,16 +15,14 @@ export type MembershipCheckoutProps = {
   adminAddress: string;
   membershipDefinitionId: number;
   isOpenModal: boolean;
-  onCloseModal: () => void;
-  setIsOpenModal: (state: boolean) => void;
+  onRequestClose: () => void;
 };
 
 export function MembershipCheckout({
   adminAddress,
   membershipDefinitionId,
   isOpenModal,
-  setIsOpenModal,
-  onCloseModal,
+  onRequestClose,
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
   const { data: membershipDefinitions, error: membershipDefinitionError } =
@@ -85,8 +83,7 @@ export function MembershipCheckout({
         return membershipInstance ? (
           <StepThreeClaimed
             onMoveToStep={setCheckoutStep}
-            setIsOpenModal={setIsOpenModal}
-            onCloseModal={() => onCloseModal()}
+            onRequestClose={onRequestClose}
             membershipInstance={membershipInstance}
           />
         ) : (
@@ -96,10 +93,6 @@ export function MembershipCheckout({
       default:
         return <></>;
     }
-  }
-
-  function onRequestClose() {
-    onCloseModal();
   }
 
   return (

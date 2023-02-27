@@ -8,23 +8,20 @@ import { CheckoutStep, getMembershipStatus, MembershipStatus } from "../utils";
 
 export interface StepThreeClaimedProps {
   onMoveToStep: (step: CheckoutStep) => void;
-  onCloseModal: () => void;
+  onRequestClose: () => void;
   membershipInstance: MembershipInstance;
-  setIsOpenModal?: (state: boolean) => void;
 }
 
 export function StepThreeClaimed({
   onMoveToStep,
+  onRequestClose,
   membershipInstance,
-  setIsOpenModal
 }: StepThreeClaimedProps) {
   const membershipStatus = getMembershipStatus(membershipInstance);
 
   const onLastStep = () => {
     onMoveToStep(CheckoutStep.CLAIMED);
-    if (setIsOpenModal) {
-      setIsOpenModal(false);
-    }
+    onRequestClose()
   }
 
   return (
