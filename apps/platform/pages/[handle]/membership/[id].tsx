@@ -3,17 +3,17 @@ import { Input } from "../../../components/inputs/Input";
 import { useRouter } from "next/router";
 import MetaTags from "../../../components/MetaTags";
 import {
-  FlowService,
+  ServiceRegistry,
   useFlow,
   useGetMembershipDefinitionsByAdmin,
-} from "../../../../../packages/react";
+} from "@membership/react";
 import { useFormik } from "formik";
 import { MembershipDefinition } from "@membership/protocol";
 import { useEffect } from "react";
 import { daysToSeconds, secondsToDays } from "../../../../../packages/react";
 
 export default function MembershipSettings() {
-  const flowService = FlowService.create();
+  const flowService = ServiceRegistry.create();
   const { currentUser } = useFlow();
   const { mutate: refetchMembershipDefinitions } =
     useGetMembershipDefinitionsByAdmin(currentUser?.address);

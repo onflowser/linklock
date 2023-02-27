@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { FclCurrentUser, FlowService } from "../services/flow.service";
+import { ServiceRegistry } from "../services/service-registry";
 import { useFlowBalance } from "../hooks/cache";
+// @ts-ignore missing fcl typescript declarations
+import * as fcl from "@onflow/fcl";
+
+export type FclCurrentUser = { addr: string };
 
 export type FlowProviderProps = {
   children: React.ReactNode;
@@ -23,7 +27,7 @@ export type FlowState = {
 
 const FlowContext = React.createContext<FlowState>({} as FlowState);
 
-const flowService = FlowService.create();
+ServiceRegistry.create();
 
 export function FlowProvider(props: FlowProviderProps) {
   const [fclUser, setFclUser] = useState<FclCurrentUser | undefined>();
@@ -44,15 +48,15 @@ export function FlowProvider(props: FlowProviderProps) {
   );
 
   useEffect(() => {
-    flowService.subscribeCurrentUser(setFclUser);
+    fcl.currentUser.subscribe(setFclUser);
   }, []);
 
   async function login() {
-    await flowService.authenticate();
+    await fcl.authenticate();
   }
 
   async function logout() {
-    await flowService.unAuthenticate();
+    await fcl.unauthenticate();
   }
 
   return (

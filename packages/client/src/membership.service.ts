@@ -2,13 +2,13 @@
 import * as fcl from "@onflow/fcl";
 // @ts-ignore missing fcl typescript declarations
 import * as type from "@onflow/types";
-import { AppEnvironment, getConfig } from "../utils";
 import {
   MembershipDefinition,
   MembershipInstance,
   transactions,
   scripts,
 } from "@membership/protocol";
+import { FlowNetwork } from "./utils";
 
 export type FclCurrentUser = { addr: string };
 
@@ -37,28 +37,16 @@ export type TransactionResult = {
   error: null | TransactionError;
 };
 
-export class FlowService {
-  private static instance: FlowService;
+export type MembershipServiceConfig = {
+  network: FlowNetwork;
+};
 
-  static create() {
-    if (!this.instance) {
-      this.instance = new FlowService();
-      this.instance.init();
-    }
-    return this.instance;
-  }
-
-  public init() {
-    const { environment } = getConfig();
+export class MembershipService {
+  constructor(config: MembershipServiceConfig) {
+    const { network } = config;
     fcl.config({
-      "app.detail.title": "Membership protocol", // TODO: Change name
-      "flow.network": this.getFlowNetwork(environment),
-      "app.detail.icon": "", // TODO: Add path to icon
-      "accessNode.api": this.getAccessNodeApi(environment),
-      "discovery.wallet": this.getDiscoveryWallet(environment),
-
-      "0xFungibleToken": this.getFungibleTokenAddress(environment),
-      "0xFlowToken": this.getFlowTokenAddress(environment),
+      "0xFungibleToken": this.getFungibleTokenAddress(network),
+      "0xFlowToken": this.getFlowTokenAddress(network),
     });
   }
 
@@ -220,60 +208,27 @@ export class FlowService {
     return unFormattedMessage.replace(/error|panic|:/g, "");
   }
 
-  private getFlowTokenAddress(env: AppEnvironment) {
+  private getFlowTokenAddress(network: FlowNetwork) {
     // https://developers.flow.com/flow/core-contracts/flow-token
-    switch (env) {
-      case "production":
+    switch (network) {
+      case "mainnet":
         return "0x1654653399040a61";
-      case "staging":
+      case "testnet":
         return "0x7e60df042a9c0868";
-      case "development":
+      case "local":
         return "0x0ae53cb6e3f42a79";
     }
   }
 
-  private getFungibleTokenAddress(env: AppEnvironment) {
+  private getFungibleTokenAddress(network: FlowNetwork) {
     // https://docs.onflow.org/core-contracts/fungible-token
-    switch (env) {
-      case "production":
+    switch (network) {
+      case "mainnet":
         return "0xf233dcee88fe0abe";
-      case "staging":
+      case "testnet":
         return "0x9a0766d93b6608b7";
-      case "development":
+      case "local":
         return "0xee82856bf20e2aa6";
-    }
-  }
-
-  private getAccessNodeApi(env: AppEnvironment) {
-    switch (env) {
-      case "production":
-        return "https://rest-mainnet.onflow.org"; // TODO: this is probably not a correct address
-      case "staging":
-        return "https://rest-testnet.onflow.org";
-      case "development":
-      default:
-        return "http://localhost:8888";
-    }
-  }
-
-  private getDiscoveryWallet(env: AppEnvironment) {
-    switch (env) {
-      case "production":
-      case "staging":
-        return "https://fcl-discovery.onflow.org/testnet/authn";
-      case "development":
-        return "http://localhost:8701/fcl/authn";
-    }
-  }
-
-  private getFlowNetwork(env: AppEnvironment) {
-    switch (env) {
-      case "production":
-        return "mainnet";
-      case "staging":
-        return "testnet";
-      case "development":
-        return "local";
     }
   }
 }

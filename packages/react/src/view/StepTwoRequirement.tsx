@@ -2,16 +2,14 @@ import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepTwoRequirement.scss";
-import {
-  MembershipDefinition,
-  MembershipInstance,
-} from "@membership/protocol";
+import { MembershipDefinition, MembershipInstance } from "@membership/protocol";
 import { useFlowBalance, useGetMembershipInstances } from "../hooks/cache";
 import { useFlow } from "../providers/flow.provider";
 import { formatFlowCoins, useFlowToUsd } from "../hooks/coin-price";
 import { getMembershipStatus, MembershipStatus } from "../utils";
-import { FlowService, TransactionResult } from "../services/flow.service";
+import { TransactionResult } from "@membership/client";
 import toast from "react-hot-toast";
+import { ServiceRegistry } from "../services/service-registry";
 
 export interface StepTwoRequirementProps {
   onCompleteStep: () => void;
@@ -26,7 +24,7 @@ export function StepTwoRequirement({
   membershipDefinition,
   membershipInstance,
 }: StepTwoRequirementProps) {
-  const flowService = FlowService.create();
+  const { membershipService } = ServiceRegistry.create();
   const { currentUser } = useFlow();
   const { mutate: refetchMembershipInstances } = useGetMembershipInstances(
     currentUser?.address
@@ -45,7 +43,7 @@ export function StepTwoRequirement({
     // TODO: Dynamically retrieve fungible token type or storage path
     const fungibleTokenStoragePath = "flowTokenVault";
 
-    await toast.promise(flowService.setupMembershipCollection(), {
+    await toast.promise(membershipService.setupMembershipCollection(), {
       loading: "Setting up membership NFT collection",
       success: "Your account is ready!",
       error: (result: TransactionResult) =>
@@ -54,7 +52,7 @@ export function StepTwoRequirement({
 
     if (membershipStatus === MembershipStatus.UNKNOWN) {
       await toast.promise(
-        flowService.claimMembership({
+        membershipService.claimMembership({
           adminAddress: adminAddress,
           membershipDefinitionId: membershipDefinition.id,
           paymentAmount: membershipDefinition!.requirement.price,
@@ -71,7 +69,7 @@ export function StepTwoRequirement({
 
     if (membershipStatus === MembershipStatus.EXPIRED) {
       await toast.promise(
-        flowService.redeemMembership({
+        membershipService.redeemMembership({
           membershipId: membershipInstance!.id,
           paymentAmount: membershipDefinition!.requirement.price,
           fungibleTokenStoragePath,
