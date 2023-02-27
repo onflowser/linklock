@@ -5,15 +5,16 @@ import { MarkdownPreview } from "./MarkdownPreview";
 import { FlowAbstractNameInfo } from "@membership/domains";
 import {
   MembershipCheckout,
+  MembershipDefinitionCard,
+  UnstyledButton,
   useFlow,
+  SizedBox,
   useGetMembershipDefinitionsByAdmin,
-} from "@membership/client";
+} from "@membership/react";
 import { formatWebsiteUrl } from "../common/utils";
-import { SizedBox } from "@membership/client/src/view/shared/SizedBox";
 import { Avatar } from "./Avatar";
 import { ExternalLink } from "./ExternalLink";
 import { useRouter } from "next/router";
-import { MembershipDefinitionCard, UnstyledButton } from "@membership/client";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

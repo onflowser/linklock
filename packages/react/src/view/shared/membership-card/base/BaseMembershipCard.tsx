@@ -35,7 +35,7 @@ export function BaseMembershipCard({
           {/* TODO: Implement more responsive solution for clipping text */}
           <span className="description">{description}</span>
           {/* TODO: Should we display a link here? */}
-          {/*<a href="packages/client/src/view/shared/membership-card/base-membership-card#somewhere">*/}
+          {/*<a href="packages/react/src/view/shared/membership-card/base-membership-card#somewhere">*/}
           {/*  view contract*/}
           {/*  <ExternalLink></ExternalLink>*/}
           {/*</a>*/}

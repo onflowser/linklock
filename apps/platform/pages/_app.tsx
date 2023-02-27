@@ -8,7 +8,7 @@ import { theme } from "../common/theme";
 import { SWRConfig } from "swr";
 import Head from "next/head";
 import { config } from "../common/config";
-import { MembershipProvider } from "@membership/client";
+import { MembershipProvider } from "../../../packages/react";
 
 function App({ Component, pageProps }: AppProps) {
   // @ts-ignore

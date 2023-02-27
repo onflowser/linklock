@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@membership/protocol": "*",
+    "@membership/react": "*",
     "@onflow/fcl": "^1.3.2",
     "@onflow/types": "^1.0.5",
     "@types/styled-components": "^5.1.26",

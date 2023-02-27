@@ -6,7 +6,7 @@ import {
   UnstyledButton,
   useFlow,
   useGetDomainNameInfo,
-} from "@membership/client";
+} from "../../../packages/react";
 import { Avatar } from "./Avatar";
 import { useRouter } from "next/router";
 import { handleQueryParamKey } from "../common/utils";
@@ -22,11 +22,7 @@ export function Navigation() {
     <Container>
       <Content>
         <Link href="/">
-          <img
-            style={{ height: "100%" }}
-            src="/images/logos/logo.svg"
-            alt=""
-          />
+          <img style={{ height: "100%" }} src="/images/logos/logo.svg" alt="" />
         </Link>
         <NavigationRightButtons>
           {isLoggedIn ? (
@@ -35,9 +31,17 @@ export function Navigation() {
                 title="Go to your profile"
                 onClick={() => router.push(`/${currentUser?.address}`)}
               >
-                <Avatar size={50} address={currentUser?.address} imageUrl={domainInfo?.avatar} />
+                <Avatar
+                  size={50}
+                  address={currentUser?.address}
+                  imageUrl={domainInfo?.avatar}
+                />
               </UnstyledButton>
-              <PrimaryButton isLoading={isLoggingOut} onClick={() => logout()} color={'green'}>
+              <PrimaryButton
+                isLoading={isLoggingOut}
+                onClick={() => logout()}
+                color={"green"}
+              >
                 Logout
               </PrimaryButton>
             </>

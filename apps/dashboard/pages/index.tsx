@@ -1,4 +1,4 @@
-import { useGetMembershipInstances, useFlow } from "@membership/client";
+import { useGetMembershipInstances, useFlow } from "../../../packages/react";
 
 export default function Index() {
   const { currentUser } = useFlow();

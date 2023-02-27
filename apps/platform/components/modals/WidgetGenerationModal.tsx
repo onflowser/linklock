@@ -6,7 +6,7 @@ import { PrimaryButton } from "../PrimaryButton";
 import { TextArea } from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import { getDomain } from "../../common/config";
-import { useFlow } from "@membership/client";
+import { useFlow } from "../../../../packages/react";
 
 type Props = ReactModal.Props;
 

@@ -4,7 +4,7 @@ import {
   FlowService,
   useFlow,
   useGetMembershipDefinitionsByAdmin,
-} from "@membership/client";
+} from "../../../packages/react";
 
 const flowService = new FlowService();
 

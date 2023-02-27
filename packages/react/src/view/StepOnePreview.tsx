@@ -1,17 +1,10 @@
 import { Stepper } from "./shared/stepper/Stepper";
 import "./steps.scss";
 import "./StepOnePreview.scss";
-import {
-  MembershipDefinition,
-  MembershipInstance,
-} from "@membership/protocol";
+import { MembershipDefinition, MembershipInstance } from "@membership/protocol";
 import { MembershipDefinitionCard } from "./shared/membership-card/membership-definition/MembershipDefinitionCard";
 
-import {
-  getMembershipStatus,
-  MembershipStatus,
-  useFlow,
-} from "@membership/client";
+import { getMembershipStatus, MembershipStatus, useFlow } from "../.";
 import { Button } from "./shared/button/Button";
 import { Header } from "./shared/header/Header";
 

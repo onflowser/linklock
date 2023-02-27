@@ -6,11 +6,11 @@ import {
   FlowService,
   useFlow,
   useGetMembershipDefinitionsByAdmin,
-} from "@membership/client";
+} from "../../../../../packages/react";
 import { useFormik } from "formik";
 import { MembershipDefinition } from "@membership/protocol";
 import { useEffect } from "react";
-import { daysToSeconds, secondsToDays } from "@membership/client";
+import { daysToSeconds, secondsToDays } from "../../../../../packages/react";
 
 export default function MembershipSettings() {
   const flowService = FlowService.create();
