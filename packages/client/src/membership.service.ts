@@ -58,6 +58,11 @@ export class MembershipService {
     });
   }
 
+  public async signMessage(message: string) {
+    const signedMsg = Buffer.from(message).toString("hex");
+    return await fcl.currentUser.signUserMessage(signedMsg);
+  }
+
   public async isValidSignature(
     message: string,
     signatures: [FlowSignature]
