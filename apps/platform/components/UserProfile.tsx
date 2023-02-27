@@ -39,7 +39,7 @@ export default function UserProfile({ nameInfo, address }: UserProfileProps) {
           membershipDefinitionId={selectedMembershipId}
           adminAddress={address}
           isOpenModal={openMembershipCheckout}
-          onCloseModal={() => {
+          onRequestClose={() => {
             setOpenMembershipCheckout(false);
             setSelectedMembershipId(undefined);
           }}

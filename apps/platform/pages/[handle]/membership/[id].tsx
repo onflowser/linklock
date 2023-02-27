@@ -6,14 +6,15 @@ import {
   ServiceRegistry,
   useFlow,
   useGetMembershipDefinitionsByAdmin,
+  daysToSeconds,
+  secondsToDays,
 } from "@membership/react";
 import { useFormik } from "formik";
 import { MembershipDefinition } from "@membership/protocol";
 import { useEffect } from "react";
-import { daysToSeconds, secondsToDays } from "../../../../../packages/react";
 
 export default function MembershipSettings() {
-  const flowService = ServiceRegistry.create();
+  const { membershipService } = ServiceRegistry.create();
   const { currentUser } = useFlow();
   const { mutate: refetchMembershipDefinitions } =
     useGetMembershipDefinitionsByAdmin(currentUser?.address);
@@ -41,8 +42,8 @@ export default function MembershipSettings() {
         },
       },
       onSubmit: async (values) => {
-        await flowService.setupMembershipDefinitionCollection();
-        await flowService.createMembership(values);
+        await membershipService.setupMembershipDefinitionCollection();
+        await membershipService.createMembership(values);
         await refetchMembershipDefinitions();
         await router.back();
       },
