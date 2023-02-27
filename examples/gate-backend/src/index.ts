@@ -40,8 +40,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post(
-  "/login",
+app.get(
+  "/callback",
   passport.authenticate(membershipStrategy.name, { failureRedirect: "/login" }),
   function (req, res) {
     res.redirect("/protected");

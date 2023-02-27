@@ -53,6 +53,7 @@ export class MembershipService {
   constructor(config: MembershipServiceConfig) {
     const { network } = config;
     fcl.config({
+      "flow.network": network,
       "0xFungibleToken": this.getFungibleTokenAddress(network),
       "0xFlowToken": this.getFlowTokenAddress(network),
     });
@@ -65,7 +66,7 @@ export class MembershipService {
 
   public async isValidSignature(
     message: string,
-    signatures: [FlowSignature]
+    signatures: FlowSignature[]
   ): Promise<boolean> {
     // TODO: Does this work?
     // Refer to: https://developers.flow.com/tools/fcl-js/reference/proving-authentication
