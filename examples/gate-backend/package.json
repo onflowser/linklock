@@ -1,5 +1,5 @@
 {
-  "name": "@membership/gate-backend",
+  "name": "@membership/example-gate-backend",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
