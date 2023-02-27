@@ -1,4 +1,4 @@
-import { IoMdClose } from "react-icons/io";
+// import { IoMdClose } from "react-icons/io";
 import ReactModal from "react-modal";
 import { UnstyledButton } from "./UnstyledButton";
 import { colors } from "../../theme";
@@ -56,7 +56,7 @@ export function CenterModal({
     >
       <div>
         <CloseButton onClick={reactModalProps.onRequestClose}>
-          <IoMdClose size={20} />
+          {/*<IoMdClose size={20} />*/}X
         </CloseButton>
         {children}
       </div>

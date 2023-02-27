@@ -7,13 +7,10 @@ import {
 } from "@membership/flow/index";
 import { MembershipDefinitionCard } from "./shared/membership-card/membership-definition/MembershipDefinitionCard";
 
-import {
-  getMembershipStatus,
-  MembershipStatus,
-  useFlow,
-} from "@membership/client";
 import { Button } from "./shared/button/Button";
 import { Header } from "./shared/header/Header";
+import { useFlow } from "../providers/flow.provider";
+import { getMembershipStatus, MembershipStatus } from "../utils";
 
 export interface StepOnePreviewProps {
   onCompleteStep: () => void;
