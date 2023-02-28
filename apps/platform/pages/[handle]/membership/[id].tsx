@@ -34,12 +34,14 @@ export default function MembershipSettings() {
         name: "",
         description: "",
         thumbnail: "",
-        // TODO: Enable metadata editing
+        // TODO: Enable metadata editing?
         expirationInterval: "",
         maxSupply: "",
         requirement: {
           price: "",
-          contractAddress: "0xf3fcd2c1a78f5eee",
+          contractAddress: membershipService.getDefaultContractAddress(
+            membershipService.config.network
+          ),
           contractName: "FlowRequirement",
         },
       },

@@ -4,7 +4,7 @@ import { string } from "rollup-plugin-string";
 export default {
   input: "index.ts",
   output: {
-    file: "dist/index.js",
+    file: "dist/index.ts",
     format: "cjs",
   },
   plugins: [

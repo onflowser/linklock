@@ -18,7 +18,7 @@ export function CenterModal({
   children,
   shouldShowCloseIcon = true,
   zIndex = 10,
-  maxWidth = "100%",
+  maxWidth = "525px",
   maxHeight = "100%",
   setIsOpenModal,
   ...reactModalProps

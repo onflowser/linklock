@@ -7,6 +7,9 @@
   "scripts": {
     "lint": "eslint *.ts*"
   },
+  "dependencies": {
+    "@membership/protocol": "*"
+  },
   "devDependencies": {
     "eslint-config-custom": "*",
     "tsconfig": "*",
