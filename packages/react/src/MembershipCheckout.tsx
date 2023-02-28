@@ -61,7 +61,10 @@ export function MembershipCheckout({
       )}`;
     }
     if (!membershipDefinition) {
-      return "No membership-card definition";
+      return <Message message="Membership not found" />;
+    }
+    if (!membershipInstance) {
+      return <Message message="Loading..." />;
     }
     switch (checkoutStep) {
       case CheckoutStep.PREVIEW:
@@ -85,7 +88,7 @@ export function MembershipCheckout({
           />
         );
       case CheckoutStep.CLAIMED:
-        return membershipInstance ? (
+        return (
           <StepThreeClaimed
             requestAuthorization={requestAuthorization}
             onAuthorizationComplete={onAuthorizationComplete}
@@ -93,8 +96,6 @@ export function MembershipCheckout({
             onRequestClose={onRequestClose}
             membershipInstance={membershipInstance}
           />
-        ) : (
-          "Loading..."
         );
 
       default:
@@ -107,4 +108,9 @@ export function MembershipCheckout({
       {renderStep()}
     </CenterModal>
   );
+}
+
+// TODO: Add proper styles
+function Message(props: { message: string }) {
+  return <p style={{ textAlign: "center" }}>{props.message}</p>;
 }

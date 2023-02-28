@@ -9,7 +9,7 @@ export default function AuthenticationHandler() {
   const [isOpenModal, setIsOpenModal] = useState(true);
 
   const closeModal = () => {
-    setIsOpenModal(false);
+    // Closing is not allowed, do nothing
   };
 
   if (typeof adminAddress !== "string") {
