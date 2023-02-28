@@ -1,4 +1,5 @@
-# LinkLock protocol
+![image](https://user-images.githubusercontent.com/36109955/221982604-055a23ad-2e00-4e0d-ab31-b28e4fb95f95.png)
+
 
 This is a monorepo for LinkLock membership management protocol, built on Flow blockchain.
 
