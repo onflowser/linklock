@@ -16,11 +16,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
-// app.use(passport.session());
-
-const exampleUser = {
-  id: "0x1",
-};
+app.use(passport.session());
 
 const membershipDefinitionId = "0";
 const adminAddress = "0xde4a0b425de4053e";
@@ -33,15 +29,6 @@ const membershipStrategy = new MembershipStrategy({
 });
 
 passport.use(membershipStrategy);
-
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-  // Custom logic for finding user
-  done(null, exampleUser);
-});
 
 app.get("/", (req, res) => {
   sendHtml(res, "Home page. <a href='/login'>Login</a>");
@@ -61,18 +48,15 @@ app.get(
   "/callback",
   passport.authenticate(membershipStrategy.name, { failureRedirect: "/login" }),
   function (req, res) {
-    res.redirect("/protected");
+    // TODO: Can we make another protected endpoint, but not force users to re-authenticate?
+    sendHtml(
+      res,
+      `<h1>Hello Member</h1>
+       <pre>${JSON.stringify((res as any).user, null, 4)}</pre>
+      `
+    );
   }
 );
-
-app.get("/protected", (req, res) => {
-  sendHtml(
-    res,
-    `<h1>Hello Member</h1>
-    <pre>${JSON.stringify((res as any).user, null, 4)}</pre>
-  `
-  );
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
