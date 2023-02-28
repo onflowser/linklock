@@ -7,7 +7,7 @@ $stepPadding: 5px;
 
 .circle-wrapper {
   padding-left: $stepPadding;
-  background-color: white;
+  background-color: colors.$colorWhite500;
 
   .circle {
     width: 25px;
