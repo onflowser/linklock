@@ -25,9 +25,9 @@ export class ServiceRegistry {
     const network: FlowNetwork = "testnet";
 
     fcl.config({
-      "app.detail.title": "Membership protocol", // TODO: Change name
-      "flow.network": "local",
-      "app.detail.icon": "", // TODO: Add path to icon
+      "app.detail.title": "LinkLock",
+      "flow.network": network,
+      "app.detail.icon": "https://i.ibb.co/8Kv2wDd/linklock-logo-1.png",
       "accessNode.api": getAccessNodeApi(network),
       "discovery.wallet": getDiscoveryWallet(network),
     });
