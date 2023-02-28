@@ -7,7 +7,7 @@ type Props = {
 };
 
 const defaultDescription =
-  "Create and distribute on-chain memberships on Flow blockchain.";
+  "Let your supporters become your active members. Create and distribute memberships with LinkLock protocol";
 
 export default function MetaTags({ title, description }: Props) {
   const domain = getDomain();
