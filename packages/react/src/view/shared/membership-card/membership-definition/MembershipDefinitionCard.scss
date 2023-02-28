@@ -8,7 +8,7 @@
   @include reset.reset();
   .bottom {
     @include layout.horizontalLayout(variables.$baseGap);
-    align-items: end;
+    align-items: flex-end;
     justify-content: space-between;
 
     @media only screen and (max-width: 600px) {
