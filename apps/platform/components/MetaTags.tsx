@@ -9,11 +9,13 @@ type Props = {
 const defaultDescription =
   "Let your supporters become your active members. Create and distribute memberships with LinkLock protocol";
 
-export default function MetaTags({ title, description }: Props) {
+export default function MetaTags({ title: providedTitle, description }: Props) {
   const domain = getDomain();
   if (!description) {
     description = defaultDescription;
   }
+
+  const title = `Supportify | ${providedTitle}`;
 
   return (
     <Head>
