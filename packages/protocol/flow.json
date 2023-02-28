@@ -1,9 +1,39 @@
 {
 	"contracts": {
 		"FlowRequirement": "cadence/contracts/FlowRequirement.cdc",
+		"FlowToken": {
+			"source": "cadence/contracts/standard/FlowToken.cdc",
+			"aliases": {
+				"emulator": "0ae53cb6e3f42a79",
+				"mainnet": "1654653399040a61",
+				"testnet": "7e60df042a9c0868"
+			}
+		},
+		"FungibleToken": {
+			"source": "cadence/contracts/standard/FungibleToken.cdc",
+			"aliases": {
+				"emulator": "ee82856bf20e2aa6",
+				"mainnet": "f233dcee88fe0abe",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
 		"Membership": "cadence/contracts/Membership.cdc",
 		"MembershipDefinition": "cadence/contracts/MembershipDefinition.cdc",
-		"MembershipRequirement": "cadence/contracts/MembershipRequirement.cdc"
+		"MembershipRequirement": "cadence/contracts/MembershipRequirement.cdc",
+		"MetadataViews": {
+			"source": "cadence/contracts/standard/MetadataViews.cdc",
+			"aliases": {
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "cadence/contracts/standard/NonFungibleToken.cdc",
+			"aliases": {
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		}
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -12,17 +42,37 @@
 	},
 	"accounts": {
 		"default": {
-			"address": "f3fcd2c1a78f5eee",
-			"key": "ab18f904dce95011b2ae1ea87f1e001286fe5c1898c8e7575f08b37fb2c0db23"
+			"address": "e03daebed8ca0615",
+			"key": "3a05e4d55cdcc27c8b7988ec815722e0a205385edec11be89f2cbb3a4aa4c1cd"
 		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+		},
+		"standard": {
+			"address": "120e725050340cab",
+			"key": "1c8db58289c3b61b29e0e0c7b6f870d721c018ae5d8d57db8c26b009585f370a"
+		},
+		"testnet-account": {
+			"address": "358daba93d60587b",
+			"key": ""
 		}
 	},
 	"deployments": {
 		"emulator": {
 			"default": [
+				"FlowRequirement",
+				"Membership",
+				"MembershipDefinition",
+				"MembershipRequirement"
+			],
+			"standard": [
+				"MetadataViews",
+				"NonFungibleToken"
+			]
+		},
+		"testnet": {
+			"testnet-account": [
 				"FlowRequirement",
 				"Membership",
 				"MembershipDefinition",

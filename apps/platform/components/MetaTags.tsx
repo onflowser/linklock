@@ -7,13 +7,15 @@ type Props = {
 };
 
 const defaultDescription =
-  "Start getting founds for your project(s) in FLOW crypto currency. Create your profile and share it to your appreciators. It is easy, free and quick!";
+  "Let your supporters become your active members. Create and distribute memberships with LinkLock protocol";
 
-export default function MetaTags({ title, description }: Props) {
+export default function MetaTags({ title: providedTitle, description }: Props) {
   const domain = getDomain();
   if (!description) {
     description = defaultDescription;
   }
+
+  const title = `Supportify | ${providedTitle}`;
 
   return (
     <Head>

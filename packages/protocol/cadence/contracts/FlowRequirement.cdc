@@ -1,6 +1,6 @@
 import "MembershipRequirement"
-import FungibleToken from 0xee82856bf20e2aa6
-import FlowToken from 0x0ae53cb6e3f42a79
+import FungibleToken from "./standard/FungibleToken.cdc"
+import FlowToken from "./standard/FlowToken.cdc"
 
 pub contract FlowRequirement: MembershipRequirement {
     pub let fungibleTokenPath: PublicPath?
@@ -29,7 +29,7 @@ pub contract FlowRequirement: MembershipRequirement {
 			?? panic("Could not borrow receiver reference to the recipient's Vault")
 
         // Deposit the withdrawn tokens in the recipient's receiver
-        receiverRef.deposit(from: <-vault)
+        receiverRef.deposit(from: <-(vault as! @FungibleToken.Vault))
     }
 
     init() {

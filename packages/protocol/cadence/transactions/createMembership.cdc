@@ -1,5 +1,5 @@
-import MembershipDefinition from 0xf3fcd2c1a78f5eee
-import NonFungibleToken from 0xf8d6e0586b0a20c7
+import MembershipDefinition from 0xMembershipDefinition
+import NonFungibleToken from 0xNonFungibleToken
 
 transaction(
     name: String,
