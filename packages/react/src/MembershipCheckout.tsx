@@ -85,9 +85,6 @@ export function MembershipCheckout({
           />
         );
       case CheckoutStep.CLAIMED:
-        if (!membershipInstance) {
-          return <Message message="Loading..." />;
-        }
         return (
           <StepThreeClaimed
             requestAuthorization={requestAuthorization}
