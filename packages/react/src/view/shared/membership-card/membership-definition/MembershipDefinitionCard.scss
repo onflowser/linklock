@@ -24,7 +24,7 @@
 
     & > div {
       @include layout.verticalLayout(0);
-      align-items: end;
+      align-items: flex-end;
 
       span:first-child {
         font-size: typography.$fontSizeXL;
