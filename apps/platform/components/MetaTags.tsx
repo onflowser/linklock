@@ -7,7 +7,7 @@ type Props = {
 };
 
 const defaultDescription =
-  "Start getting founds for your project(s) in FLOW crypto currency. Create your profile and share it to your appreciators. It is easy, free and quick!";
+  "Create and distribute on-chain memberships on Flow blockchain.";
 
 export default function MetaTags({ title, description }: Props) {
   const domain = getDomain();
