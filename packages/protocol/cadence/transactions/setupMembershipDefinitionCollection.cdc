@@ -1,7 +1,7 @@
-import NonFungibleToken from 0xf8d6e0586b0a20c7
-import FungibleToken from 0xee82856bf20e2aa6
-import MetadataViews from 0xf8d6e0586b0a20c7
-import MembershipDefinition from 0xf3fcd2c1a78f5eee
+import NonFungibleToken from 0xNonFungibleToken
+import FungibleToken from 0xFungibleToken
+import MetadataViews from 0xMetadataViews
+import MembershipDefinition from 0xMembershipDefinition
 
 /// This transaction is what an account would run
 /// to set itself up to receive NFTs

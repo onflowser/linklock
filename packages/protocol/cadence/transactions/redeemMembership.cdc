@@ -1,6 +1,6 @@
-import Membership from 0xf3fcd2c1a78f5eee
-import FungibleToken from 0xee82856bf20e2aa6
-import NonFungibleToken from 0xf8d6e0586b0a20c7
+import Membership from 0xMembership
+import FungibleToken from 0xFungibleToken
+import NonFungibleToken from 0xNonFungibleToken
 
 transaction(
     membershipId: UInt64,

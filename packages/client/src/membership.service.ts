@@ -45,7 +45,13 @@ export class MembershipService {
   constructor(config: MembershipServiceConfig) {
     const { network } = config;
     fcl.config({
+      "0xMembershipRequirement": this.getDefaultContractAddress(network),
+      "0xFlowRequirement": this.getDefaultContractAddress(network),
+      "0xMembership": this.getDefaultContractAddress(network),
+      "0xMembershipDefinition": this.getDefaultContractAddress(network),
       "0xFungibleToken": this.getFungibleTokenAddress(network),
+      "0xNonFungibleToken": this.getNftContractAddress(network),
+      "0xMetadataViews": this.getMetadataContractAddress(network),
       "0xFlowToken": this.getFlowTokenAddress(network),
     });
   }
@@ -229,6 +235,33 @@ export class MembershipService {
         return "0x9a0766d93b6608b7";
       case "local":
         return "0xee82856bf20e2aa6";
+    }
+  }
+
+  private getNftContractAddress(network: FlowNetwork) {
+    switch (network) {
+      case "local":
+        return "0x120e725050340cab";
+      default:
+        throw new Error(`Network ${network} not yet supported`);
+    }
+  }
+
+  private getMetadataContractAddress(network: FlowNetwork) {
+    switch (network) {
+      case "local":
+        return "0x120e725050340cab";
+      default:
+        throw new Error(`Network ${network} not yet supported`);
+    }
+  }
+
+  private getDefaultContractAddress(network: FlowNetwork) {
+    switch (network) {
+      case "local":
+        return "0xe03daebed8ca0615";
+      default:
+        throw new Error(`Network ${network} not yet supported`);
     }
   }
 }

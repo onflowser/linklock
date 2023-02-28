@@ -43,7 +43,7 @@
 	"accounts": {
 		"default": {
 			"address": "e03daebed8ca0615",
-			"key": "d96a295ff16868a4daa0da39e453b6994584acb8e11de73271486a666c8dda00"
+			"key": "3a05e4d55cdcc27c8b7988ec815722e0a205385edec11be89f2cbb3a4aa4c1cd"
 		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
@@ -51,7 +51,7 @@
 		},
 		"standard": {
 			"address": "120e725050340cab",
-			"key": "7d30040265b444ed66d67fa71524a597016f9fbebab9850af43583dcf86e34d2"
+			"key": "1c8db58289c3b61b29e0e0c7b6f870d721c018ae5d8d57db8c26b009585f370a"
 		}
 	},
 	"deployments": {
