@@ -1,5 +1,5 @@
-import "./stepper.scss";
 import { Step } from "./Step";
+import "./stepper.scss";
 
 export interface StepperProps {
   step: number;
