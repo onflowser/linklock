@@ -11,6 +11,10 @@
     align-items: end;
     justify-content: space-between;
 
+    @media only screen and (max-width: 600px) {
+      @include layout.verticalLayout(variables.$baseGap);
+    }
+
     & > span {
       color: colors.$colorBlack500;
       font-size: typography.$fontSizeS;

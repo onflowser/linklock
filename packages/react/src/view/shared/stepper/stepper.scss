@@ -4,8 +4,8 @@
 @use "../../../styles/variables";
 
 .stepper-container {
-  @include layout.paddedBox();
   @include layout.verticalLayout(variables.$smallGap);
+  @include layout.paddedBox();
 
   .steps {
     @include layout.horizontalLayout(0);
