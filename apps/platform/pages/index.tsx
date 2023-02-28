@@ -38,21 +38,8 @@ const BigNameInputWrapper = styled.div`
 
   box-sizing: border-box;
 `;
-const BigInputText = styled.div`
-  text-align: left;
-  font-weight: bold;
-  font-size: 1.3rem;
-  line-height: 2rem;
-
-  letter-spacing: 0px;
-  color: ${(props) => props.theme.colors.mainDark};
-  opacity: 1;
-
-  @media only screen and (max-width: 700px) {
-    display: none;
-  }
-`;
 const BigInputInput = styled.input`
+  min-width: 300px;
   color: ${(props) => props.theme.colors.mainDark};
   border: none;
   font-size: 1.3rem;
@@ -97,7 +84,6 @@ const BigInput = ({
 }) => {
   return (
     <BigNameInputWrapper>
-      <BigInputText>supportify.dev/</BigInputText>
       <BigInputInput
         type="text"
         placeholder={placeholder}
@@ -514,8 +500,8 @@ const Home: NextPage = () => {
           <BigInput
             value={handle}
             onChange={setHandle}
-            placeholder={"your find.xzy name"}
-            linkTitle="Create your page"
+            placeholder=".find / .fn domain or address"
+            linkTitle="Search"
             linkHref=""
             onClick={goToAddress}
           />
