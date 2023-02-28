@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { SignatureRequest } from "@membership/react";
+import { MembershipCheckout } from "@membership/react";
+import { AccountOwnershipProof } from "@membership/react/src/providers/flow.provider";
 
 export default function AuthenticationHandler() {
   const router = useRouter();
@@ -23,12 +24,19 @@ export default function AuthenticationHandler() {
     return "Callback URL not provided";
   }
 
+  function onAuthorizationComplete(proof: AccountOwnershipProof) {
+    window.location.replace(
+      `${callbackUrl}?signature=${JSON.stringify(proof.signature)}&message=${
+        proof.message
+      }`
+    );
+  }
+
   return (
-    <SignatureRequest
+    <MembershipCheckout
       isOpenModal={isOpenModal}
-      onCloseModal={closeModal}
-      setIsOpenModal={setIsOpenModal}
-      callbackUrl={callbackUrl}
+      onRequestClose={closeModal}
+      onAuthorizationComplete={onAuthorizationComplete}
       membershipDefinitionId={+membershipDefinitionId}
       adminAddress={adminAddress}
     />

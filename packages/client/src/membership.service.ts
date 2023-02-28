@@ -43,14 +43,18 @@ export type TransactionResult = {
   error: null | TransactionError;
 };
 
+// TODO: Define type
+export type AccountSignature = unknown;
+
 export type MembershipServiceConfig = {
   network: FlowNetwork;
 };
 
 export class MembershipService {
+  public config: MembershipServiceConfig;
   constructor(config: MembershipServiceConfig) {
+    this.config = config;
     const { network } = config;
-    console.log("Configuring for", network);
     fcl.config({
       "flow.network": network,
       "accessNode.api": getAccessNodeApi(network),
@@ -65,7 +69,7 @@ export class MembershipService {
     });
   }
 
-  public async signMessage(message: string) {
+  public async signMessage(message: string): Promise<AccountSignature> {
     const signedMsg = Buffer.from(message).toString("hex");
     return await fcl.currentUser.signUserMessage(signedMsg);
   }
@@ -274,7 +278,7 @@ export class MembershipService {
     }
   }
 
-  private getDefaultContractAddress(network: FlowNetwork) {
+  public getDefaultContractAddress(network: FlowNetwork) {
     switch (network) {
       case "local":
         return "0xe03daebed8ca0615";
