@@ -13,5 +13,5 @@
 }
 
 @mixin paddedBox($padding: variables.$doubleGap) {
-  padding: 0 $padding;
+  padding: 0 $padding !important;
 }
