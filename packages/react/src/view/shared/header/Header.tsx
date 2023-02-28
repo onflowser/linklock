@@ -1,10 +1,10 @@
 import "./header.scss";
-import { Logo } from "./Logo";
+import { LogoWithText } from "./LogoWithText";
 
 export function Header() {
   return (
     <div className="header">
-      <Logo />
+      <LogoWithText />
     </div>
   );
 }

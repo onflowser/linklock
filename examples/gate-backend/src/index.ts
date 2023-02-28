@@ -1,10 +1,10 @@
 import passport from "passport";
 import express, { Response } from "express";
-import { MembershipStrategy } from "@membership/passport";
-import { buildAuthHandlerUrl } from "@membership/passport/src/utils";
+import { MembershipStrategy, buildAuthHandlerUrl } from "@membership/passport";
 
 const app = express();
-const port = 3004;
+// eslint-disable-next-line turbo/no-undeclared-env-vars
+const port = process.env.PORT || 3004;
 
 app.use(require("cookie-parser")());
 app.use(require("body-parser").json());

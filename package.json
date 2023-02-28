@@ -11,7 +11,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start:example": "npm run build && cd examples/gate-backend && npm run dev"
   },
   "devDependencies": {
     "eslint-config-custom": "*",
