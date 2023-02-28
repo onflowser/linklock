@@ -9,7 +9,7 @@
     "authentication",
     "memberships"
   ],
-  "main": "src",
+  "main": "src/index.ts",
   "scripts": {},
   "dependencies": {
     "@types/node": "^18.14.2",
