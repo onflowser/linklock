@@ -2,13 +2,12 @@ import { Header } from "./shared/header/Header";
 import { Stepper } from "./shared/stepper/Stepper";
 import { Button } from "./shared/button/Button";
 import "./StepThreeClaimed.scss";
-import { MembershipInstance } from "@membership/protocol";
 import { MembershipInstanceCard } from "./shared/membership-card/membership-instance/MembershipInstanceCard";
 import { CheckoutStep, getMembershipStatus, MembershipStatus } from "../utils";
 import { AccountOwnershipProof, useFlow } from "../providers/flow.provider";
-import { ServiceRegistry } from "../services/service-registry";
 import toast from "react-hot-toast";
 import { TransactionResult } from "@membership/client";
+import { MembershipInstance } from '@membership/protocol/index';
 
 export type AuthorizationProps = {
   // Request user to provide a proof of membership (account signature)
@@ -19,7 +18,7 @@ export type AuthorizationProps = {
 export type StepThreeClaimedProps = AuthorizationProps & {
   onMoveToStep: (step: CheckoutStep) => void;
   onRequestClose: () => void;
-  membershipInstance: MembershipInstance;
+  membershipInstance: MembershipInstance | undefined;
 };
 
 export function StepThreeClaimed({
@@ -58,7 +57,7 @@ export function StepThreeClaimed({
       <Stepper step={3} stepTitle={"Your membership"}></Stepper>
 
       <div className="wrapper">
-        <MembershipInstanceCard membership={membershipInstance} />
+        {membershipInstance && <MembershipInstanceCard membership={membershipInstance}/>}
 
         <Button onClick={onLastStep}>
           {getButtonTitle({ membershipStatus, requestAuthorization })}
