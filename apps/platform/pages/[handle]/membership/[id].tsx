@@ -12,6 +12,8 @@ import {
 import { useFormik } from "formik";
 import { MembershipDefinition } from "@membership/protocol";
 import { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { TransactionResult } from "@membership/client";
 
 export default function MembershipSettings() {
   const { membershipService } = ServiceRegistry.create();
@@ -42,9 +44,22 @@ export default function MembershipSettings() {
         },
       },
       onSubmit: async (values) => {
-        await membershipService.setupMembershipDefinitionCollection();
-        await membershipService.createMembership(values);
-        await refetchMembershipDefinitions();
+        await toast.promise(
+          membershipService.setupMembershipDefinitionCollection(),
+          {
+            error: (result: TransactionResult) =>
+              `Failed to setup NFT collection: ${result.error?.message}`,
+            loading: "Setting up your NFT collection",
+            success: "NFT collection is ready to go!",
+          }
+        );
+        await toast.promise(membershipService.createMembership(values), {
+          error: (result: TransactionResult) =>
+            `Failed to create membership: ${result.error?.message}`,
+          loading: "Creating membership...",
+          success: "Membership created!",
+        });
+        refetchMembershipDefinitions();
         await router.back();
       },
     });
