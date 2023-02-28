@@ -66,7 +66,12 @@ app.get(
 );
 
 app.get("/protected", (req, res) => {
-  res.send("Hello Member!");
+  sendHtml(
+    res,
+    `<h1>Hello Member</h1>
+    <pre>${JSON.stringify((res as any).user, null, 4)}</pre>
+  `
+  );
 });
 
 app.listen(port, () => {

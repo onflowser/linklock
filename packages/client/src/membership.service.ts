@@ -10,8 +10,6 @@ import {
 } from "@membership/protocol";
 import { FlowNetwork, getAccessNodeApi } from "./utils";
 
-export type FclCurrentUser = { addr: string };
-
 export type ClaimMembershipOptions = {
   adminAddress: string;
   membershipDefinitionId: string;
@@ -52,6 +50,7 @@ export type MembershipServiceConfig = {
 export class MembershipService {
   constructor(config: MembershipServiceConfig) {
     const { network } = config;
+    console.log("Configuring for", network);
     fcl.config({
       "flow.network": network,
       "accessNode.api": getAccessNodeApi(network),
