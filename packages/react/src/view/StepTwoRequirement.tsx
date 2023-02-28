@@ -26,9 +26,6 @@ export function StepTwoRequirement({
 }: StepTwoRequirementProps) {
   const { membershipService } = ServiceRegistry.create();
   const { currentUser } = useFlow();
-  const { mutate: refetchMembershipInstances } = useGetMembershipInstances(
-    currentUser?.address
-  );
   const membershipStatus = getMembershipStatus(membershipInstance);
   const { data: flowBalance } = useFlowBalance(currentUser?.address);
   const membershipPrice: string = membershipDefinition.requirement.price;
@@ -82,8 +79,6 @@ export function StepTwoRequirement({
         }
       );
     }
-
-    await refetchMembershipInstances();
 
     onCompleteStep();
   }

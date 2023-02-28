@@ -30,8 +30,19 @@ const membershipStrategy = new MembershipStrategy({
 
 passport.use(membershipStrategy);
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
 app.get("/", (req, res) => {
-  sendHtml(res, "Home page. <a href='/login'>Login</a>");
+  sendHtml(
+    res,
+    "To access this site content, please <a href='/login'>validate your membership</a>"
+  );
 });
 
 app.get("/login", (req, res) => {
@@ -52,7 +63,9 @@ app.get(
     sendHtml(
       res,
       `<h1>Hello Member</h1>
-       <pre>${JSON.stringify((res as any).user, null, 4)}</pre>
+
+       <b>Your membership info:</b>
+       <pre>${JSON.stringify((req as any).user, null, 4)}</pre>
       `
     );
   }

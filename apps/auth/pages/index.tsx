@@ -36,6 +36,7 @@ export default function AuthenticationHandler() {
     <MembershipCheckout
       isOpenModal={isOpenModal}
       onRequestClose={closeModal}
+      requestAuthorization
       onAuthorizationComplete={onAuthorizationComplete}
       membershipDefinitionId={+membershipDefinitionId}
       adminAddress={adminAddress}

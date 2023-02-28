@@ -24,7 +24,7 @@ export function MembershipCheckout({
   isOpenModal,
   onRequestClose,
   requestAuthorization,
-  onAuthorizationComplete
+  onAuthorizationComplete,
 }: MembershipCheckoutProps) {
   const { currentUser } = useFlow();
   const { data: membershipDefinitions, error: membershipDefinitionError } =
@@ -78,7 +78,10 @@ export function MembershipCheckout({
             adminAddress={adminAddress}
             membershipInstance={membershipInstance}
             membershipDefinition={membershipDefinition}
-            onCompleteStep={() => setCheckoutStep(CheckoutStep.CLAIMED)}
+            onCompleteStep={() => {
+              refetchMembershipInstances();
+              setCheckoutStep(CheckoutStep.CLAIMED);
+            }}
           />
         );
       case CheckoutStep.CLAIMED:
