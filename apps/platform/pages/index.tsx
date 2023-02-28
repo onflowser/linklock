@@ -105,12 +105,12 @@ const Subtitle = styled.b`
   color: ${theme.colors.mainDark};
   line-height: 35px;
   text-align: center;
-  padding-bottom: 3rem;
+  padding: 3rem 0;
   opacity: 0.9;
   max-width: 85%;
 `;
 
-const Emphasised = styled.span`
+const Emphasised = styled.a`
   color: ${theme.colors.darkViolet};
 `;
 
@@ -492,10 +492,14 @@ const Home: NextPage = () => {
             Let your supporters become your active members.
           </MainHeading>
           <Subtitle>
-            Start getting founds for your work in FLOW crypto currency. <br />
-            Connect your <Emphasised>find.xyz</Emphasised> profile and define
-            your membership. <br />
-            It is easy, free and quick!
+            Create and distribute memberships using{" "}
+            <Emphasised
+              href="https://github.com/onflowser/linklock"
+              target="_blank"
+            >
+              LinkLock
+            </Emphasised>{" "}
+            protocol.
           </Subtitle>
           <BigInput
             value={handle}
@@ -530,7 +534,7 @@ const Home: NextPage = () => {
       <Section bgcolor={theme.colors.secondary} color={theme.colors.white}>
         <BenefitLeftColumn>
           <SmallRedText>Supportify.</SmallRedText>
-          <BigHeading style={{ color: "white" }}>AMAZING BENEFITS</BigHeading>
+          <BigHeading style={{ color: "white" }}>GREAT BENEFITS</BigHeading>
           <SmallSquare color={theme.colors.primary} />
           <NormalText style={{ color: "white" }}>
             You are working hard, and you have a passion for what you do.
@@ -543,31 +547,24 @@ const Home: NextPage = () => {
         <ColumnCenterWrapper style={{ flex: 0.9 }}>
           <BenefitRightColumn>
             <BenefitCard
-              icon={clapHands}
-              title={"Get paid from your supporters"}
+              icon={membershipIcon}
+              title={"Membership programs"}
               body={
-                "Share your link to your profile and get paid directly on your wallet."
+                "Manage and distribute membership programs to your audience or community."
               }
             />
             <BenefitCard
-              icon={freeIcon}
-              title={"It is FREE!"}
+              icon={clapHands}
+              title={"Content gating"}
               body={
-                "There is no membership you would have to pay! There is only 5% fee on the transaction."
+                "Gate access to features or content using LinkLock protocol."
               }
             />
             <BenefitCard
               icon={flowIcon}
-              title={"Get paid in FLOW"}
+              title={"Get compensated for your work"}
               body={
-                "You will get your FLOW tokens directly on your FLOW address. Isn’t that awesome?"
-              }
-            />
-            <BenefitCard
-              icon={membershipIcon}
-              title={"Membership"}
-              body={
-                "Your supporters become your active members in the moment they purchase your membership and you can offer them your exclusive content. You decide the price and the duration of the membership."
+                "Setup periodic subscriptions for your membership programs."
               }
             />
           </BenefitRightColumn>
@@ -584,18 +581,18 @@ const Home: NextPage = () => {
           </BigHeading>
           <SmallSquare color={theme.colors.darkViolet} />
           <NormalText>
-            It could not be easier! Connect your .find profile and define the
-            membership you would like to offer to your supporters. They will be
-            awarded with a NFT, which will be added in their wallet.
+            It could not be easier! Create a membership with custom requirements
+            though our dashboard. Then offer your membership to your supporters.
+            Members will be awarded with a NFT, which will be added in their
+            wallet.
           </NormalText>
         </HWorkLeftColumn>
         <HWorkRightColumn>
           <StepsWrapper>
             <Steps>
-              <Step num={1} text={"Connect .find"} />
-              <Step num={2} text={"Define Membership"} />
-              <Step num={3} text={"Share your link"} />
-              <Step num={4} text={"Offer Membership"} />
+              <Step num={2} text={"Define membership requirements"} />
+              <Step num={3} text={"Create & offer membership"} />
+              <Step num={4} text={"Gate access to features or content"} />
             </Steps>
           </StepsWrapper>
         </HWorkRightColumn>
