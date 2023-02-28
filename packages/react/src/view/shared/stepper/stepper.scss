@@ -6,6 +6,7 @@
 .stepper-container {
   @include layout.verticalLayout(variables.$smallGap);
   @include layout.paddedBox();
+  border: 1px solid blue;
 
   .steps {
     @include layout.horizontalLayout(0);
