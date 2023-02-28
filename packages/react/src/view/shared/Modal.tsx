@@ -13,6 +13,7 @@ export type CenterModalProps = ReactModal.Props & {
   setIsOpenModal?: () => void;
 };
 
+
 export function CenterModal({
   title,
   children,
@@ -23,6 +24,9 @@ export function CenterModal({
   setIsOpenModal,
   ...reactModalProps
 }: CenterModalProps) {
+
+  const isMobile = window.matchMedia("(max-width: 480px)").matches;
+
   return (
     <ReactModal
       {...reactModalProps}
@@ -38,9 +42,9 @@ export function CenterModal({
           left: "50%",
           right: "auto",
           bottom: "auto",
-          maxWidth: maxWidth,
-          minWidth: maxWidth,
-          maxHeight: maxHeight,
+          maxWidth: isMobile ? '80%' : maxWidth,
+          minWidth: isMobile ? '80%' : maxWidth,
+          maxHeight: isMobile ? '80%' :maxHeight,
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
           backgroundColor: colors.white,

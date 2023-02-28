@@ -6,12 +6,12 @@
 $stepPadding: 5px;
 
 .circle-wrapper {
-  padding-left: $stepPadding;
-  background-color: colors.$colorWhite500;
+  padding-left: 5px;
+  background-color: #fff;
 
   .circle {
-    width: calc(variables.$baseGap + 5px);
-    height: calc(variables.$baseGap + 5px);
+    width: 25px;
+    height: 25px;
     border: 1px solid colors.$colorBlack100;
     color: colors.$colorBlack200;
     font-size: typography.$fontSizeS;

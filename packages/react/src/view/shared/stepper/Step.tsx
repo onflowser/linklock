@@ -8,7 +8,7 @@ export interface StepProp {
 
 export function Step({ active, children }: StepProp) {
   return (
-    <div className={`circle-wrapper ${active && "active"}`}>
+    <div className={`circle-wrapper ${active && "active"}`} style={{paddingLeft: '5px', backgroundColor: '#fff'}}>
       <div className={`circle`}>{children}</div>
     </div>
   );
