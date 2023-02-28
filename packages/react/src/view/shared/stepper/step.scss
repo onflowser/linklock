@@ -5,9 +5,12 @@
 
 $stepPadding: 5px;
 
-.circle-wrapper {
+.ccw {
   padding-left: $stepPadding;
   background-color: colors.$colorWhite500;
+}
+
+.circle-wrapper {
 
   .circle {
     width: 25px;
