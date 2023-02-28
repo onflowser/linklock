@@ -8,9 +8,7 @@ import {
   transactions,
   scripts,
 } from "@membership/protocol";
-import { FlowNetwork } from "./utils";
-
-export type FclCurrentUser = { addr: string };
+import { FlowNetwork, getAccessNodeApi } from "./utils";
 
 export type ClaimMembershipOptions = {
   adminAddress: string;
@@ -25,6 +23,14 @@ export type RedeemMembershipOptions = {
   fungibleTokenStoragePath: string;
 };
 
+export type FlowSignature = {
+  addr: string;
+  f_type: string;
+  f_vsn: string;
+  keyId: number;
+  signature: string;
+};
+
 export type TransactionError = {
   // Human friendly error message.
   message: string;
@@ -37,14 +43,21 @@ export type TransactionResult = {
   error: null | TransactionError;
 };
 
+// TODO: Define type
+export type AccountSignature = unknown;
+
 export type MembershipServiceConfig = {
   network: FlowNetwork;
 };
 
 export class MembershipService {
+  public config: MembershipServiceConfig;
   constructor(config: MembershipServiceConfig) {
+    this.config = config;
     const { network } = config;
     fcl.config({
+      "flow.network": network,
+      "accessNode.api": getAccessNodeApi(network),
       "0xMembershipRequirement": this.getDefaultContractAddress(network),
       "0xFlowRequirement": this.getDefaultContractAddress(network),
       "0xMembership": this.getDefaultContractAddress(network),
@@ -56,16 +69,21 @@ export class MembershipService {
     });
   }
 
-  public authenticate(): Promise<FclCurrentUser> {
-    return fcl.authenticate();
+  public async signMessage(message: string): Promise<AccountSignature> {
+    const signedMsg = Buffer.from(message).toString("hex");
+    return await fcl.currentUser.signUserMessage(signedMsg);
   }
 
-  public unAuthenticate(): Promise<void> {
-    return fcl.unauthenticate();
-  }
-
-  public subscribeCurrentUser(onChanged: (user: FclCurrentUser) => void) {
-    fcl.currentUser.subscribe(onChanged);
+  public async isValidSignature(
+    message: string,
+    signatures: FlowSignature[]
+  ): Promise<boolean> {
+    // TODO: Does this work?
+    // Refer to: https://developers.flow.com/tools/fcl-js/reference/proving-authentication
+    return await fcl.AppUtils.verifyUserSignatures(
+      Buffer.from(message).toString("hex"),
+      signatures
+    );
   }
 
   // TODO: Can we setup and claim membership in a single transaction?
@@ -260,7 +278,7 @@ export class MembershipService {
     }
   }
 
-  private getDefaultContractAddress(network: FlowNetwork) {
+  public getDefaultContractAddress(network: FlowNetwork) {
     switch (network) {
       case "local":
         return "0xe03daebed8ca0615";
