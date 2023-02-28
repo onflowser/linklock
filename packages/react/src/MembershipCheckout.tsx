@@ -63,9 +63,6 @@ export function MembershipCheckout({
     if (!membershipDefinition) {
       return <Message message="Membership not found" />;
     }
-    if (!membershipInstance) {
-      return <Message message="Loading..." />;
-    }
     switch (checkoutStep) {
       case CheckoutStep.PREVIEW:
         return (
@@ -88,6 +85,9 @@ export function MembershipCheckout({
           />
         );
       case CheckoutStep.CLAIMED:
+        if (!membershipInstance) {
+          return <Message message="Loading..." />;
+        }
         return (
           <StepThreeClaimed
             requestAuthorization={requestAuthorization}
