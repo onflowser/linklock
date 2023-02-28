@@ -242,6 +242,8 @@ export class MembershipService {
     switch (network) {
       case "local":
         return "0x120e725050340cab";
+      case "testnet":
+        return "0x631e88ae7f1d7c20";
       default:
         throw new Error(`Network ${network} not yet supported`);
     }
@@ -251,6 +253,8 @@ export class MembershipService {
     switch (network) {
       case "local":
         return "0x120e725050340cab";
+      case "testnet":
+        return "0x631e88ae7f1d7c20";
       default:
         throw new Error(`Network ${network} not yet supported`);
     }
@@ -260,6 +264,8 @@ export class MembershipService {
     switch (network) {
       case "local":
         return "0xe03daebed8ca0615";
+      case "testnet":
+        return "0x358daba93d60587b";
       default:
         throw new Error(`Network ${network} not yet supported`);
     }

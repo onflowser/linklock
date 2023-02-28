@@ -22,7 +22,7 @@ export class ServiceRegistry {
   }
 
   private init() {
-    const network: FlowNetwork = "local";
+    const network: FlowNetwork = "testnet";
 
     fcl.config({
       "app.detail.title": "Membership protocol", // TODO: Change name

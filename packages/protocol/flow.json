@@ -52,6 +52,10 @@
 		"standard": {
 			"address": "120e725050340cab",
 			"key": "1c8db58289c3b61b29e0e0c7b6f870d721c018ae5d8d57db8c26b009585f370a"
+		},
+		"testnet-account": {
+			"address": "358daba93d60587b",
+			"key": ""
 		}
 	},
 	"deployments": {
@@ -65,6 +69,14 @@
 			"standard": [
 				"MetadataViews",
 				"NonFungibleToken"
+			]
+		},
+		"testnet": {
+			"testnet-account": [
+				"FlowRequirement",
+				"Membership",
+				"MembershipDefinition",
+				"MembershipRequirement"
 			]
 		}
 	}
