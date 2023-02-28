@@ -1,7 +1,7 @@
 import "MembershipRequirement"
-import NonFungibleToken from 0xf8d6e0586b0a20c7
-import FungibleToken from 0xee82856bf20e2aa6
-import MetadataViews from 0xf8d6e0586b0a20c7
+import NonFungibleToken from "./standard/NonFungibleToken.cdc"
+import FungibleToken from "./standard/FungibleToken.cdc"
+import MetadataViews from "./standard/MetadataViews.cdc"
 
 pub contract MembershipDefinition: NonFungibleToken {
     /// Total supply of all membership definition NFTs
