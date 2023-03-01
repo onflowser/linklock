@@ -126,15 +126,14 @@ export class DomainsService {
   ): Promise<FlowAbstractNameInfo | undefined> {
     // TODO: Remove mock data
     // return {
-    //   address: "0xf8d6e0586b0a20c7",
-    //   domainName: "bjartek",
-    //   name: "bjartek",
-    //   avatar: "https://flovatar.com/api/image/95",
-    //   twitterUrl: "https://twitter.com/0xBjartek",
-    //   websiteUrl: "https://bjartek.org",
-    //   tags: ["find", "versus", "overflow", "flovatar-maxi", "neo-team-8"],
-    //   description:
-    //     "creator of .find, co-owner of versus. #SODA father. Co-author of metadata protocol flip. OnFlow Community Rep. Service-Account signer.",
+    //   address: "0xde4a0b425de4053e",
+    //   domainName: "bart",
+    //   name: "Bart",
+    //   avatar: "https://avatars.githubusercontent.com/u/36109955?v=4",
+    //   twitterUrl: "https://twitter.com/@BartTheDev",
+    //   websiteUrl: "https://bartolomej.dev",
+    //   tags: ["Developer", "Flowser", "LinkLock", "Supportify"],
+    //   description: "Participator of Flow hackathon 2023.",
     // };
     const { find, flowns } = await this.lookupRawInfosByName(name);
 

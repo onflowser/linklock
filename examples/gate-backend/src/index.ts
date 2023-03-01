@@ -18,7 +18,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const membershipDefinitionId = "0";
+const membershipDefinitionId = "6";
 const adminAddress = "0xde4a0b425de4053e";
 const callbackUrl = `http://localhost:3004/callback`;
 
