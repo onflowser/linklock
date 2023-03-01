@@ -42,7 +42,7 @@ export function MembershipCheckout({
     (membership) =>
       membership.adminAddress === adminAddress &&
       membershipDefinition &&
-      membership.id === membershipDefinition.id
+      membership.membershipDefinitionId === membershipDefinition.id
   );
   const [checkoutStep, setCheckoutStep] = useState(CheckoutStep.PREVIEW);
 
