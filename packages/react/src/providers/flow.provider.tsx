@@ -25,8 +25,6 @@ export type AccountOwnershipProof = {
 
 export type FlowState = {
   currentUser: CurrentUserInfo | undefined;
-  isLoggingIn: boolean;
-  isLoggingOut: boolean;
   isLoggedIn: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -38,9 +36,7 @@ const FlowContext = React.createContext<FlowState>({} as FlowState);
 export function FlowProvider(props: FlowProviderProps) {
   const { membershipService } = ServiceRegistry.create();
   const [fclUser, setFclUser] = useState<FclCurrentUser | undefined>();
-  // TODO: Implement these states
-  const [isLoggingIn, setLoggingIn] = useState(false);
-  const [isLoggingOut, setLoggingOut] = useState(false);
+  const isLoggedIn = Boolean(fclUser?.addr);
   const { data: flowBalance, error } = useFlowBalance(fclUser?.addr);
   const currentUser = useMemo<CurrentUserInfo | undefined>(
     () =>
@@ -59,6 +55,9 @@ export function FlowProvider(props: FlowProviderProps) {
   }, []);
 
   async function login() {
+    if (isLoggedIn) {
+      return;
+    }
     await toast.promise(fcl.authenticate(), {
       error: (result: TransactionResult) =>
         `Sign in failed: ${result.error?.message}`,
@@ -89,9 +88,7 @@ export function FlowProvider(props: FlowProviderProps) {
         login,
         logout,
         currentUser,
-        isLoggedIn: Boolean(currentUser),
-        isLoggingIn,
-        isLoggingOut,
+        isLoggedIn,
       }}
     >
       {props.children}

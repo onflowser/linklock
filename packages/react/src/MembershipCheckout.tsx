@@ -26,7 +26,7 @@ export function MembershipCheckout({
   requestAuthorization,
   onAuthorizationComplete,
 }: MembershipCheckoutProps) {
-  const { currentUser } = useFlow();
+  const { currentUser, login } = useFlow();
   const { data: membershipDefinitions, error: membershipDefinitionError } =
     useGetMembershipDefinitionsByAdmin(adminAddress);
   // TODO: Handle errors
@@ -53,6 +53,10 @@ export function MembershipCheckout({
       setCheckoutStep(CheckoutStep.PREVIEW);
     }
   }, [isOpenModal, membershipInstance]);
+
+  useEffect(() => {
+    login();
+  }, []);
 
   function renderStep() {
     if (membershipDefinitionError) {
