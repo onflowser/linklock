@@ -573,7 +573,7 @@ const Home: NextPage = () => {
       <BgSection>
         <HWorkLeftColumn>
           <SmallRedText style={{ color: theme.colors.darkViolet }}>
-            4 SIMPLE STEPS.
+            3 SIMPLE STEPS.
           </SmallRedText>
           <BigHeading style={{ color: theme.colors.darkViolet }}>
             HOW DOES <br />
@@ -590,9 +590,9 @@ const Home: NextPage = () => {
         <HWorkRightColumn>
           <StepsWrapper>
             <Steps>
-              <Step num={2} text={"Define membership requirements"} />
-              <Step num={3} text={"Create & offer membership"} />
-              <Step num={4} text={"Gate access to features or content"} />
+              <Step num={1} text={"Define membership requirements"} />
+              <Step num={2} text={"Create & offer membership"} />
+              <Step num={3} text={"Gate access to features or content"} />
             </Steps>
           </StepsWrapper>
         </HWorkRightColumn>
