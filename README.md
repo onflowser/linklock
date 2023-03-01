@@ -80,6 +80,8 @@ passport.use(membershipStrategy);
 
 // ...
 
+// Redirect user to membership validation page,
+// where users can prove they own a valid membership.
 app.get("/login", (req, res) => {
   res.redirect(
     buildAuthHandlerUrl({
@@ -90,6 +92,9 @@ app.get("/login", (req, res) => {
   );
 });
 
+// After user sucessfully completes the membership validation,
+// it will be redirected back to this callback endpoint
+// where our plugin will do the rest (verify the user signature).
 app.get(
   "/callback",
   passport.authenticate(membershipStrategy.name, { failureRedirect: "/login" }),
