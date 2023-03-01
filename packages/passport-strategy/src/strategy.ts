@@ -65,7 +65,9 @@ export class MembershipStrategy extends passport.Strategy {
       .getMembershipInstancesByAccount(parsedSignatures[0].addr)
       .then((memberships) => {
         const targetMembership = memberships.find(
-          (membership) => membership.id === this.config.membershipDefinitionId
+          (membership) =>
+            membership.membershipDefinitionId ===
+            this.config.membershipDefinitionId
         );
         if (!targetMembership) {
           return this.fail("Membership not found");
