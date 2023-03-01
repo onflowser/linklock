@@ -10,7 +10,9 @@ LinkLock tries to solve that problem, by enabling communities and individuals to
 
 ## Usage
 
-> Note: This is not a stable version, but instead a MVP. The APIs could change.
+Usage of various packages available in this monorepo. Note that this is not yet available to install from NPM.
+
+> Note: This is not a stable version, but instead an MVP. The APIs could change.
 
 
 ### JavaScript client
@@ -46,7 +48,7 @@ const membership = await membershipService.createMembership({
     contractName: "FlowRequirement",
     // Deployment address of requirement contract.
     // (this is the testnet address of FlowRequirement contract)
-    contractAddress: "0x",
+    contractAddress: "0x358daba93d60587b",
   },
 });
 
@@ -57,8 +59,6 @@ console.log(membership.id)
 ### Authorization with Passport.js
 
 We created a Passport.js authentication strategy to allow easy membership checks on the backend.
-
-> Note: This is not yet available on NPM as a library.
 
 ```typescript
 import { MembershipStrategy, buildAuthHandlerUrl } from "@membership/passport";
