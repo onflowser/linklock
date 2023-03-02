@@ -6,7 +6,7 @@ import {
   UnstyledButton,
   useFlow,
   useGetDomainNameInfo,
-} from "../../../packages/react";
+} from "@membership/react";
 import { Avatar } from "./Avatar";
 import { useRouter } from "next/router";
 import { handleQueryParamKey } from "../common/utils";
@@ -15,8 +15,7 @@ export function Navigation() {
   const router = useRouter();
   const domainOrAddress = router.query[handleQueryParamKey] as string;
   const { data: domainInfo } = useGetDomainNameInfo(domainOrAddress);
-  const { login, logout, isLoggingIn, isLoggingOut, isLoggedIn, currentUser } =
-    useFlow();
+  const { login, logout, isLoggedIn, currentUser } = useFlow();
 
   return (
     <Container>
@@ -37,17 +36,13 @@ export function Navigation() {
                   imageUrl={domainInfo?.avatar}
                 />
               </UnstyledButton>
-              <PrimaryButton
-                isLoading={isLoggingOut}
-                onClick={() => logout()}
-                color={"green"}
-              >
+              <PrimaryButton onClick={() => logout()} color={"green"}>
                 Logout
               </PrimaryButton>
             </>
           ) : (
             <>
-              <PrimaryButton isLoading={isLoggingIn} onClick={() => login()}>
+              <PrimaryButton onClick={() => login()}>
                 Login with Wallet
               </PrimaryButton>
             </>
