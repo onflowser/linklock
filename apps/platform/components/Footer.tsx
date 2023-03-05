@@ -10,7 +10,7 @@ export function Footer() {
         <Image alt="Logo" src={bmft_logo_ver} fill sizes="100vw" />
       </FooterImageWrapper>
       <FooterText>
-          Supportify is created and supported by{" "}
+        Supportify is built by{" "}
         <Link href={"https://github.com/onflowser"} passHref target="_blank">
           Flowser team
         </Link>

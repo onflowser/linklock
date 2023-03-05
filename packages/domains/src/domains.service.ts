@@ -117,25 +117,14 @@ export class DomainsService {
   }
 
   public async resolveNameToAddress(name: string): Promise<string | undefined> {
-    const { flowns, find } = await this.lookupRawInfosByName(name);
+    const { flowns, find } = await this.getRawInfosByName(name);
     return flowns?.owner ?? find?.address;
   }
 
   public async getNameInfo(
     name: string
   ): Promise<FlowAbstractNameInfo | undefined> {
-    // TODO: Remove mock data
-    // return {
-    //   address: "0xde4a0b425de4053e",
-    //   domainName: "bart",
-    //   name: "Bart",
-    //   avatar: "https://avatars.githubusercontent.com/u/36109955?v=4",
-    //   twitterUrl: "https://twitter.com/@BartTheDev",
-    //   websiteUrl: "https://bartolomej.dev",
-    //   tags: ["Developer", "Flowser", "LinkLock", "Supportify"],
-    //   description: "Participator of Flow hackathon 2023.",
-    // };
-    const { find, flowns } = await this.lookupRawInfosByName(name);
+    const { find, flowns } = await this.getRawInfosByName(name);
 
     if (!find && !flowns) {
       return undefined;
@@ -158,7 +147,7 @@ export class DomainsService {
     };
   }
 
-  public async lookupRawInfosByName(name: string): Promise<FlowNameRawInfo> {
+  public async getRawInfosByName(name: string): Promise<FlowNameRawInfo> {
     const [flownsResponse, findResponse] = await Promise.allSettled([
       this.lookupDomainByFlownsName(name),
       this.lookupProfileByFindName(name),
