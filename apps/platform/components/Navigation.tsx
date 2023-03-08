@@ -23,6 +23,9 @@ export function Navigation() {
         <Link href="/">
           <img style={{ height: "100%" }} src="/images/logos/logo.svg" alt="" />
         </Link>
+        <div>
+          <b style={{ color: "#F4AA7A" }}>Connected to Flow testnet</b>
+        </div>
         <NavigationRightButtons>
           {isLoggedIn ? (
             <>

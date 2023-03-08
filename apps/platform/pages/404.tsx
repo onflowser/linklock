@@ -30,5 +30,3 @@ const Container = styled.div`
   justify-content: center;
   min-height: 70vh;
 `;
-
-const Title = styled.h1``;
