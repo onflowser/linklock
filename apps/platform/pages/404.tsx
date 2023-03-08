@@ -9,7 +9,7 @@ export default function Custom404() {
 
   return (
     <Container>
-      <img src="/images/oops.svg" />
+      <img src="/images/oops.png" alt="Oops graphic" />
       <SizedBox height={20} />
       {isAccountNotFound ? (
         <>
