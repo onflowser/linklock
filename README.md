@@ -1,6 +1,8 @@
 ![image](https://user-images.githubusercontent.com/36109955/221982604-055a23ad-2e00-4e0d-ab31-b28e4fb95f95.png)
 
-> Built at Flow 2023 Hackathon: https://devfolio.co/projects/linklock-2686
+Built at Flow 2023 Hackathon: https://devfolio.co/projects/linklock-2686
+
+> **Notice:** We can’t demonstrate the usage of mainnet .find or FlowNS domains as our project is connected to testnet (it must be, because our contracts are deployed there). So if you can’t find a valid testnet domain name, try using your account address, or see this example account: https://supportify.vercel.app/0xde4a0b425de4053e.
 
 ## What's it about?
 
